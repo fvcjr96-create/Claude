@@ -1,0 +1,48 @@
+{
+  "week": 2,
+  "my_team": "Chief Had A Little Sex (@fclara1)",
+  "my_budget": 1000,
+  "default_budget": 1000,
+
+  "roster": [
+    {"name": "Baker Mayfield",   "pos": "QB", "team": "TB",  "proj": 17.68, "rostered_pct": 67,  "starter": true},
+    {"name": "C. McCaffrey",     "pos": "RB", "team": "SF",  "proj": 19.71, "rostered_pct": 100, "starter": true},
+    {"name": "Travis Etienne",   "pos": "RB", "team": "NO",  "proj": 10.28, "rostered_pct": 98,  "starter": true},
+    {"name": "DeVonta Smith",    "pos": "WR", "team": "PHI", "proj": 15.76, "rostered_pct": 100, "starter": true},
+    {"name": "Christian Watson", "pos": "WR", "team": "GB",  "proj": 14.86, "rostered_pct": 95,  "starter": true},
+    {"name": "George Kittle",    "pos": "TE", "team": "SF",  "proj": 12.11, "rostered_pct": 96,  "starter": true},
+    {"name": "Rome Odunze",      "pos": "WR", "team": "CHI", "proj": 10.08, "rostered_pct": 95,  "starter": true},
+    {"name": "Khalil Shakir",    "pos": "WR", "team": "BUF", "proj": 10.90, "rostered_pct": 63,  "starter": true}
+  ],
+
+  "rivals": [
+    {"name": "Team AdamKohl14",        "proj": 116.41, "budget": 1000},
+    {"name": "Team taranteen",         "proj": 113.29, "budget": 1000},
+    {"name": "Team BigdogE12",         "proj": 111.59, "budget": 1000},
+    {"name": "Jive Turkeys",           "proj": 111.02, "budget": 1000},
+    {"name": "Jaffe's Nose",           "proj": 110.23, "budget": 1000},
+    {"name": "Scott is a lil bih ah",  "proj": 110.17, "budget": 1000},
+    {"name": "Kevin James' Knockers",  "proj": 107.29, "budget": 1000},
+    {"name": "Team nobodylovesme",     "proj": 106.58, "budget": 1000},
+    {"name": "UNKNOWN rank 10",        "proj": 105.20, "budget": 1000, "estimated": true},
+    {"name": "UNKNOWN rank 11",        "proj": 103.80, "budget": 1000, "estimated": true},
+    {"name": "UNKNOWN rank 12",        "proj": 102.30, "budget": 1000, "estimated": true},
+    {"name": "UNKNOWN rank 13",        "proj": 100.50, "budget": 1000, "estimated": true},
+    {"name": "UNKNOWN rank 14",        "proj":  98.00, "budget": 1000, "estimated": true},
+    {"name": "UNKNOWN rank 15",        "proj":  94.50, "budget": 1000, "estimated": true}
+  ],
+
+  "waivers": [
+    {"name": "Puka Nacua",       "pos": "WR", "team": "LAR", "proj": 20.1, "rostered_pct": 99.8},
+    {"name": "Jared Goff",       "pos": "QB", "team": "DET", "proj": 16.3, "rostered_pct": 76.2},
+    {"name": "Rashee Rice",      "pos": "WR", "team": "KC",  "proj": 15.1, "rostered_pct": 99.2},
+    {"name": "Tetairoa McMillan","pos": "WR", "team": "CAR", "proj": 14.0, "rostered_pct": 98.7},
+    {"name": "Tucker Kraft",     "pos": "TE", "team": "GB",  "proj": 13.4, "rostered_pct": 97.3}
+  ],
+
+  "notes": [
+    "Roster is starters only - bench is not visible in the screenshots. Add bench players so drop advice and bye-week cover are real.",
+    "Rivals ranked 10-15 were scrolled off the CHOP tab; their projections are straight-line estimates from the visible trend. Replace with the real numbers.",
+    "Everyone is assumed to still hold the full $1000 in week 2."
+  ]
+}
