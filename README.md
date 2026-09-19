@@ -110,6 +110,7 @@ python3 scripts/fetch_grid.py --season 2026 --out data/survivor_2026.json
 
 python3 scripts/build_prior.py --season 2026        # ratings prior from last season
 python3 -m survivor data/survivor_2026.json --costs --simulate
+python3 -m survivor data/survivor_2026.json --pair --pair-sweep  # two leagues
 python3 -m survivor data/survivor_2026.json --contrarian 1.0   # big pool
 python3 scripts/tune_ridge.py data/survivor_2026.json          # re-validate ridge
 python3 scripts/drift_sensitivity.py data/survivor_2026.json   # assumption sweep
@@ -159,6 +160,11 @@ plan most, i.e. the ones not to burn early.
   error drawn per *team* and carried as a random walk, so a team the model has
   wrong is wrong in all of its games, and more so further from the last posted
   line. That is the honest way to price how much of the plan is real.
+- **Two entries** (`--pair`): in two pools the objective becomes P(at least one
+  survives), and shared picks contribute nothing — both entries die on the same
+  game. Both are simulated in the *same* drawn world, one winner per game, so
+  every correlation between them is exact. Diverging in week 2 beats sharing a
+  prefix at every horizon tested.
 - **Tiebreak**: when two picks cost the same season survival, the product
   objective is indifferent and you are not — the report flags the one that
   survives *this* week more often, and `--discount` makes the optimiser prefer

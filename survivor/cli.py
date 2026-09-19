@@ -11,6 +11,7 @@ from .data import load
 from .pipeline import build_ratings
 from .plan import (next_week_options, opponent_concentration, optimize,
                    optimize_capped, team_leverage)
+from .multi import build_pair, simulate_pair, sweep as pair_sweep
 from .simulate import DRIFT_PER_WEEK, simulate_static
 
 BAR = "=" * 78
@@ -173,6 +174,59 @@ def render(board, plan, options, leverage, fitted, synthetic: bool, sim=None,
     return "\n".join(out)
 
 
+def render_pair(board, args) -> str:
+    """Side-by-side plans for two entries in two different leagues."""
+    out: list[str] = []
+    a = out.append
+    a(BAR)
+    a(f" TWO-ENTRY SURVIVOR PLAN - {board.season}")
+    a(BAR)
+    a(" Objective: P(AT LEAST ONE entry survives), not P(this entry survives).")
+    a(" Picks the two entries share are a single point of failure - they live")
+    a(" and die together - so shared weeks buy no diversification at all.")
+    a("")
+
+    if args.pair_sweep:
+        weeks = [w.number for w in board.future_weeks()][:8]
+        a(" WHERE TO DIVERGE")
+        a(RULE)
+        a(f"  {'FROM WK':>8}{'SHARED':>8}{'P(>=1)':>10}{'ENTRY A':>10}{'ENTRY B':>10}{'LIFT':>8}")
+        for r in pair_sweep(board, weeks, sims=30000, contrarian=args.contrarian):
+            a(f"  {r.diverge_week:>8}{r.shared_weeks:>8}{r.p_at_least_one*100:>9.3f}%"
+              f"{r.p_a*100:>9.3f}%{r.p_b*100:>9.3f}%{r.lift*100:>7.0f}%")
+        a("")
+
+    entry_a, entry_b = build_pair(board, args.pair, contrarian=args.contrarian)
+    res = simulate_pair(board, entry_a, entry_b, sims=60000, drift=args.drift)
+
+    a(f" THE TWO PLANS  (diverging from week {args.pair})")
+    a(RULE)
+    a(f"  {'WK':<4}{'LEAGUE A':<24}{'LEAGUE B':<24}")
+    for x, y in zip(entry_a.plan.picks, entry_b.plan.picks):
+        ax = f"{x.team} {'vs' if x.home else '@'} {x.opponent} {x.prob*100:.0f}%"
+        bx = f"{y.team} {'vs' if y.home else '@'} {y.opponent} {y.prob*100:.0f}%"
+        same = "  <- SAME PICK" if x.team == y.team else ""
+        a(f"  {x.week:<4}{ax:<24}{bx:<24}{same}")
+    a(RULE)
+    a(f"  Entry A alone        : {pct(res.p_a)}")
+    a(f"  Entry B alone        : {pct(res.p_b)}")
+    a(f"  AT LEAST ONE survives: {pct(res.p_at_least_one)}  +/- {res.se*100:.3f}")
+    a(f"  Both survive         : {pct(res.p_both)}")
+    a(f"  Second entry adds    : +{res.lift*100:.0f}% over running one plan twice")
+    a("")
+    ea = res.either_alive or {}
+    a(" P(AT LEAST ONE STILL ALIVE)")
+    a(RULE)
+    a("  " + "   ".join(f"wk{w} {ea.get(w, 0)*100:.1f}%" for w in (5, 8, 10, 12) if w in ea))
+    a("")
+    a("  Most pools end long before week 18, so this matters more than the")
+    a("  perfect-season number. Diverging early wins at every one of these")
+    a("  horizons, not just at the end.")
+    a("")
+    a(BAR)
+    return "\n".join(out)
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Optimal NFL survivor pool plan")
     ap.add_argument("board", help="path to the season board JSON")
@@ -192,6 +246,12 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--discount", type=float, default=1.0,
                     help="below 1.0 front-loads certainty (e.g. 0.97) for pools "
                          "that pay for lasting longest rather than going undefeated")
+    ap.add_argument("--pair", type=int, nargs="?", const=2, default=0,
+                    metavar="WEEK",
+                    help="plan TWO entries in two leagues, diverging from WEEK "
+                         "(default 2); maximises P(at least one survives)")
+    ap.add_argument("--pair-sweep", action="store_true",
+                    help="with --pair, compare every divergence week")
     ap.add_argument("--costs", action="store_true",
                     help="show the opportunity cost of spending each team now")
     ap.add_argument("--prior", default=None,
@@ -220,6 +280,10 @@ def main(argv: list[str] | None = None) -> int:
                         discount=args.discount)
     options = next_week_options(board, contrarian=args.contrarian)
     leverage = team_leverage(board, contrarian=args.contrarian) if len(board.future_weeks()) > 1 else []
+
+    if args.pair:
+        print(render_pair(board, args))
+        return 0
 
     costs = cost_mod.build(board, contrarian=args.contrarian) if args.costs else None
 

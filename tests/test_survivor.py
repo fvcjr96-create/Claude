@@ -371,6 +371,69 @@ class TestPrior(unittest.TestCase):
         self.assertEqual(len(load_prior("data/prior_2026.json")), 32)
 
 
+class TestTwoEntries(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        from survivor.multi import build_pair
+        cls.board = load("data/survivor_2026.json")
+        build_ratings(cls.board, "data/prior_2026.json", "data/win_totals_2026.json")
+        cls.build_pair = staticmethod(build_pair)
+
+    def test_diverging_at_week_two_shares_nothing(self):
+        a, b = self.build_pair(self.board, 2)
+        same = [x.week for x, y in zip(a.plan.picks, b.plan.picks) if x.team == y.team]
+        self.assertEqual(same, [])
+
+    def test_a_later_divergence_shares_the_prefix_exactly(self):
+        a, b = self.build_pair(self.board, 6)
+        for x, y in zip(a.plan.picks, b.plan.picks):
+            if x.week < 6:
+                self.assertEqual(x.team, y.team)
+
+    def test_entries_never_make_the_same_pick_after_diverging(self):
+        for d in (2, 5, 9):
+            a, b = self.build_pair(self.board, d)
+            bw = {p.week: p.team for p in b.plan.picks}
+            for x in a.plan.picks:
+                if x.week >= d and x.week in bw:
+                    self.assertNotEqual(x.team, bw[x.week])
+
+    def test_each_entry_still_uses_every_team_at_most_once(self):
+        a, b = self.build_pair(self.board, 2)
+        for entry in (a, b):
+            teams = [p.team for p in entry.plan.picks]
+            self.assertEqual(len(teams), len(set(teams)))
+
+    def test_two_entries_beat_one(self):
+        from survivor.multi import simulate_pair
+        a, b = self.build_pair(self.board, 2)
+        r = simulate_pair(self.board, a, b, sims=30000)
+        self.assertGreater(r.p_at_least_one, r.p_a)
+        self.assertGreater(r.p_at_least_one, r.p_b)
+
+    def test_at_least_one_is_bounded_by_inclusion_exclusion(self):
+        from survivor.multi import simulate_pair
+        a, b = self.build_pair(self.board, 2)
+        r = simulate_pair(self.board, a, b, sims=30000)
+        self.assertAlmostEqual(r.p_at_least_one, r.p_a + r.p_b - r.p_both, places=9)
+
+    def test_identical_entries_add_nothing(self):
+        """Sharing every pick means one entry's outcome, twice."""
+        from survivor.multi import Entry, simulate_pair
+        plan = optimize(self.board)
+        r = simulate_pair(self.board, Entry("A", plan), Entry("B", plan), sims=20000)
+        self.assertAlmostEqual(r.p_at_least_one, r.p_a, places=9)
+        self.assertAlmostEqual(r.p_both, r.p_a, places=9)
+
+    def test_diverging_early_beats_diverging_late(self):
+        from survivor.multi import simulate_pair
+        early = simulate_pair(self.board, *self.build_pair(self.board, 2),
+                              sims=40000, seed=7)
+        late = simulate_pair(self.board, *self.build_pair(self.board, 10),
+                             sims=40000, seed=7)
+        self.assertGreater(early.p_at_least_one, late.p_at_least_one)
+
+
 class TestRatings(unittest.TestCase):
     def test_recovers_known_ratings_from_spreads(self):
         rng = random.Random(7)

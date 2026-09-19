@@ -106,6 +106,77 @@ highest-win-probability heuristic walks into.
 
 Buffalo already played (beat Detroit by 10 on Thursday) and is off the board.
 
+## 4b. Running two entries in two leagues
+
+With one entry you maximise P(survive). With two, in two different pools, you
+maximise **P(at least one survives)** — a different objective with a different
+answer.
+
+**Shared picks are worth nothing.** Two entries on the same team live and die
+together, so a shared prefix is a single point of failure you are paying for
+twice. The instinct to "start safe together, diverge later" is backwards, and
+measurably so:
+
+| diverge from | shared picks | alive wk5 | wk8 | wk10 | wk12 | 17-0 |
+|---|---|---|---|---|---|---|
+| **week 2** | 0 | **61.2%** | **29.6%** | **17.7%** | **11.1%** | **2.35%** |
+| week 4 | 2 | 51.2% | 27.6% | 16.7% | 10.4% | 2.19% |
+| week 6 | 4 | 35.5% | 24.6% | 16.0% | 10.3% | 2.18% |
+| week 8 | 6 | 35.8% | 20.0% | 14.0% | 9.7% | 2.10% |
+| never | 17 | 35.7% | 16.5% | 9.5% | 5.7% | 1.53% |
+
+Diverging in week 2 wins at **every** horizon, not just at the end. It nearly
+doubles your equity at week 10 versus running the same plan twice.
+
+**The constraint that matters is same team, same week.** Entry A taking Kansas
+City in week 3 and entry B taking Kansas City in week 9 are two different games
+with independent outcomes — there is no reason to forbid it. Banning a team
+outright from the second entry leaves it with the dregs (it fell to 0.12%,
+versus 0.85% when only same-week clashes are blocked), and a weak second entry
+is worth very little.
+
+**Week 2 happens to make this free.** The opportunity-cost table found *two*
+teams at zero cost, so both entries can start at their optimum:
+
+| Wk | League A | League B |
+|---|---|---|
+| 2 | **SF** vs MIA 86% | **TB** vs CLE 79% |
+| 3 | KC @ MIA 79% | SF vs ARI 79% |
+| 4 | CHI vs NYJ 77% | BAL vs TEN 84% |
+| 5 | NE vs LV 75% | CIN @ MIA 74% |
+| 6 | PHI vs CAR 72% | LAR vs ARI 84% |
+| 7 | LAR @ LV 76% | DEN @ ARI 70% |
+| 8 | CIN vs TEN 79% | DAL vs ARI 75% |
+| 9 | SEA vs ARI 77% | KC vs NYJ 80% |
+| 10 | IND vs MIA 75% | HOU @ CLE 73% |
+| 11 | DAL vs TEN 78% | BUF vs MIA 87% |
+| 12 | JAX vs TEN 78% | MIN vs ATL 72% |
+| 13 | DEN vs MIA 83% | PHI @ ARI 70% |
+| 14 | DET vs TEN 78% | CHI @ MIA 74% |
+| 15 | GB vs MIA 78% | NYG vs CLE 70% |
+| 16 | BAL vs CLE 85% | LAC @ MIA 72% |
+| 17 | BUF @ MIA 81% | JAX vs WAS 65% |
+| 18 | HOU vs TEN 80% | NE vs MIA 81% |
+
+Zero shared picks. A alone 1.66%, B alone 0.84%, **at least one 2.39%** — the
+second entry adds ~50%.
+
+Note the teams recur across the two columns in different weeks (SF, KC, LAR,
+BAL, CHI, JAX, NE all appear twice). That is deliberate and costs nothing.
+
+**What this does not model:** your two pools have different fields, and being
+different from *the field* is a separate axis from being different from your
+own other entry. If one pool is large and chalky, run `--contrarian` on that
+entry — the divergence logic still holds, it just starts from a different plan.
+
+```bash
+python3 -m survivor data/survivor_2026.json --pair          # two leagues
+python3 -m survivor data/survivor_2026.json --pair 5        # share through wk4
+python3 -m survivor data/survivor_2026.json --pair --pair-sweep
+```
+
+---
+
 ## 5. The 17-week plan
 
 Steelers banked in week 1. These are the other 17.
