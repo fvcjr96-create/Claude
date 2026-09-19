@@ -108,72 +108,93 @@ Buffalo already played (beat Detroit by 10 on Thursday) and is off the board.
 
 ## 5. The 17-week plan
 
-Weeks 2–3 are market-priced; 4–18 are model estimates.
+Steelers banked in week 1. These are the other 17.
 
 | Wk | Pick | Matchup | Win% | Running |
 |---|---|---|---|---|
 | 2 | **SF** | vs MIA | 86.3% | 86.3% |
-| 3 | KC | @ MIA | 78.7% | 67.9% |
-| 4 | MIN | vs MIA | 75.9% | 51.5% |
-| 5 | CIN | @ MIA | 73.1% | 37.7% |
-| 6 | LAR | vs ARI | 82.2% | 31.0% |
-| 7 | HOU | vs NYG | 67.5% | 20.9% |
-| 8 | DAL | vs ARI | 74.6% | 15.6% |
-| 9 | SEA | vs ARI | 75.8% | 11.8% |
-| 10 | IND | vs MIA | 73.3% | 8.7% |
-| 11 | LAC | vs NYJ | 73.3% | 6.3% |
-| 12 | JAX | vs TEN | 75.4% | 4.8% |
-| 13 | DEN | vs MIA | 81.2% | 3.9% |
-| 14 | DET | vs TEN | 76.4% | 3.0% |
-| 15 | GB | vs MIA | 77.3% | 2.3% |
-| 16 | BAL | vs CLE | 83.2% | 1.9% |
-| 17 | BUF | @ MIA | 78.9% | 1.5% |
-| 18 | NE | vs MIA | 79.4% | 1.2% |
+| 3 | **KC** | @ MIA | 78.7% | 67.9% |
+| 4 | **CHI** | vs NYJ | 77.1% | 52.3% |
+| 5 | **NE** | vs LV | 75.1% | 39.3% |
+| 6 | **PHI** | vs CAR | 71.9% | 28.3% |
+| 7 | **LAR** | @ LV | 75.7% | 21.4% |
+| 8 | **CIN** | vs TEN | 79.2% | 16.9% |
+| 9 | **SEA** | vs ARI | 77.2% | 13.1% |
+| 10 | **IND** | vs MIA | 74.7% | 9.8% |
+| 11 | **DAL** | vs TEN | 77.8% | 7.6% |
+| 12 | **JAX** | vs TEN | 78.1% | 5.9% |
+| 13 | **DEN** | vs MIA | 83.5% | 5.0% |
+| 14 | **DET** | vs TEN | 78.5% | 3.9% |
+| 15 | **GB** | vs MIA | 77.7% | 3.0% |
+| 16 | **BAL** | vs CLE | 84.7% | 2.6% |
+| 17 | **BUF** | @ MIA | 80.7% | 2.1% |
+| 18 | **HOU** | vs TEN | 80.2% | 1.7% |
 
-Teams never used: ATL, CAR, CHI, CLE, LV, MIA, NO, NYG, NYJ, PHI, TB, TEN, WAS —
-the plan's slack, and where it re-routes when a week goes wrong.
+Survive all 17: **1.66%**. Simulated with correlated rating error: 1.57% ± 0.04,
+mean 3.6 weeks, median exit week 5.
 
-### What the simulation says
-
-100,000 simulated seasons with correlated per-team rating error:
-
-- **Survive all 17 weeks: 1.2%** (± 0.04)
-- **Mean weeks survived: 3.5. Median exit: week 5.**
-- Cost of model error versus perfect knowledge: about 1% relative.
-
-Going undefeated for 17 straight weeks is *supposed* to be near-impossible —
-most pools are won by the last person standing, not by a perfect record. Plan
-to be eliminated around week 5, and treat everything past that as the upside
-you bought by not wasting good teams early.
-
-One useful negative result: re-planning every week with the *same* information
-produces the identical 17 picks (there is a test for it). Weekly re-runs are
-worth doing because **lines improve**, not because re-planning is adaptive.
-
-## 5. Weekly process
-
-```bash
-# 1. refresh the board (one request, whole season)
-python3 scripts/fetch_grid.py --season 2026 --out data/survivor_2026.json
-
-# 2. record last week's pick in data/survivor_2026.json
-#    "used": {"1": "PIT", "2": "SF"}
-
-# 3. plan
-python3 -m survivor data/survivor_2026.json --simulate
-
-# big pool? price in the chalk
-python3 -m survivor data/survivor_2026.json --contrarian 1.0
-
-# is any conclusion hostage to the drift assumption?
-python3 scripts/drift_sensitivity.py data/survivor_2026.json
-```
-
-Read the output in this order: the `COST` column (is the obvious pick actually
-cheap?), then the hoard list (am I about to burn something load-bearing?), then
-the full plan (does the back half still work?).
+Held in reserve and never needed: ARI, ATL, CAR, CLE, LAC, LV, MIA, MIN, NO,
+NYG, NYJ, TB, TEN, WAS. That is the slack the plan re-routes into when a week
+goes wrong — and it is why losing a pick is survivable, but burning an
+expensive team early is not.
 
 ---
+
+## 6. Opportunity cost — the real price of a pick
+
+This is the number that decides everything. A team's win probability is not its
+price; its price is what the rest of the season looks like once it is gone.
+Each row below is measured by re-solving the entire remaining season twice —
+once with the team pinned to week 2, once pinned to its best week — not
+estimated by a heuristic.
+
+| Team | Best wk | If used wk 2 | At best wk | Cost | |
+|---|---|---|---|---|---|
+| **TB** | 2 | 1.656% | 1.656% | **0%** | this IS its peak |
+| **SF** | 7 | 1.656% | 1.656% | **0.01%** | schedule covers the gap |
+| PHI | 6 | 1.544% | 1.656% | 7% | cheap |
+| LAC | 11 | 1.528% | 1.620% | 6% | cheap |
+| BAL | 16 | 1.376% | 1.656% | **17%** | hoard |
+| CHI | 4 | 1.372% | 1.656% | 17% | hoard |
+| KC | 3 | 1.362% | 1.656% | 18% | hoard |
+| DAL | 11 | 1.340% | 1.656% | 19% | hoard |
+| LAR | 6 | 1.312% | 1.656% | 21% | hoard |
+| SEA | 9 | 1.304% | 1.656% | 21% | hoard |
+| NE | 5 | 1.259% | 1.656% | 24% | hoard |
+| GB | 15 | 1.183% | 1.656% | 29% | hoard |
+| HOU | 18 | 1.090% | 1.656% | 34% | hoard |
+
+Read it as: **using Houston in week 2 costs you a third of your season.** Not
+because Houston is bad this week, but because week 18 has almost nothing else
+and Houston is the only team that covers it.
+
+Three things fall out of this table:
+
+**Win probability and price are barely related.** Baltimore is the third-best
+team on the board this week at 76.6% and the fifth-most expensive decision.
+Chicago is only 65.8% this week and still costs 17%, because week 4 needs them.
+
+**Almost everything is expensive.** Eleven of the thirteen teams listed cost
+15–34%. Only two are genuinely free. In week 2 of a survivor pool you have
+exactly two correct answers, and roughly thirty wrong ones that all look fine.
+
+**"Free" has two different meanings.** Tampa Bay is free because week 2 *is*
+their best week — spend them at their peak and you lose nothing by definition.
+San Francisco is free for the opposite reason: their best week is 7, but the
+schedule has someone else for week 7, so the swap costs nothing. Both are
+correct picks; only one of them is a coincidence.
+
+### Why SF over TB
+
+The optimiser returns TB, because maximising P(survive all 17) is indifferent
+between them — TB costs 0.000%, SF costs 0.011%. You should not be indifferent.
+SF wins **7.6 points more often this week** for eleven thousandths of a percent
+of season survival. Same season, much safer week.
+
+That gap exists because the product objective only scores the perfect-season
+branch, and you actually care about getting deep. The report now flags this
+automatically, and `--discount 0.97` makes the optimiser care about it too, for
+pools that pay for lasting longest rather than going undefeated.
 
 ## 6. The data
 
@@ -183,13 +204,36 @@ structural validation in the test suite: every team plays exactly 17 games, no
 team is double-booked in a week, and the Week 1 result (ATL 13 @ PIT 20) matches
 your winning Steelers pick.
 
-**Pricing, best source first:**
+**Ratings are built from three sources**, in order of how much each knows
+about December:
 
-1. **De-vigged two-way moneylines** — weeks 1–3, where books have posted. This
-   is the market's own estimate with the overround removed.
-2. **Fitted power ratings** — weeks 4–18, where no market exists yet. Ridge
-   regression on every posted line. These picks are flagged `model`, not
-   `market`, in the report.
+1. **Last season's 272 closing lines** — recency weighted (half-life 6 weeks;
+   a week-18 line says more about next September than a week-1 line) and
+   regressed x0.9 for offseason churn. Always available.
+2. **Market season win totals** — forward looking and injury aware, inverted
+   against the real schedule so a 9.5 behind a brutal schedule rates higher
+   than a 9.5 behind an easy one. Supply at least 28 of 32 in
+   `data/win_totals_2026.json` and the planner uses them automatically; the
+   seven I could verify are in there now, which is below the threshold, so they
+   are currently ignored rather than half-applied.
+3. **This season's posted game lines** — the sharpest signal that exists, but
+   only for weeks 1–3.
+
+The first two form a prior; the third updates it. Held out on two weeks of the
+real board:
+
+| model | train wk1 → predict wk2 | train wk1-2 → predict wk3 | mean |
+|---|---|---|---|
+| home field only | 4.23 | 4.23 | 4.23 |
+| 2026 lines only | 4.53 | 1.84 | 3.18 |
+| + prior k=0.7 | 2.21 | 1.20 | 1.70 |
+| **+ prior k=0.9** | **2.10** | **1.07** | **1.58** |
+| + prior k=1.0 | 2.23 | 1.02 | 1.63 |
+
+**A 50% cut in error**, and k=0.9 is an interior optimum rather than an edge of
+the grid. One week of lines with no prior (4.53) is barely better than assuming
+every team is average — which is exactly the position the planner was in before,
+for weeks 4–18.
 
 **The ridge penalty is validated, not guessed.** Fitting on weeks 1–2 and
 predicting week 3's actual lines:

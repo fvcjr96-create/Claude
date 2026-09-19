@@ -42,16 +42,22 @@ class Plan:
 
 
 def _cost_matrix(board: Board, weeks: list[Week], teams: list[str],
-                 contrarian: float = 0.0) -> list[list[float]]:
+                 contrarian: float = 0.0, discount: float = 1.0) -> list[list[float]]:
     """-log(win probability) per week/team, with illegal cells blocked.
 
     `contrarian` adds a penalty proportional to how much of the pool is on the
     same team.  At 0 the planner maximises pure survival; above 0 it starts
     paying for differentiation, which is what wins a big pool rather than just
     outlasting the field.
+
+    `discount` below 1.0 weights early weeks more heavily.  At 1.0 the objective
+    is P(survive all 17), which is indifferent between two plans with the same
+    product even if one is far safer in the weeks you are actually about to
+    play.  Below 1.0 it front-loads certainty, which is what you want if your
+    pool pays for lasting longest rather than for going undefeated.
     """
     matrix = []
-    for wk in weeks:
+    for i, wk in enumerate(weeks):
         row = []
         for t in teams:
             g = wk.game_for(t)
@@ -59,7 +65,7 @@ def _cost_matrix(board: Board, weeks: list[Week], teams: list[str],
                 row.append(BLOCKED)
                 continue
             p = max(MIN_PROB, min(1.0 - MIN_PROB, g.prob_for(t)))
-            cost = -math.log(p)
+            cost = -math.log(p) * (discount ** i)
             if contrarian:
                 cost += contrarian * wk.popularity.get(t, 0.0)
             row.append(cost)
@@ -70,7 +76,8 @@ def _cost_matrix(board: Board, weeks: list[Week], teams: list[str],
 def optimize(board: Board, contrarian: float = 0.0,
              force: dict[int, str] | None = None,
              ban: set[str] | None = None,
-             block_cells: set[tuple[int, str]] | None = None) -> Plan:
+             block_cells: set[tuple[int, str]] | None = None,
+             discount: float = 1.0) -> Plan:
     """Best remaining season plan.
 
     `force` pins a team to a week (used to price alternatives); `ban` removes
@@ -102,7 +109,7 @@ def optimize(board: Board, contrarian: float = 0.0,
         # the matching still solves and the shortfall shows up as blocked weeks.
         teams = teams + [f"__none{i}" for i in range(len(weeks) - len(teams))]
 
-    matrix = _cost_matrix(board, weeks, teams, contrarian)
+    matrix = _cost_matrix(board, weeks, teams, contrarian, discount)
     for (bw, bt) in (block_cells or ()):
         for i, wk in enumerate(weeks):
             if wk.number == bw and bt in teams:

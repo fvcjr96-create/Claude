@@ -9,6 +9,9 @@ import unittest
 from survivor.assign import BLOCKED, solve, total_cost
 from survivor.data import Board, Game, TEAMS, Week, load
 from survivor.model import prob_from_spread, spread_from_prob
+from survivor import cost as cost_mod
+from survivor.pipeline import build_ratings
+from survivor.wintotals import expected_wins, solve as solve_totals
 from survivor.plan import (next_week_options, opponent_concentration, optimize,
                            optimize_capped, team_leverage)
 from survivor.ratings import fit, fill
@@ -267,6 +270,105 @@ class TestSimulation(unittest.TestCase):
         a = simulate_static(self.board, self.plan, sims=4000, seed=5)
         b = simulate_adaptive(self.board, sims=400, seed=5)
         self.assertAlmostEqual(a.mean_weeks_survived, b.mean_weeks_survived, delta=0.5)
+
+
+class TestOpportunityCost(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.board = load("data/survivor_2026.json")
+        build_ratings(cls.board, "data/prior_2026.json", "data/win_totals_2026.json")
+        cls.costs = cost_mod.build(cls.board)
+
+    def test_every_remaining_team_is_priced(self):
+        expected = {t for w in self.board.future_weeks() for t in w.teams_playing()}
+        expected -= self.board.used_teams
+        self.assertEqual({t.team for t in self.costs.teams}, expected)
+
+    def test_no_pinning_ever_beats_the_unconstrained_optimum(self):
+        for tc in self.costs.teams:
+            for _wk, surv in tc.by_week.items():
+                self.assertLessEqual(surv, self.costs.optimum + 1e-12)
+
+    def test_best_week_really_is_the_best_week(self):
+        for tc in self.costs.teams:
+            self.assertEqual(tc.best_survival, max(tc.by_week.values()))
+            self.assertEqual(tc.by_week[tc.best_week], tc.best_survival)
+
+    def test_opportunity_cost_is_never_negative(self):
+        for tc in self.costs.teams:
+            if tc.earliness_cost is not None:
+                self.assertGreaterEqual(tc.earliness_cost, -1e-12)
+
+    def test_a_team_is_never_priced_on_its_bye(self):
+        for tc in self.costs.teams:
+            for wk_num in tc.by_week:
+                wk = next(w for w in self.board.weeks if w.number == wk_num)
+                self.assertIn(tc.team, wk.teams_playing())
+
+    def test_some_team_is_free_to_use_now(self):
+        """If nothing were free the optimum itself would be unreachable."""
+        cheapest = self.costs.cheapest_now(1)[0]
+        self.assertAlmostEqual(cheapest.this_survival, self.costs.optimum, places=9)
+
+    def test_the_cheapest_team_now_is_the_planner_top_pick(self):
+        top = {t.team for t in self.costs.cheapest_now(3)}
+        self.assertIn(optimize(self.board).picks[0].team, top)
+
+
+class TestWinTotals(unittest.TestCase):
+    def setUp(self):
+        self.board = load("data/survivor_2026.json")
+
+    def test_solved_ratings_reproduce_the_posted_totals(self):
+        totals = {"BAL": 11.5, "LAR": 11.5, "SEA": 10.5, "ARI": 4.5,
+                  "MIA": 4.5, "LV": 5.5, "NYJ": 5.5}
+        fit_ = solve_totals(self.board, totals)
+        got = expected_wins(self.board, fit_.ratings)
+        for team, target in totals.items():
+            self.assertAlmostEqual(got[team], target, places=2)
+
+    def test_expected_wins_sum_to_one_per_game(self):
+        total = sum(expected_wins(self.board, {}).values())
+        self.assertAlmostEqual(total, 272, places=6)
+
+    def test_a_harder_schedule_earns_a_higher_rating_for_the_same_total(self):
+        """The whole point of inverting totals against the real schedule."""
+        fit_ = solve_totals(self.board, {"BAL": 11.5, "LAR": 11.5})
+        self.assertNotAlmostEqual(fit_.ratings["BAL"], fit_.ratings["LAR"], places=2)
+
+    def test_partial_totals_are_ignored_by_the_pipeline(self):
+        board = load("data/survivor_2026.json")
+        _r, notes = build_ratings(board, "data/prior_2026.json",
+                                  "data/win_totals_2026.json")
+        self.assertTrue(any("IGNORED" in n for n in notes))
+
+
+class TestPrior(unittest.TestCase):
+    def _holdout_mae(self, prior):
+        import copy as _copy
+        from survivor.model import spread_from_prob
+        board = load("data/survivor_2026.json")
+        truth = [(g.home, g.away,
+                  spread_from_prob(g.home_prob) if g.home_prob is not None else g.home_spread)
+                 for w in board.weeks if w.number == 3 for g in w.games
+                 if g.home_prob is not None or g.home_spread is not None]
+        train = _copy.deepcopy(board)
+        for w in train.weeks:
+            if w.number not in (1, 2):
+                for g in w.games:
+                    g.home_spread = g.home_prob = None
+        r = fit(train, prior=prior)
+        return sum(abs(r.spread(h, a) - s) for h, a, s in truth) / len(truth)
+
+    def test_the_prior_substantially_beats_no_prior(self):
+        from survivor.pipeline import load_prior
+        with_prior = self._holdout_mae(load_prior("data/prior_2026.json"))
+        without = self._holdout_mae(None)
+        self.assertLess(with_prior, without * 0.75)
+
+    def test_prior_covers_all_32_teams(self):
+        from survivor.pipeline import load_prior
+        self.assertEqual(len(load_prior("data/prior_2026.json")), 32)
 
 
 class TestRatings(unittest.TestCase):

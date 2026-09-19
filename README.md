@@ -108,7 +108,8 @@ win probabilities across every remaining week.
 # whole 2026 season in one request
 python3 scripts/fetch_grid.py --season 2026 --out data/survivor_2026.json
 
-python3 -m survivor data/survivor_2026.json --simulate
+python3 scripts/build_prior.py --season 2026        # ratings prior from last season
+python3 -m survivor data/survivor_2026.json --costs --simulate
 python3 -m survivor data/survivor_2026.json --contrarian 1.0   # big pool
 python3 scripts/tune_ridge.py data/survivor_2026.json          # re-validate ridge
 python3 scripts/drift_sensitivity.py data/survivor_2026.json   # assumption sweep
@@ -136,6 +137,16 @@ plan most, i.e. the ones not to burn early.
 - **Schedule**: all 272 games of 2026 from
   [nflverse](https://github.com/nflverse/nfldata). Validated in tests — every
   team plays exactly 17 games, nobody is double-booked.
+- **Opportunity cost** (`--costs`): for every team, season survival with that
+  team pinned to each week. The gap between using it now and using it in its
+  best week is the true price of the pick, computed by re-solving the season
+  both ways rather than estimated. Win probability turns out to be a poor guide
+  to it — a 76.6% team can cost 17% of your season while a 65.8% team costs the
+  same, and only two teams on a typical week are genuinely free.
+- **Ratings prior**: last season's 272 closing lines, recency weighted and
+  regressed, optionally combined with market win totals inverted against the
+  real schedule. Held out on two weeks, this cuts prediction error roughly in
+  half versus using this season's lines alone (1.58 vs 3.18 pts).
 - **Priced games**: de-vigged two-way moneylines where books have posted
   (weeks 1–3). Sharper than converting the spread.
 - **Unpriced games**: ridge-regression power ratings fitted to every posted
@@ -148,6 +159,10 @@ plan most, i.e. the ones not to burn early.
   error drawn per *team* and carried as a random walk, so a team the model has
   wrong is wrong in all of its games, and more so further from the last posted
   line. That is the honest way to price how much of the plan is real.
+- **Tiebreak**: when two picks cost the same season survival, the product
+  objective is indifferent and you are not — the report flags the one that
+  survives *this* week more often, and `--discount` makes the optimiser prefer
+  it too.
 - **Concentration**: `--max-vs N` caps how often the plan fades one opponent.
   Uncapped it fades Miami 9 times in 17 weeks, which looks reckless — but the
   simulation says capping costs a quarter of your survival and buys nothing,
