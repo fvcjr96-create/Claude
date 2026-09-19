@@ -10,6 +10,7 @@ from . import ratings as ratings_mod
 from .data import load
 from .plan import (next_week_options, opponent_concentration, optimize,
                    optimize_capped, team_leverage)
+from .simulate import DRIFT_PER_WEEK, simulate_static
 
 BAR = "=" * 78
 RULE = "-" * 78
@@ -19,7 +20,7 @@ def pct(x: float) -> str:
     return f"{x*100:.1f}%"
 
 
-def render(board, plan, options, leverage, fitted, synthetic: bool) -> str:
+def render(board, plan, options, leverage, fitted, synthetic: bool, sim=None) -> str:
     out: list[str] = []
     a = out.append
 
@@ -82,10 +83,11 @@ def render(board, plan, options, leverage, fitted, synthetic: bool) -> str:
         a("  " + ",  ".join(f"fade {o} x{c}" for o, c in conc[:6]))
         top = conc[0]
         if top[1] >= 4:
-            a(f"  !! {top[1]} of {len(plan.picks)} picks bet against {top[0]}. That is one")
-            a(f"     view of one team, not {top[1]} independent edges - if {top[0]} is better")
-            a("     than the ratings think, several weeks fail together.")
-            a("     Use --max-vs 3 to spread the risk.")
+            a(f"  {top[1]} of {len(plan.picks)} picks bet against {top[0]}. That looks like")
+            a("  concentration risk, and --simulate says it is not: survival is a")
+            a("  PRODUCT, so errors that move together help it slightly rather than")
+            a("  hurt. Capping it with --max-vs costs real survival. Measure before")
+            a("  you diversify.")
         a("")
 
     if leverage:
@@ -96,6 +98,22 @@ def render(board, plan, options, leverage, fitted, synthetic: bool) -> str:
         a("")
         a("  These teams carry the plan. Burning one early on a week you could")
         a("  have covered with someone else is the most common way to lose a pool.")
+        a("")
+
+    if sim is not None:
+        a(" SIMULATION  " + f"({sim.sims:,} seasons, correlated rating error)")
+        a(RULE)
+        a(f"  Survive all {len(plan.picks)} weeks : {pct(sim.overall)}"
+          f"  +/- {sim.se*100:.3f}")
+        a(f"  Weeks survived      : {sim.mean_weeks_survived:.2f} mean,"
+          f" median exit week {sim.median_exit}")
+        a(f"  Analytic (no error) : {pct(plan.survival)}")
+        gap = (1 - sim.overall / plan.survival) * 100 if plan.survival else 0
+        a(f"  Cost of model error : {gap:+.0f}% relative")
+        a("")
+        a("  Rating error is drawn per TEAM and carried as a random walk, so a")
+        a("  team the model has wrong is wrong in every game it plays, and more")
+        a("  so the further past the last posted line.")
         a("")
 
     warns = board.warnings()
@@ -120,6 +138,13 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--max-vs", type=int, default=None,
                     help="never fade the same opponent more than N times; "
                          "spreads the plan's risk across more teams")
+    ap.add_argument("--simulate", type=int, nargs="?", const=100000, default=0,
+                    metavar="N",
+                    help="stress-test the plan with N simulated seasons "
+                         "(default 100000) under correlated rating error")
+    ap.add_argument("--drift", type=float, default=DRIFT_PER_WEEK,
+                    help="assumed rating drift in points per week beyond the "
+                         "last posted line; higher = less trust in late weeks")
     ap.add_argument("--no-fill", action="store_true",
                     help="do not price unlined games from fitted ratings")
     ap.add_argument("--json", action="store_true")
@@ -141,6 +166,10 @@ def main(argv: list[str] | None = None) -> int:
     options = next_week_options(board, contrarian=args.contrarian)
     leverage = team_leverage(board, contrarian=args.contrarian) if len(board.future_weeks()) > 1 else []
 
+    sim = None
+    if args.simulate:
+        sim = simulate_static(board, plan, sims=args.simulate, drift=args.drift)
+
     if args.json:
         print(json.dumps({
             "season": board.season,
@@ -159,9 +188,17 @@ def main(argv: list[str] | None = None) -> int:
             ],
             "hoard": [{"team": t, "leverage": round(v, 6)} for t, v in leverage[:10]],
             "warnings": board.warnings(),
+            "simulation": None if sim is None else {
+                "sims": sim.sims,
+                "survive_all": round(sim.overall, 6),
+                "standard_error": round(sim.se, 6),
+                "mean_weeks_survived": round(sim.mean_weeks_survived, 3),
+                "median_exit_week": sim.median_exit,
+                "drift_per_week": args.drift,
+            },
         }, indent=2))
     else:
-        print(render(board, plan, options, leverage, fitted, synthetic))
+        print(render(board, plan, options, leverage, fitted, synthetic, sim))
     return 0
 
 

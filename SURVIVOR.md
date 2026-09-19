@@ -106,6 +106,50 @@ highest-win-probability heuristic walks into.
 
 Buffalo already played (beat Detroit by 10 on Thursday) and is off the board.
 
+## 5. The 17-week plan
+
+Weeks 2–3 are market-priced; 4–18 are model estimates.
+
+| Wk | Pick | Matchup | Win% | Running |
+|---|---|---|---|---|
+| 2 | **SF** | vs MIA | 86.3% | 86.3% |
+| 3 | KC | @ MIA | 78.7% | 67.9% |
+| 4 | MIN | vs MIA | 75.9% | 51.5% |
+| 5 | CIN | @ MIA | 73.1% | 37.7% |
+| 6 | LAR | vs ARI | 82.2% | 31.0% |
+| 7 | HOU | vs NYG | 67.5% | 20.9% |
+| 8 | DAL | vs ARI | 74.6% | 15.6% |
+| 9 | SEA | vs ARI | 75.8% | 11.8% |
+| 10 | IND | vs MIA | 73.3% | 8.7% |
+| 11 | LAC | vs NYJ | 73.3% | 6.3% |
+| 12 | JAX | vs TEN | 75.4% | 4.8% |
+| 13 | DEN | vs MIA | 81.2% | 3.9% |
+| 14 | DET | vs TEN | 76.4% | 3.0% |
+| 15 | GB | vs MIA | 77.3% | 2.3% |
+| 16 | BAL | vs CLE | 83.2% | 1.9% |
+| 17 | BUF | @ MIA | 78.9% | 1.5% |
+| 18 | NE | vs MIA | 79.4% | 1.2% |
+
+Teams never used: ATL, CAR, CHI, CLE, LV, MIA, NO, NYG, NYJ, PHI, TB, TEN, WAS —
+the plan's slack, and where it re-routes when a week goes wrong.
+
+### What the simulation says
+
+100,000 simulated seasons with correlated per-team rating error:
+
+- **Survive all 17 weeks: 1.2%** (± 0.04)
+- **Mean weeks survived: 3.5. Median exit: week 5.**
+- Cost of model error versus perfect knowledge: about 1% relative.
+
+Going undefeated for 17 straight weeks is *supposed* to be near-impossible —
+most pools are won by the last person standing, not by a perfect record. Plan
+to be eliminated around week 5, and treat everything past that as the upside
+you bought by not wasting good teams early.
+
+One useful negative result: re-planning every week with the *same* information
+produces the identical 17 picks (there is a test for it). Weekly re-runs are
+worth doing because **lines improve**, not because re-planning is adaptive.
+
 ## 5. Weekly process
 
 ```bash
@@ -116,10 +160,13 @@ python3 scripts/fetch_grid.py --season 2026 --out data/survivor_2026.json
 #    "used": {"1": "PIT", "2": "SF"}
 
 # 3. plan
-python3 -m survivor data/survivor_2026.json --max-vs 3
+python3 -m survivor data/survivor_2026.json --simulate
 
 # big pool? price in the chalk
-python3 -m survivor data/survivor_2026.json --max-vs 3 --contrarian 1.0
+python3 -m survivor data/survivor_2026.json --contrarian 1.0
+
+# is any conclusion hostage to the drift assumption?
+python3 scripts/drift_sensitivity.py data/survivor_2026.json
 ```
 
 Read the output in this order: the `COST` column (is the obvious pick actually
@@ -163,17 +210,37 @@ Modelled games carry that residual uncertainty explicitly: their margin
 distribution is widened by the fit's RMSE in quadrature, so a modelled 80% is
 correctly reported a little closer to 50% than a market 80%.
 
-### Concentration risk — read this before trusting the back half
+### Concentration: I was wrong about this
 
-Left alone, the optimiser produced a plan that **faded Miami in 9 of 17 weeks**.
-That is mathematically optimal and strategically fragile: it is one view of one
-team, not nine independent edges. If the ratings are wrong about Miami, several
-weeks fail together.
+The optimiser fades **Miami in 9 of 17 weeks**. Last week I called that fragile
+and told you to cap it with `--max-vs 3`. Then I simulated it, and the
+simulation says the opposite.
 
-`--max-vs 3` caps how often you may fade the same opponent. It costs very little
-(season survival 1.2% → 0.9%) and spreads the risk across four opponents instead
-of concentrating it in one. **Use it.** The report warns whenever any opponent
-appears four or more times.
+| rating drift | implied wk-18 error | free plan | capped at 3 |
+|---|---|---|---|
+| 0.0 (no drift) | 1.7 pts | **1.176%** | 0.840% |
+| 0.35 (default) | 2.2 pts | **1.164%** | 0.894% |
+| 0.7 | 3.2 pts | **1.064%** | 0.820% |
+| 1.2 (pessimistic) | 5.0 pts | **1.048%** | 0.680% |
+
+The uncapped plan wins at every level of model uncertainty, including one where
+a week-18 rating is off by five points. Capping costs roughly a quarter of your
+survival and buys nothing measurable.
+
+**Why the intuition fails:** survival is a *product* of probabilities. When the
+same error moves nine terms together, `E[Π p]` is convex in that error — the
+worlds where Miami is worse than modelled gain more than the worlds where Miami
+is better lose. Correlated error is mildly *good* for a product, not bad.
+Diversification is right when you are averaging and wrong when you are
+multiplying, and survivor multiplies.
+
+Note the scope: this is the right answer for maximising P(survive all 17 weeks).
+If your pool pays out for lasting longest rather than going undefeated, the
+variance you are choosing matters differently, and that is not what this
+measures.
+
+`--max-vs` still exists, and `scripts/drift_sensitivity.py` re-runs the sweep on
+your own board. Just don't reach for it on instinct.
 
 ### What is still soft
 

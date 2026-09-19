@@ -11,7 +11,8 @@ from survivor.data import Board, Game, TEAMS, Week, load
 from survivor.model import prob_from_spread, spread_from_prob
 from survivor.plan import (next_week_options, opponent_concentration, optimize,
                            optimize_capped, team_leverage)
-from survivor.ratings import fit
+from survivor.ratings import fit, fill
+from survivor.simulate import simulate_adaptive, simulate_static
 
 
 class TestAssignment(unittest.TestCase):
@@ -210,6 +211,62 @@ class TestRidgeValidation(unittest.TestCase):
         from survivor.ratings import RIDGE
         self.assertLess(self._mae(RIDGE), self._mae(0.01))
         self.assertLess(self._mae(RIDGE), self._mae(5.0))
+
+
+class TestSimulation(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.board = load("data/survivor_2026.json")
+        fill(cls.board, fit(cls.board))
+        cls.plan = optimize(cls.board)
+
+    def test_without_model_error_it_reproduces_the_analytic_product(self):
+        r = simulate_static(self.board, self.plan, sims=60000,
+                            model_error=False, seed=1)
+        self.assertAlmostEqual(r.overall, self.plan.survival, delta=4 * r.se)
+
+    def test_per_week_survival_tracks_the_running_product(self):
+        r = simulate_static(self.board, self.plan, sims=60000,
+                            model_error=False, seed=1)
+        run = 1.0
+        for p in self.plan.picks[:6]:
+            run *= p.prob
+            self.assertAlmostEqual(r.survival_by_week[p.week], run, delta=0.01)
+
+    def test_survival_only_falls_as_weeks_pass(self):
+        r = simulate_static(self.board, self.plan, sims=20000, seed=1)
+        curve = [r.survival_by_week[p.week] for p in self.plan.picks]
+        self.assertEqual(curve, sorted(curve, reverse=True))
+
+    def test_standard_error_shrinks_with_more_simulations(self):
+        small = simulate_static(self.board, self.plan, sims=5000, seed=1)
+        big = simulate_static(self.board, self.plan, sims=50000, seed=1)
+        self.assertLess(big.se, small.se)
+
+    def test_more_drift_never_makes_a_plan_look_better_than_certainty(self):
+        certain = simulate_static(self.board, self.plan, sims=40000,
+                                  model_error=False, seed=1)
+        drifty = simulate_static(self.board, self.plan, sims=40000,
+                                 seed=1, drift=1.2)
+        self.assertLess(drifty.overall, certain.overall + 4 * certain.se)
+
+    def test_replanning_without_new_information_changes_nothing(self):
+        """Adaptive only helps because lines improve, not because it adapts."""
+        import copy
+        state = copy.deepcopy(self.board)
+        walked = []
+        for _ in range(len(self.plan.picks)):
+            pl = optimize(state)
+            if not pl.picks:
+                break
+            walked.append(pl.picks[0].team)
+            state.used[pl.picks[0].week] = pl.picks[0].team
+        self.assertEqual(walked, [p.team for p in self.plan.picks])
+
+    def test_adaptive_simulation_agrees_with_static(self):
+        a = simulate_static(self.board, self.plan, sims=4000, seed=5)
+        b = simulate_adaptive(self.board, sims=400, seed=5)
+        self.assertAlmostEqual(a.mean_weeks_survived, b.mean_weeks_survived, delta=0.5)
 
 
 class TestRatings(unittest.TestCase):

@@ -108,9 +108,10 @@ win probabilities across every remaining week.
 # whole 2026 season in one request
 python3 scripts/fetch_grid.py --season 2026 --out data/survivor_2026.json
 
-python3 -m survivor data/survivor_2026.json --max-vs 3
-python3 -m survivor data/survivor_2026.json --max-vs 3 --contrarian 1.0  # big pool
-python3 scripts/tune_ridge.py data/survivor_2026.json                    # re-validate
+python3 -m survivor data/survivor_2026.json --simulate
+python3 -m survivor data/survivor_2026.json --contrarian 1.0   # big pool
+python3 scripts/tune_ridge.py data/survivor_2026.json          # re-validate ridge
+python3 scripts/drift_sensitivity.py data/survivor_2026.json   # assumption sweep
 ```
 
 `SURVIVOR.md` is the season plan and the Week 2 call.
@@ -143,9 +144,15 @@ plan most, i.e. the ones not to burn early.
   and two tests fail if the default stops beating its neighbours. Those picks
   stay flagged `model`, with their margin distribution widened by the fit's
   RMSE so a modelled 80% is not trusted like a market 80%.
-- **Concentration**: `--max-vs N` stops the plan fading the same opponent over
-  and over. Uncapped, it wanted to fade Miami 9 times in 17 weeks — optimal, but
-  one view of one team rather than nine independent edges.
+- **Simulation**: `--simulate` runs the plan through 100k seasons with rating
+  error drawn per *team* and carried as a random walk, so a team the model has
+  wrong is wrong in all of its games, and more so further from the last posted
+  line. That is the honest way to price how much of the plan is real.
+- **Concentration**: `--max-vs N` caps how often the plan fades one opponent.
+  Uncapped it fades Miami 9 times in 17 weeks, which looks reckless — but the
+  simulation says capping costs a quarter of your survival and buys nothing,
+  at every drift assumption tested. Survival is a *product*, so correlated
+  error is mildly good for it. Measure before diversifying.
 - **Popularity**: `--contrarian` penalises chalk, because surviving alongside
   60% of your pool is worth far less than surviving alongside 5%.
 
