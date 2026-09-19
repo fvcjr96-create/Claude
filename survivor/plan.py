@@ -69,12 +69,14 @@ def _cost_matrix(board: Board, weeks: list[Week], teams: list[str],
 
 def optimize(board: Board, contrarian: float = 0.0,
              force: dict[int, str] | None = None,
-             ban: set[str] | None = None) -> Plan:
+             ban: set[str] | None = None,
+             block_cells: set[tuple[int, str]] | None = None) -> Plan:
     """Best remaining season plan.
 
     `force` pins a team to a week (used to price alternatives); `ban` removes
     teams from consideration entirely (used to measure how much a team is
-    worth to the rest of the schedule).
+    worth to the rest of the schedule); `block_cells` rules out individual
+    (week, team) pairs, which is how the concentration cap is enforced.
     """
     force = force or {}
     ban = set(ban or ())
@@ -82,8 +84,15 @@ def optimize(board: Board, contrarian: float = 0.0,
     teams = [t for t in sorted({t for w in weeks for t in w.teams_playing()})
              if t not in board.used_teams and t not in ban]
 
-    # A forced team must stay available even if it was banned by mistake.
-    for t in force.values():
+    # A force may override a ban, but never the used-once rule: re-picking a
+    # team you have already spent is illegal, so refuse rather than return a
+    # plan that cannot be entered.
+    for wk_num, t in force.items():
+        if t in board.used_teams:
+            raise ValueError(
+                f"cannot force {t} in week {wk_num}: already used in week "
+                f"{[w for w, u in board.used.items() if u == t][0]}"
+            )
         if t not in teams:
             teams.append(t)
     teams.sort()
@@ -94,6 +103,10 @@ def optimize(board: Board, contrarian: float = 0.0,
         teams = teams + [f"__none{i}" for i in range(len(weeks) - len(teams))]
 
     matrix = _cost_matrix(board, weeks, teams, contrarian)
+    for (bw, bt) in (block_cells or ()):
+        for i, wk in enumerate(weeks):
+            if wk.number == bw and bt in teams:
+                matrix[i][teams.index(bt)] = BLOCKED
     for i, wk in enumerate(weeks):
         pinned = force.get(wk.number)
         if pinned is None:
@@ -166,3 +179,38 @@ def team_leverage(board: Board, contrarian: float = 0.0) -> list[tuple[str, floa
         rows.append((t, base - alt))
     rows.sort(key=lambda r: -r[1])
     return rows
+
+
+def optimize_capped(board: Board, max_vs: int, contrarian: float = 0.0,
+                    max_rounds: int = 60) -> Plan:
+    """Best plan that never fades the same opponent more than `max_vs` times.
+
+    A plan can be mathematically optimal and still be one bad team's bounce-back
+    away from collapsing -- fading the same opponent nine times is one bet, not
+    nine.  A hard count cap is not expressible in an assignment problem, so this
+    solves, finds the weakest pick against the most over-used opponent, blocks
+    that single cell, and re-solves until the cap holds.  Each round is exactly
+    optimal subject to the blocks, and the loop is monotone, so the result is a
+    good plan under the constraint rather than a proven optimum.
+    """
+    from collections import Counter
+
+    blocked: set[tuple[int, str]] = set()
+    plan = optimize(board, contrarian=contrarian)
+    for _ in range(max_rounds):
+        counts = Counter(p.opponent for p in plan.picks)
+        over = [(opp, c) for opp, c in counts.items() if c > max_vs]
+        if not over:
+            return plan
+        opp = max(over, key=lambda oc: oc[1])[0]
+        weakest = min((p for p in plan.picks if p.opponent == opp), key=lambda p: p.prob)
+        blocked.add((weakest.week, weakest.team))
+        plan = optimize(board, contrarian=contrarian, block_cells=blocked)
+    return plan
+
+
+def opponent_concentration(plan: Plan) -> list[tuple[str, int]]:
+    """How many times the plan bets against each opponent, most first."""
+    from collections import Counter
+
+    return Counter(p.opponent for p in plan.picks).most_common()

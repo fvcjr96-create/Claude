@@ -8,7 +8,8 @@ import sys
 
 from . import ratings as ratings_mod
 from .data import load
-from .plan import next_week_options, optimize, team_leverage
+from .plan import (next_week_options, opponent_concentration, optimize,
+                   optimize_capped, team_leverage)
 
 BAR = "=" * 78
 RULE = "-" * 78
@@ -51,13 +52,14 @@ def render(board, plan, options, leverage, fitted, synthetic: bool) -> str:
             g = board.future_weeks()[0].game_for(team)
             matchup = f"{'vs' if g.is_home(team) else '@'} {g.opponent_of(team)}"
             pop = board.future_weeks()[0].popularity.get(team)
-            cost = "" if surv >= best - 1e-12 else f"-{pct(best-surv)}"
+            cost = "" if surv >= best - 1e-12 else f"-{(1-surv/best)*100:.0f}%"
             a(f"  {team:<6}{matchup:<16}{pct(p):>7}{pct(surv):>9}{cost:>8}"
               f"  {pct(pop) if pop else '-'}")
         a("")
         a("  WIN%   this week's win probability")
         a("  SEASON P(surviving every remaining week) if you take this team now")
-        a("  COST   season survival given up versus the best available choice")
+        a("  COST   how much of that season survival you give up versus the best")
+        a("         choice, relative -- \"-20%\" means a fifth worse, not 20 points")
         a("")
 
     a(" FULL PLAN")
@@ -72,6 +74,19 @@ def render(board, plan, options, leverage, fitted, synthetic: bool) -> str:
     a(RULE)
     a(f"  Survive all {len(plan.picks)} remaining weeks: {pct(plan.survival)}")
     a("")
+
+    conc = [(o, c) for o, c in opponent_concentration(plan) if c > 1]
+    if conc:
+        a(" OPPONENT CONCENTRATION")
+        a(RULE)
+        a("  " + ",  ".join(f"fade {o} x{c}" for o, c in conc[:6]))
+        top = conc[0]
+        if top[1] >= 4:
+            a(f"  !! {top[1]} of {len(plan.picks)} picks bet against {top[0]}. That is one")
+            a(f"     view of one team, not {top[1]} independent edges - if {top[0]} is better")
+            a("     than the ratings think, several weeks fail together.")
+            a("     Use --max-vs 3 to spread the risk.")
+        a("")
 
     if leverage:
         a(" HOARD LIST  (season survival lost if this team were unavailable)")
@@ -102,6 +117,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--contrarian", type=float, default=0.0,
                     help="penalty on pick popularity; 0 = pure survival, "
                          "0.5-1.5 = differentiate in a big pool")
+    ap.add_argument("--max-vs", type=int, default=None,
+                    help="never fade the same opponent more than N times; "
+                         "spreads the plan's risk across more teams")
     ap.add_argument("--no-fill", action="store_true",
                     help="do not price unlined games from fitted ratings")
     ap.add_argument("--json", action="store_true")
@@ -116,7 +134,10 @@ def main(argv: list[str] | None = None) -> int:
         fitted = ratings_mod.fit(board)
         ratings_mod.fill(board, fitted)
 
-    plan = optimize(board, contrarian=args.contrarian)
+    if args.max_vs:
+        plan = optimize_capped(board, args.max_vs, contrarian=args.contrarian)
+    else:
+        plan = optimize(board, contrarian=args.contrarian)
     options = next_week_options(board, contrarian=args.contrarian)
     leverage = team_leverage(board, contrarian=args.contrarian) if len(board.future_weeks()) > 1 else []
 

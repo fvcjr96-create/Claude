@@ -1,32 +1,1342 @@
 {
   "season": 2026,
   "entries": 100,
-  "used": {"1": "PIT"},
+  "used": {
+    "1": "PIT"
+  },
   "weeks": {
-    "2": {
-      "verified": true,
-      "source": "ESPN / FOX / Covers Week 2 2026 lines, retrieved 2026-09-19",
+    "1": {
       "games": [
-        {"away": "MIA", "home": "SF",  "home_spread": 13.5},
-        {"away": "NO",  "home": "BAL", "home_spread": 8.5},
-        {"away": "NYG", "home": "LAR", "home_spread": 7.5},
-        {"away": "PHI", "home": "TEN", "home_spread": -7.0},
-        {"away": "IND", "home": "KC",  "home_spread": 6.5},
-        {"away": "LV",  "home": "LAC", "home_spread": 6.5},
-        {"away": "PIT", "home": "NE",  "home_spread": 5.5},
-        {"away": "NYJ", "home": "GB",  "home_spread": 3.5},
-        {"away": "CLE", "home": "TB",  "home_prob": 0.74},
-        {"away": "DET", "home": "BUF"},
-        {"away": "DEN", "home": "JAX"},
-        {"away": "HOU", "home": "CIN"}
+        {
+          "away": "NE",
+          "home": "SEA",
+          "played": true,
+          "home_won": true,
+          "home_prob": 0.5996,
+          "priced": "moneyline"
+        },
+        {
+          "away": "SF",
+          "home": "LAR",
+          "played": true,
+          "home_won": false,
+          "home_prob": 0.6575,
+          "priced": "moneyline"
+        },
+        {
+          "away": "CHI",
+          "home": "CAR",
+          "played": true,
+          "home_won": false,
+          "home_prob": 0.4004,
+          "priced": "moneyline"
+        },
+        {
+          "away": "TB",
+          "home": "CIN",
+          "played": true,
+          "home_won": true,
+          "home_prob": 0.6447,
+          "priced": "moneyline"
+        },
+        {
+          "away": "NO",
+          "home": "DET",
+          "played": true,
+          "home_won": true,
+          "home_prob": 0.7335,
+          "priced": "moneyline"
+        },
+        {
+          "away": "BUF",
+          "home": "HOU",
+          "played": true,
+          "home_won": false,
+          "home_prob": 0.4957,
+          "priced": "moneyline"
+        },
+        {
+          "away": "BAL",
+          "home": "IND",
+          "played": true,
+          "home_won": false,
+          "home_prob": 0.4066,
+          "priced": "moneyline"
+        },
+        {
+          "away": "CLE",
+          "home": "JAX",
+          "played": true,
+          "home_won": true,
+          "home_prob": 0.7914,
+          "priced": "moneyline"
+        },
+        {
+          "away": "ATL",
+          "home": "PIT",
+          "played": true,
+          "home_won": true,
+          "home_prob": 0.718,
+          "priced": "moneyline"
+        },
+        {
+          "away": "NYJ",
+          "home": "TEN",
+          "played": true,
+          "home_won": false,
+          "home_prob": 0.5174,
+          "priced": "moneyline"
+        },
+        {
+          "away": "ARI",
+          "home": "LAC",
+          "played": true,
+          "home_won": false,
+          "home_prob": 0.7867,
+          "priced": "moneyline"
+        },
+        {
+          "away": "MIA",
+          "home": "LV",
+          "played": true,
+          "home_won": true,
+          "home_prob": 0.6038,
+          "priced": "moneyline"
+        },
+        {
+          "away": "GB",
+          "home": "MIN",
+          "played": true,
+          "home_won": true,
+          "home_prob": 0.5325,
+          "priced": "moneyline"
+        },
+        {
+          "away": "WAS",
+          "home": "PHI",
+          "played": true,
+          "home_won": true,
+          "home_prob": 0.6806,
+          "priced": "moneyline"
+        },
+        {
+          "away": "DAL",
+          "home": "NYG",
+          "played": true,
+          "home_won": true,
+          "home_prob": 0.4004,
+          "priced": "moneyline"
+        },
+        {
+          "away": "DEN",
+          "home": "KC",
+          "played": true,
+          "home_won": true,
+          "home_prob": 0.5427,
+          "priced": "moneyline"
+        }
       ],
-      "popularity": {"TB": 0.30, "SF": 0.31, "BAL": 0.09}
+      "source": "nflverse games.csv, 2026",
+      "verified": true
+    },
+    "2": {
+      "games": [
+        {
+          "away": "DET",
+          "home": "BUF",
+          "played": true,
+          "home_won": true,
+          "home_prob": 0.675,
+          "priced": "moneyline"
+        },
+        {
+          "away": "CAR",
+          "home": "ATL",
+          "home_prob": 0.417,
+          "priced": "moneyline"
+        },
+        {
+          "away": "NO",
+          "home": "BAL",
+          "home_prob": 0.7659,
+          "priced": "moneyline"
+        },
+        {
+          "away": "MIN",
+          "home": "CHI",
+          "home_prob": 0.6575,
+          "priced": "moneyline"
+        },
+        {
+          "away": "CIN",
+          "home": "HOU",
+          "home_prob": 0.5635,
+          "priced": "moneyline"
+        },
+        {
+          "away": "PIT",
+          "home": "NE",
+          "home_prob": 0.6636,
+          "priced": "moneyline"
+        },
+        {
+          "away": "GB",
+          "home": "NYJ",
+          "home_prob": 0.3775,
+          "priced": "moneyline"
+        },
+        {
+          "away": "CLE",
+          "home": "TB",
+          "home_prob": 0.7867,
+          "priced": "moneyline"
+        },
+        {
+          "away": "PHI",
+          "home": "TEN",
+          "home_prob": 0.2665,
+          "priced": "moneyline"
+        },
+        {
+          "away": "JAX",
+          "home": "DEN",
+          "home_prob": 0.583,
+          "priced": "moneyline"
+        },
+        {
+          "away": "LV",
+          "home": "LAC",
+          "home_prob": 0.7258,
+          "priced": "moneyline"
+        },
+        {
+          "away": "SEA",
+          "home": "ARI",
+          "home_prob": 0.3425,
+          "priced": "moneyline"
+        },
+        {
+          "away": "WAS",
+          "home": "DAL",
+          "home_prob": 0.6575,
+          "priced": "moneyline"
+        },
+        {
+          "away": "MIA",
+          "home": "SF",
+          "home_prob": 0.863,
+          "priced": "moneyline"
+        },
+        {
+          "away": "IND",
+          "home": "KC",
+          "home_prob": 0.7095,
+          "priced": "moneyline"
+        },
+        {
+          "away": "NYG",
+          "home": "LAR",
+          "home_prob": 0.7258,
+          "priced": "moneyline"
+        }
+      ],
+      "source": "nflverse games.csv, 2026",
+      "verified": true
+    },
+    "3": {
+      "games": [
+        {
+          "away": "ATL",
+          "home": "GB",
+          "home_prob": 0.718,
+          "priced": "moneyline"
+        },
+        {
+          "away": "LAC",
+          "home": "BUF",
+          "home_prob": 0.666,
+          "priced": "moneyline"
+        },
+        {
+          "away": "CAR",
+          "home": "CLE",
+          "home_prob": 0.4365,
+          "priced": "moneyline"
+        },
+        {
+          "away": "NYJ",
+          "home": "DET",
+          "home_prob": 0.7595,
+          "priced": "moneyline"
+        },
+        {
+          "away": "HOU",
+          "home": "IND",
+          "home_prob": 0.4486,
+          "priced": "moneyline"
+        },
+        {
+          "away": "NE",
+          "home": "JAX",
+          "home_prob": 0.5514,
+          "priced": "moneyline"
+        },
+        {
+          "away": "KC",
+          "home": "MIA",
+          "home_prob": 0.2133,
+          "priced": "moneyline"
+        },
+        {
+          "away": "TEN",
+          "home": "NYG",
+          "home_prob": 0.6854,
+          "priced": "moneyline"
+        },
+        {
+          "away": "CIN",
+          "home": "PIT",
+          "home_prob": 0.4486,
+          "priced": "moneyline"
+        },
+        {
+          "away": "SEA",
+          "home": "WAS",
+          "home_prob": 0.4486,
+          "priced": "moneyline"
+        },
+        {
+          "away": "ARI",
+          "home": "SF",
+          "home_prob": 0.7867,
+          "priced": "moneyline"
+        },
+        {
+          "away": "MIN",
+          "home": "TB",
+          "home_prob": 0.5325,
+          "priced": "moneyline"
+        },
+        {
+          "away": "BAL",
+          "home": "DAL",
+          "home_prob": 0.417,
+          "priced": "moneyline"
+        },
+        {
+          "away": "LV",
+          "home": "NO",
+          "home_prob": 0.5934,
+          "priced": "moneyline"
+        },
+        {
+          "away": "LAR",
+          "home": "DEN",
+          "home_prob": 0.4486,
+          "priced": "moneyline"
+        },
+        {
+          "away": "PHI",
+          "home": "CHI",
+          "home_prob": 0.5174,
+          "priced": "moneyline"
+        }
+      ],
+      "source": "nflverse games.csv, 2026",
+      "verified": true
+    },
+    "4": {
+      "games": [
+        {
+          "away": "PIT",
+          "home": "CLE"
+        },
+        {
+          "away": "IND",
+          "home": "WAS"
+        },
+        {
+          "away": "TEN",
+          "home": "BAL"
+        },
+        {
+          "away": "NE",
+          "home": "BUF"
+        },
+        {
+          "away": "NYJ",
+          "home": "CHI"
+        },
+        {
+          "away": "JAX",
+          "home": "CIN"
+        },
+        {
+          "away": "DAL",
+          "home": "HOU"
+        },
+        {
+          "away": "ARI",
+          "home": "NYG"
+        },
+        {
+          "away": "LAR",
+          "home": "PHI"
+        },
+        {
+          "away": "GB",
+          "home": "TB"
+        },
+        {
+          "away": "MIA",
+          "home": "MIN"
+        },
+        {
+          "away": "KC",
+          "home": "LV"
+        },
+        {
+          "away": "LAC",
+          "home": "SEA"
+        },
+        {
+          "away": "DEN",
+          "home": "SF"
+        },
+        {
+          "away": "DET",
+          "home": "CAR"
+        },
+        {
+          "away": "ATL",
+          "home": "NO"
+        }
+      ],
+      "source": "nflverse games.csv, 2026",
+      "verified": false
+    },
+    "5": {
+      "games": [
+        {
+          "away": "TB",
+          "home": "DAL"
+        },
+        {
+          "away": "PHI",
+          "home": "JAX"
+        },
+        {
+          "away": "CIN",
+          "home": "MIA"
+        },
+        {
+          "away": "LV",
+          "home": "NE"
+        },
+        {
+          "away": "MIN",
+          "home": "NO"
+        },
+        {
+          "away": "CLE",
+          "home": "NYJ"
+        },
+        {
+          "away": "IND",
+          "home": "PIT"
+        },
+        {
+          "away": "HOU",
+          "home": "TEN"
+        },
+        {
+          "away": "NYG",
+          "home": "WAS"
+        },
+        {
+          "away": "DEN",
+          "home": "LAC"
+        },
+        {
+          "away": "DET",
+          "home": "ARI"
+        },
+        {
+          "away": "CHI",
+          "home": "GB"
+        },
+        {
+          "away": "SF",
+          "home": "SEA"
+        },
+        {
+          "away": "BAL",
+          "home": "ATL"
+        },
+        {
+          "away": "BUF",
+          "home": "LAR"
+        }
+      ],
+      "source": "nflverse games.csv, 2026",
+      "verified": false
+    },
+    "6": {
+      "games": [
+        {
+          "away": "SEA",
+          "home": "DEN"
+        },
+        {
+          "away": "HOU",
+          "home": "JAX"
+        },
+        {
+          "away": "CHI",
+          "home": "ATL"
+        },
+        {
+          "away": "BAL",
+          "home": "CLE"
+        },
+        {
+          "away": "TEN",
+          "home": "IND"
+        },
+        {
+          "away": "NYJ",
+          "home": "NE"
+        },
+        {
+          "away": "NO",
+          "home": "NYG"
+        },
+        {
+          "away": "CAR",
+          "home": "PHI"
+        },
+        {
+          "away": "PIT",
+          "home": "TB"
+        },
+        {
+          "away": "ARI",
+          "home": "LAR"
+        },
+        {
+          "away": "LAC",
+          "home": "KC"
+        },
+        {
+          "away": "BUF",
+          "home": "LV"
+        },
+        {
+          "away": "DAL",
+          "home": "GB"
+        },
+        {
+          "away": "WAS",
+          "home": "SF"
+        }
+      ],
+      "source": "nflverse games.csv, 2026",
+      "verified": false
+    },
+    "7": {
+      "games": [
+        {
+          "away": "NE",
+          "home": "CHI"
+        },
+        {
+          "away": "PIT",
+          "home": "NO"
+        },
+        {
+          "away": "SF",
+          "home": "ATL"
+        },
+        {
+          "away": "CIN",
+          "home": "BAL"
+        },
+        {
+          "away": "TB",
+          "home": "CAR"
+        },
+        {
+          "away": "NYG",
+          "home": "HOU"
+        },
+        {
+          "away": "IND",
+          "home": "MIN"
+        },
+        {
+          "away": "MIA",
+          "home": "NYJ"
+        },
+        {
+          "away": "CLE",
+          "home": "TEN"
+        },
+        {
+          "away": "DEN",
+          "home": "ARI"
+        },
+        {
+          "away": "GB",
+          "home": "DET"
+        },
+        {
+          "away": "LAR",
+          "home": "LV"
+        },
+        {
+          "away": "KC",
+          "home": "SEA"
+        },
+        {
+          "away": "DAL",
+          "home": "PHI"
+        }
+      ],
+      "source": "nflverse games.csv, 2026",
+      "verified": false
+    },
+    "8": {
+      "games": [
+        {
+          "away": "CAR",
+          "home": "GB"
+        },
+        {
+          "away": "BAL",
+          "home": "BUF"
+        },
+        {
+          "away": "TEN",
+          "home": "CIN"
+        },
+        {
+          "away": "ARI",
+          "home": "DAL"
+        },
+        {
+          "away": "MIN",
+          "home": "DET"
+        },
+        {
+          "away": "IND",
+          "home": "JAX"
+        },
+        {
+          "away": "LV",
+          "home": "NYJ"
+        },
+        {
+          "away": "CLE",
+          "home": "PIT"
+        },
+        {
+          "away": "ATL",
+          "home": "TB"
+        },
+        {
+          "away": "LAC",
+          "home": "LAR"
+        },
+        {
+          "away": "KC",
+          "home": "DEN"
+        },
+        {
+          "away": "NE",
+          "home": "MIA"
+        },
+        {
+          "away": "PHI",
+          "home": "WAS"
+        },
+        {
+          "away": "CHI",
+          "home": "SEA"
+        }
+      ],
+      "source": "nflverse games.csv, 2026",
+      "verified": false
+    },
+    "9": {
+      "games": [
+        {
+          "away": "JAX",
+          "home": "BAL"
+        },
+        {
+          "away": "CIN",
+          "home": "ATL"
+        },
+        {
+          "away": "DEN",
+          "home": "CAR"
+        },
+        {
+          "away": "DAL",
+          "home": "IND"
+        },
+        {
+          "away": "NYJ",
+          "home": "KC"
+        },
+        {
+          "away": "DET",
+          "home": "MIA"
+        },
+        {
+          "away": "CLE",
+          "home": "NO"
+        },
+        {
+          "away": "NYG",
+          "home": "PHI"
+        },
+        {
+          "away": "LAR",
+          "home": "WAS"
+        },
+        {
+          "away": "HOU",
+          "home": "LAC"
+        },
+        {
+          "away": "LV",
+          "home": "SF"
+        },
+        {
+          "away": "GB",
+          "home": "NE"
+        },
+        {
+          "away": "ARI",
+          "home": "SEA"
+        },
+        {
+          "away": "TB",
+          "home": "CHI"
+        },
+        {
+          "away": "BUF",
+          "home": "MIN"
+        }
+      ],
+      "source": "nflverse games.csv, 2026",
+      "verified": false
+    },
+    "10": {
+      "games": [
+        {
+          "away": "WAS",
+          "home": "NYG"
+        },
+        {
+          "away": "NE",
+          "home": "DET"
+        },
+        {
+          "away": "KC",
+          "home": "ATL"
+        },
+        {
+          "away": "HOU",
+          "home": "CLE"
+        },
+        {
+          "away": "MIN",
+          "home": "GB"
+        },
+        {
+          "away": "MIA",
+          "home": "IND"
+        },
+        {
+          "away": "CAR",
+          "home": "NO"
+        },
+        {
+          "away": "BUF",
+          "home": "NYJ"
+        },
+        {
+          "away": "JAX",
+          "home": "TEN"
+        },
+        {
+          "away": "LAR",
+          "home": "ARI"
+        },
+        {
+          "away": "SEA",
+          "home": "LV"
+        },
+        {
+          "away": "SF",
+          "home": "DAL"
+        },
+        {
+          "away": "PIT",
+          "home": "CIN"
+        },
+        {
+          "away": "LAC",
+          "home": "BAL"
+        }
+      ],
+      "source": "nflverse games.csv, 2026",
+      "verified": false
+    },
+    "11": {
+      "games": [
+        {
+          "away": "IND",
+          "home": "HOU"
+        },
+        {
+          "away": "MIA",
+          "home": "BUF"
+        },
+        {
+          "away": "BAL",
+          "home": "CAR"
+        },
+        {
+          "away": "NO",
+          "home": "CHI"
+        },
+        {
+          "away": "TEN",
+          "home": "DAL"
+        },
+        {
+          "away": "TB",
+          "home": "DET"
+        },
+        {
+          "away": "ARI",
+          "home": "KC"
+        },
+        {
+          "away": "JAX",
+          "home": "NYG"
+        },
+        {
+          "away": "NYJ",
+          "home": "LAC"
+        },
+        {
+          "away": "LV",
+          "home": "DEN"
+        },
+        {
+          "away": "PIT",
+          "home": "PHI"
+        },
+        {
+          "away": "MIN",
+          "home": "SF"
+        },
+        {
+          "away": "CIN",
+          "home": "WAS"
+        }
+      ],
+      "source": "nflverse games.csv, 2026",
+      "verified": false
+    },
+    "12": {
+      "games": [
+        {
+          "away": "GB",
+          "home": "LAR"
+        },
+        {
+          "away": "CHI",
+          "home": "DET"
+        },
+        {
+          "away": "PHI",
+          "home": "DAL"
+        },
+        {
+          "away": "KC",
+          "home": "BUF"
+        },
+        {
+          "away": "DEN",
+          "home": "PIT"
+        },
+        {
+          "away": "NO",
+          "home": "CIN"
+        },
+        {
+          "away": "LV",
+          "home": "CLE"
+        },
+        {
+          "away": "BAL",
+          "home": "HOU"
+        },
+        {
+          "away": "NYG",
+          "home": "IND"
+        },
+        {
+          "away": "NYJ",
+          "home": "MIA"
+        },
+        {
+          "away": "ATL",
+          "home": "MIN"
+        },
+        {
+          "away": "TEN",
+          "home": "JAX"
+        },
+        {
+          "away": "WAS",
+          "home": "ARI"
+        },
+        {
+          "away": "SEA",
+          "home": "SF"
+        },
+        {
+          "away": "NE",
+          "home": "LAC"
+        },
+        {
+          "away": "CAR",
+          "home": "TB"
+        }
+      ],
+      "source": "nflverse games.csv, 2026",
+      "verified": false
+    },
+    "13": {
+      "games": [
+        {
+          "away": "KC",
+          "home": "LAR"
+        },
+        {
+          "away": "DET",
+          "home": "ATL"
+        },
+        {
+          "away": "JAX",
+          "home": "CHI"
+        },
+        {
+          "away": "CIN",
+          "home": "CLE"
+        },
+        {
+          "away": "GB",
+          "home": "NO"
+        },
+        {
+          "away": "SF",
+          "home": "NYG"
+        },
+        {
+          "away": "LAC",
+          "home": "TB"
+        },
+        {
+          "away": "WAS",
+          "home": "TEN"
+        },
+        {
+          "away": "PHI",
+          "home": "ARI"
+        },
+        {
+          "away": "MIA",
+          "home": "DEN"
+        },
+        {
+          "away": "CAR",
+          "home": "MIN"
+        },
+        {
+          "away": "BUF",
+          "home": "NE"
+        },
+        {
+          "away": "HOU",
+          "home": "PIT"
+        },
+        {
+          "away": "DAL",
+          "home": "SEA"
+        }
+      ],
+      "source": "nflverse games.csv, 2026",
+      "verified": false
+    },
+    "14": {
+      "games": [
+        {
+          "away": "MIN",
+          "home": "NE"
+        },
+        {
+          "away": "TB",
+          "home": "BAL"
+        },
+        {
+          "away": "NO",
+          "home": "CAR"
+        },
+        {
+          "away": "ATL",
+          "home": "CLE"
+        },
+        {
+          "away": "TEN",
+          "home": "DET"
+        },
+        {
+          "away": "CHI",
+          "home": "MIA"
+        },
+        {
+          "away": "DEN",
+          "home": "NYJ"
+        },
+        {
+          "away": "IND",
+          "home": "PHI"
+        },
+        {
+          "away": "HOU",
+          "home": "WAS"
+        },
+        {
+          "away": "LAC",
+          "home": "LV"
+        },
+        {
+          "away": "KC",
+          "home": "CIN"
+        },
+        {
+          "away": "NYG",
+          "home": "SEA"
+        },
+        {
+          "away": "LAR",
+          "home": "SF"
+        },
+        {
+          "away": "BUF",
+          "home": "GB"
+        },
+        {
+          "away": "PIT",
+          "home": "JAX"
+        }
+      ],
+      "source": "nflverse games.csv, 2026",
+      "verified": false
+    },
+    "15": {
+      "games": [
+        {
+          "away": "SF",
+          "home": "LAC"
+        },
+        {
+          "away": "SEA",
+          "home": "PHI"
+        },
+        {
+          "away": "CHI",
+          "home": "BUF"
+        },
+        {
+          "away": "CIN",
+          "home": "CAR"
+        },
+        {
+          "away": "MIA",
+          "home": "GB"
+        },
+        {
+          "away": "JAX",
+          "home": "HOU"
+        },
+        {
+          "away": "CLE",
+          "home": "NYG"
+        },
+        {
+          "away": "BAL",
+          "home": "PIT"
+        },
+        {
+          "away": "NO",
+          "home": "TB"
+        },
+        {
+          "away": "IND",
+          "home": "TEN"
+        },
+        {
+          "away": "ATL",
+          "home": "WAS"
+        },
+        {
+          "away": "NYJ",
+          "home": "ARI"
+        },
+        {
+          "away": "DAL",
+          "home": "LAR"
+        },
+        {
+          "away": "DEN",
+          "home": "LV"
+        },
+        {
+          "away": "DET",
+          "home": "MIN"
+        },
+        {
+          "away": "NE",
+          "home": "KC"
+        }
+      ],
+      "source": "nflverse games.csv, 2026",
+      "verified": false
+    },
+    "16": {
+      "games": [
+        {
+          "away": "HOU",
+          "home": "PHI"
+        },
+        {
+          "away": "GB",
+          "home": "CHI"
+        },
+        {
+          "away": "BUF",
+          "home": "DEN"
+        },
+        {
+          "away": "LAR",
+          "home": "SEA"
+        },
+        {
+          "away": "TB",
+          "home": "ATL"
+        },
+        {
+          "away": "CLE",
+          "home": "BAL"
+        },
+        {
+          "away": "CIN",
+          "home": "IND"
+        },
+        {
+          "away": "LAC",
+          "home": "MIA"
+        },
+        {
+          "away": "WAS",
+          "home": "MIN"
+        },
+        {
+          "away": "ARI",
+          "home": "NO"
+        },
+        {
+          "away": "NE",
+          "home": "NYJ"
+        },
+        {
+          "away": "CAR",
+          "home": "PIT"
+        },
+        {
+          "away": "TEN",
+          "home": "LV"
+        },
+        {
+          "away": "SF",
+          "home": "KC"
+        },
+        {
+          "away": "JAX",
+          "home": "DAL"
+        },
+        {
+          "away": "NYG",
+          "home": "DET"
+        }
+      ],
+      "source": "nflverse games.csv, 2026",
+      "verified": false
+    },
+    "17": {
+      "games": [
+        {
+          "away": "BAL",
+          "home": "CIN"
+        },
+        {
+          "away": "NO",
+          "home": "ATL"
+        },
+        {
+          "away": "SEA",
+          "home": "CAR"
+        },
+        {
+          "away": "IND",
+          "home": "CLE"
+        },
+        {
+          "away": "NYG",
+          "home": "DAL"
+        },
+        {
+          "away": "WAS",
+          "home": "JAX"
+        },
+        {
+          "away": "KC",
+          "home": "LAC"
+        },
+        {
+          "away": "BUF",
+          "home": "MIA"
+        },
+        {
+          "away": "DEN",
+          "home": "NE"
+        },
+        {
+          "away": "MIN",
+          "home": "NYJ"
+        },
+        {
+          "away": "LAR",
+          "home": "TB"
+        },
+        {
+          "away": "PIT",
+          "home": "TEN"
+        },
+        {
+          "away": "LV",
+          "home": "ARI"
+        },
+        {
+          "away": "DET",
+          "home": "CHI"
+        },
+        {
+          "away": "PHI",
+          "home": "SF"
+        },
+        {
+          "away": "HOU",
+          "home": "GB"
+        }
+      ],
+      "source": "nflverse games.csv, 2026",
+      "verified": false
+    },
+    "18": {
+      "games": [
+        {
+          "away": "SF",
+          "home": "ARI"
+        },
+        {
+          "away": "PIT",
+          "home": "BAL"
+        },
+        {
+          "away": "NYJ",
+          "home": "BUF"
+        },
+        {
+          "away": "ATL",
+          "home": "CAR"
+        },
+        {
+          "away": "CLE",
+          "home": "CIN"
+        },
+        {
+          "away": "LAC",
+          "home": "DEN"
+        },
+        {
+          "away": "DET",
+          "home": "GB"
+        },
+        {
+          "away": "TEN",
+          "home": "HOU"
+        },
+        {
+          "away": "JAX",
+          "home": "IND"
+        },
+        {
+          "away": "LV",
+          "home": "KC"
+        },
+        {
+          "away": "SEA",
+          "home": "LAR"
+        },
+        {
+          "away": "CHI",
+          "home": "MIN"
+        },
+        {
+          "away": "MIA",
+          "home": "NE"
+        },
+        {
+          "away": "TB",
+          "home": "NO"
+        },
+        {
+          "away": "PHI",
+          "home": "NYG"
+        },
+        {
+          "away": "DAL",
+          "home": "WAS"
+        }
+      ],
+      "source": "nflverse games.csv, 2026",
+      "verified": false
     }
   },
   "notes": [
-    "Week 2 lines are real and sourced. Everything else must be fetched - run scripts/fetch_grid.py.",
-    "Four Week 2 games are missing: ARI, ATL, CAR, CHI, DAL, MIN, SEA and WAS are not on the board. If one of them is a big favourite it will not appear as an option until you add it.",
-    "Home/away is unconfirmed for DET-BUF, DEN-JAX and HOU-CIN; they carry no line, so ratings price them and they are flagged model, not market.",
-    "Popularity figures are from Week 2 survivor writeups (TB ~30%, SF ~31%, BAL ~9%) and are pool-dependent - overwrite with your own pool's numbers if you can see them."
+    "Full 2026 schedule from nflverse games.csv (raw.githubusercontent.com). 272 games, all 18 weeks.",
+    "Validated: every team plays exactly 17 games, no team double-booked in a week, week 1 result ATL 13 @ PIT 20 matches the Steelers pick.",
+    "Weeks 1-3 are priced from de-vigged two-way moneylines. Weeks 4-18 have no posted market yet and are priced from ridge-fitted power ratings - the report flags those picks as 'model'.",
+    "Re-run scripts/fetch_grid.py each week: as books post lines, more weeks flip from model to market and the back half of the plan firms up.",
+    "Popularity is not in this dataset. Add a per-week 'popularity' map from your own pool to use --contrarian."
   ]
 }

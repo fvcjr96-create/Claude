@@ -23,6 +23,8 @@ class Game:
     home: str
     home_spread: float | None = None      # positive = home favoured
     home_prob: float | None = None        # overrides the spread if given
+    played: bool = False                  # already final; cannot be picked
+    priced: str = ""                      # "moneyline", "spread" or "" (modelled)
 
     def prob_for(self, team: str) -> float:
         if self.home_prob is not None:
@@ -48,13 +50,17 @@ class Week:
     source: str = ""
     popularity: dict[str, float] = field(default_factory=dict)
 
-    def game_for(self, team: str) -> Game | None:
+    def game_for(self, team: str, include_played: bool = False) -> Game | None:
         for g in self.games:
-            if team in (g.home, g.away):
+            if team in (g.home, g.away) and (include_played or not g.played):
                 return g
         return None
 
     def teams_playing(self) -> set[str]:
+        """Teams with a game this week that has not already kicked off."""
+        return {t for g in self.games if not g.played for t in (g.home, g.away)}
+
+    def all_teams(self) -> set[str]:
         return {t for g in self.games for t in (g.home, g.away)}
 
 
@@ -90,9 +96,12 @@ class Board:
             playing = w.teams_playing()
             if w.verified and len(playing) % 2:
                 out.append(f"week {w.number} has an odd number of teams on the board")
-            byes = [t for t in TEAMS if t not in playing]
-            if w.verified and len(byes) > 6:
+            byes = [t for t in TEAMS if t not in w.all_teams()]
+            if len(byes) > 6:
                 out.append(f"week {w.number} is missing {len(byes)} teams - is the board complete?")
+            done = [g for g in w.games if g.played]
+            if done:
+                out.append(f"week {w.number}: {len(done)} game(s) already final and off the board")
         return out
 
 
@@ -108,6 +117,8 @@ def load(path: str | Path) -> Board:
                 home=g["home"],
                 home_spread=g.get("home_spread"),
                 home_prob=g.get("home_prob"),
+                played=bool(g.get("played", False)),
+                priced=g.get("priced", ""),
             )
             for g in wk["games"]
         ]

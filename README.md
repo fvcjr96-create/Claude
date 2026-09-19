@@ -105,12 +105,12 @@ Hungarian algorithm (verified against brute force), maximising the product of
 win probabilities across every remaining week.
 
 ```bash
-# build the real board (run on a machine with internet)
+# whole 2026 season in one request
 python3 scripts/fetch_grid.py --season 2026 --out data/survivor_2026.json
 
-python3 -m survivor data/survivor_2026.json
-python3 -m survivor data/survivor_2026.json --contrarian 1.0   # big-pool mode
-python3 -m survivor data/demo_synthetic.json                   # see the mechanics
+python3 -m survivor data/survivor_2026.json --max-vs 3
+python3 -m survivor data/survivor_2026.json --max-vs 3 --contrarian 1.0  # big pool
+python3 scripts/tune_ridge.py data/survivor_2026.json                    # re-validate
 ```
 
 `SURVIVOR.md` is the season plan and the Week 2 call.
@@ -132,18 +132,28 @@ plan most, i.e. the ones not to burn early.
 
 ## How the numbers are made
 
-- **Spreads → probability**: `p = Φ(spread / 13.0)`, with σ calibrated against
-  the real Week 2 board (SF −13.5 → 85%, BAL −8.5 → 74%, LAC −6.5 → 69%).
-- **Unlined games**: power ratings fitted by ridge regression to every posted
-  line on the board, then used to price the rest. Those picks stay flagged
-  `model` rather than `market`.
+- **Schedule**: all 272 games of 2026 from
+  [nflverse](https://github.com/nflverse/nfldata). Validated in tests — every
+  team plays exactly 17 games, nobody is double-booked.
+- **Priced games**: de-vigged two-way moneylines where books have posted
+  (weeks 1–3). Sharper than converting the spread.
+- **Unpriced games**: ridge-regression power ratings fitted to every posted
+  line. The penalty is chosen by held-out validation — fitting on weeks 1–2 and
+  predicting week 3, ridge 0.25 gives 1.84 pts MAE against a 4.23 baseline —
+  and two tests fail if the default stops beating its neighbours. Those picks
+  stay flagged `model`, with their margin distribution widened by the fit's
+  RMSE so a modelled 80% is not trusted like a market 80%.
+- **Concentration**: `--max-vs N` stops the plan fading the same opponent over
+  and over. Uncapped, it wanted to fade Miami 9 times in 17 weeks — optimal, but
+  one view of one team rather than nine independent edges.
 - **Popularity**: `--contrarian` penalises chalk, because surviving alongside
   60% of your pool is worth far less than surviving alongside 5%.
 
 ## Data honesty
 
-Week 2 is real and sourced. **Weeks 3–18 are not included** — the sports data
-sources are blocked from this environment, and a fabricated schedule would
-produce confident, wrong picks. `scripts/fetch_grid.py` fills them in from
-ESPN's public API in one command. `data/demo_synthetic.json` is randomly
-generated for demonstration and the CLI banners it as such.
+The schedule is real and complete. Weeks 1–3 are priced from live markets;
+weeks 4–18 are model estimates and are labelled as such in every report, because
+a model built on three weeks of lines cannot know about November injuries. Treat
+the back half as a map of where the value probably is, and re-run weekly as
+books post more lines. `data/demo_synthetic.json` is a randomly generated board
+for demonstration only; the CLI banners it as such.

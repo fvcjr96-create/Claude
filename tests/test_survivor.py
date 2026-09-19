@@ -9,7 +9,8 @@ import unittest
 from survivor.assign import BLOCKED, solve, total_cost
 from survivor.data import Board, Game, TEAMS, Week, load
 from survivor.model import prob_from_spread, spread_from_prob
-from survivor.plan import next_week_options, optimize, team_leverage
+from survivor.plan import (next_week_options, opponent_concentration, optimize,
+                           optimize_capped, team_leverage)
 from survivor.ratings import fit
 
 
@@ -115,8 +116,13 @@ class TestPlanner(unittest.TestCase):
 
     def test_forcing_a_pick_cannot_beat_the_free_optimum(self):
         best = optimize(self.board).survival
-        for team in list(self.board.future_weeks()[0].teams_playing())[:6]:
+        legal = sorted(self.board.future_weeks()[0].teams_playing() - self.board.used_teams)
+        for team in legal[:8]:
             self.assertLessEqual(optimize(self.board, force={2: team}).survival, best + 1e-12)
+
+    def test_forcing_an_already_used_team_is_refused(self):
+        with self.assertRaises(ValueError):
+            optimize(self.board, force={2: "PIT"})
 
     def test_banning_a_team_never_helps(self):
         best = optimize(self.board).survival
@@ -145,6 +151,65 @@ class TestPlanner(unittest.TestCase):
         chalk = optimize(board).picks[0].team
         board.weeks[1].popularity = {chalk: 0.9}
         self.assertNotEqual(optimize(board, contrarian=5.0).picks[0].team, chalk)
+
+
+class TestConcentrationCap(unittest.TestCase):
+    def setUp(self):
+        self.board = load("data/survivor_2026.json")
+
+    def test_cap_is_respected(self):
+        plan = optimize_capped(self.board, max_vs=3)
+        self.assertLessEqual(max(c for _o, c in opponent_concentration(plan)), 3)
+
+    def test_cap_costs_survival_but_not_much(self):
+        free = optimize(self.board).survival
+        capped = optimize_capped(self.board, max_vs=3).survival
+        self.assertLessEqual(capped, free + 1e-12)
+        self.assertGreater(capped, free * 0.5)
+
+    def test_capped_plan_still_uses_each_team_once(self):
+        picks = [p.team for p in optimize_capped(self.board, max_vs=3).picks]
+        self.assertEqual(len(picks), len(set(picks)))
+
+
+class TestRidgeValidation(unittest.TestCase):
+    """The ridge default is an empirical claim; keep it honest."""
+
+    def _holdout(self):
+        import copy as _copy
+        from survivor.model import spread_from_prob
+        board = load("data/survivor_2026.json")
+        priced = [w.number for w in board.weeks
+                  if any(g.home_prob is not None or g.home_spread is not None
+                         for g in w.games)]
+        hold = priced[-1]
+        truth = [(g.home, g.away,
+                  spread_from_prob(g.home_prob) if g.home_prob is not None else g.home_spread)
+                 for w in board.weeks if w.number == hold for g in w.games
+                 if g.home_prob is not None or g.home_spread is not None]
+        train = _copy.deepcopy(board)
+        for w in train.weeks:
+            if w.number not in priced[:-1]:
+                for g in w.games:
+                    g.home_spread = g.home_prob = None
+        return train, truth
+
+    def _mae(self, ridge):
+        train, truth = self._holdout()
+        r = fit(train, ridge=ridge)
+        return sum(abs(r.spread(h, a) - s) for h, a, s in truth) / len(truth)
+
+    def test_default_ridge_beats_a_home_field_only_baseline(self):
+        from survivor.model import HOME_FIELD
+        from survivor.ratings import RIDGE
+        _train, truth = self._holdout()
+        base = sum(abs(HOME_FIELD - s) for _h, _a, s in truth) / len(truth)
+        self.assertLess(self._mae(RIDGE), base * 0.6)
+
+    def test_default_ridge_beats_over_and_under_shrinking(self):
+        from survivor.ratings import RIDGE
+        self.assertLess(self._mae(RIDGE), self._mae(0.01))
+        self.assertLess(self._mae(RIDGE), self._mae(5.0))
 
 
 class TestRatings(unittest.TestCase):
@@ -178,16 +243,36 @@ class TestRealBoard(unittest.TestCase):
         self.assertEqual(self.board.used, {1: "PIT"})
         self.assertIn("PIT", self.board.used_teams)
 
-    def test_week2_is_marked_verified(self):
-        self.assertEqual(self.board.verified_through(), 2)
+    def test_has_the_whole_272_game_season(self):
+        self.assertEqual(len(self.board.weeks), 18)
+        self.assertEqual(sum(len(w.games) for w in self.board.weeks), 272)
 
-    def test_flags_that_the_board_is_incomplete(self):
-        self.assertTrue(any("missing" in w for w in self.board.warnings()))
+    def test_market_priced_weeks_are_verified(self):
+        self.assertGreaterEqual(self.board.verified_through(), 2)
 
-    def test_sourced_lines_produce_the_sourced_probabilities(self):
-        wk2 = self.board.weeks[0]
-        self.assertAlmostEqual(wk2.game_for("SF").prob_for("SF"), 0.85, places=2)
-        self.assertAlmostEqual(wk2.game_for("BAL").prob_for("BAL"), 0.74, places=2)
+    def test_every_team_plays_every_week_it_is_not_on_bye(self):
+        for w in self.board.weeks:
+            teams = [t for g in w.games for t in (g.home, g.away)]
+            self.assertEqual(len(teams), len(set(teams)), f"week {w.number} double-books a team")
+
+    def test_each_team_plays_seventeen_games(self):
+        from collections import Counter
+        c = Counter(t for w in self.board.weeks for g in w.games for t in (g.home, g.away))
+        self.assertEqual(set(c.values()), {17})
+
+    def test_market_prices_match_independently_sourced_numbers(self):
+        wk2 = [w for w in self.board.weeks if w.number == 2][0]
+        # Sourced from Week 2 writeups: SF ~85%, BAL ~74%.
+        self.assertAlmostEqual(wk2.game_for("SF").prob_for("SF"), 0.85, delta=0.03)
+        self.assertAlmostEqual(wk2.game_for("BAL").prob_for("BAL"), 0.74, delta=0.03)
+
+    def test_finished_games_are_not_pickable(self):
+        wk2 = [w for w in self.board.weeks if w.number == 2][0]
+        self.assertTrue(any(g.played for g in wk2.games))
+        for g in wk2.games:
+            if g.played:
+                self.assertNotIn(g.home, wk2.teams_playing())
+                self.assertNotIn(g.away, wk2.teams_playing())
 
     def test_the_steelers_are_not_offered_again(self):
         self.assertNotIn("PIT", [o[0] for o in next_week_options(self.board)])
