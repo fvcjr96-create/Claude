@@ -1,4 +1,13 @@
-# Claude — Guillotine waiver optimizer
+# Claude — fantasy football planners
+
+Two planners, both stdlib-only Python 3.11.
+
+- **[Guillotine waiver optimizer](#guillotine-waiver-optimizer)** — FAAB bids priced off survival probability
+- **[NFL survivor planner](#nfl-survivor-planner)** — whole-season pick allocation, solved exactly
+
+---
+
+# Guillotine waiver optimizer
 
 Optimal FAAB bids for a 16-team guillotine league, where the lowest score each
 week is chopped. Bids are priced off **survival probability**, not projected
@@ -83,3 +92,58 @@ variance assumptions. `config.py` documents each one.
 ranks 10–15 on the CHOP tab were scrolled off and are straight-line estimates,
 and the bench is not in the roster, so adds are priced as if a roster spot is
 free. Fill both in for real numbers.
+
+
+---
+
+# NFL survivor planner
+
+One pick a week, each team usable once. That makes it a **season-long
+assignment problem**, not 17 weekly ones — and greedily picking the weekly
+favourite is how pools get lost. `survivor/assign.py` solves it exactly with the
+Hungarian algorithm (verified against brute force), maximising the product of
+win probabilities across every remaining week.
+
+```bash
+# build the real board (run on a machine with internet)
+python3 scripts/fetch_grid.py --season 2026 --out data/survivor_2026.json
+
+python3 -m survivor data/survivor_2026.json
+python3 -m survivor data/survivor_2026.json --contrarian 1.0   # big-pool mode
+python3 -m survivor data/demo_synthetic.json                   # see the mechanics
+```
+
+`SURVIVOR.md` is the season plan and the Week 2 call.
+
+## What it tells you
+
+```
+  TEAM  MATCHUP            WIN%   SEASON    COST
+  MIA   @ IND             74.8%    15.1%
+  LAR   @ SEA             97.5%    14.0%   -1.1%
+```
+
+A 97.5% lock is the *wrong* pick here: spending LAR now costs more later than
+it gains today. `COST` is computed by re-optimising the whole remaining season
+around each candidate, so it is the true price of a pick, not a heuristic.
+
+The report also prints a **hoard list** — the teams whose absence would hurt the
+plan most, i.e. the ones not to burn early.
+
+## How the numbers are made
+
+- **Spreads → probability**: `p = Φ(spread / 13.0)`, with σ calibrated against
+  the real Week 2 board (SF −13.5 → 85%, BAL −8.5 → 74%, LAC −6.5 → 69%).
+- **Unlined games**: power ratings fitted by ridge regression to every posted
+  line on the board, then used to price the rest. Those picks stay flagged
+  `model` rather than `market`.
+- **Popularity**: `--contrarian` penalises chalk, because surviving alongside
+  60% of your pool is worth far less than surviving alongside 5%.
+
+## Data honesty
+
+Week 2 is real and sourced. **Weeks 3–18 are not included** — the sports data
+sources are blocked from this environment, and a fabricated schedule would
+produce confident, wrong picks. `scripts/fetch_grid.py` fills them in from
+ESPN's public API in one command. `data/demo_synthetic.json` is randomly
+generated for demonstration and the CLI banners it as such.

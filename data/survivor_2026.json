@@ -1,0 +1,32 @@
+{
+  "season": 2026,
+  "entries": 100,
+  "used": {"1": "PIT"},
+  "weeks": {
+    "2": {
+      "verified": true,
+      "source": "ESPN / FOX / Covers Week 2 2026 lines, retrieved 2026-09-19",
+      "games": [
+        {"away": "MIA", "home": "SF",  "home_spread": 13.5},
+        {"away": "NO",  "home": "BAL", "home_spread": 8.5},
+        {"away": "NYG", "home": "LAR", "home_spread": 7.5},
+        {"away": "PHI", "home": "TEN", "home_spread": -7.0},
+        {"away": "IND", "home": "KC",  "home_spread": 6.5},
+        {"away": "LV",  "home": "LAC", "home_spread": 6.5},
+        {"away": "PIT", "home": "NE",  "home_spread": 5.5},
+        {"away": "NYJ", "home": "GB",  "home_spread": 3.5},
+        {"away": "CLE", "home": "TB",  "home_prob": 0.74},
+        {"away": "DET", "home": "BUF"},
+        {"away": "DEN", "home": "JAX"},
+        {"away": "HOU", "home": "CIN"}
+      ],
+      "popularity": {"TB": 0.30, "SF": 0.31, "BAL": 0.09}
+    }
+  },
+  "notes": [
+    "Week 2 lines are real and sourced. Everything else must be fetched - run scripts/fetch_grid.py.",
+    "Four Week 2 games are missing: ARI, ATL, CAR, CHI, DAL, MIN, SEA and WAS are not on the board. If one of them is a big favourite it will not appear as an option until you add it.",
+    "Home/away is unconfirmed for DET-BUF, DEN-JAX and HOU-CIN; they carry no line, so ratings price them and they are flagged model, not market.",
+    "Popularity figures are from Week 2 survivor writeups (TB ~30%, SF ~31%, BAL ~9%) and are pool-dependent - overwrite with your own pool's numbers if you can see them."
+  ]
+}
