@@ -68,13 +68,23 @@ class Week:
 class Board:
     season: int
     weeks: list[Week]
-    used: dict[int, str] = field(default_factory=dict)   # week -> team already picked
+    used: dict[int, str] = field(default_factory=dict)   # league A: week -> team picked
+    used_b: dict[int, str] = field(default_factory=dict)  # league B, once the entries diverge
     entries: int = 100
     notes: list[str] = field(default_factory=list)
 
     @property
     def used_teams(self) -> set[str]:
         return set(self.used.values())
+
+    @property
+    def used_teams_b(self) -> set[str]:
+        return set(self.used_b.values())
+
+    def for_entry_b(self) -> "Board":
+        """A view of this board from league B's point of view."""
+        return Board(season=self.season, weeks=self.weeks, used=dict(self.used_b),
+                     used_b={}, entries=self.entries, notes=self.notes)
 
     def future_weeks(self) -> list[Week]:
         start = max(self.used) if self.used else 0
@@ -135,6 +145,7 @@ def load(path: str | Path) -> Board:
         season=int(raw.get("season", 2026)),
         weeks=weeks,
         used={int(k): v for k, v in raw.get("used", {}).items()},
+        used_b={int(k): v for k, v in raw.get("used_b", {}).items()},
         entries=int(raw.get("entries", 100)),
         notes=list(raw.get("notes", [])),
     )

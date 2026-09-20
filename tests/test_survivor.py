@@ -425,6 +425,29 @@ class TestTwoEntries(unittest.TestCase):
         self.assertAlmostEqual(r.p_at_least_one, r.p_a, places=9)
         self.assertAlmostEqual(r.p_both, r.p_a, places=9)
 
+    def test_league_b_plans_from_its_own_history_once_recorded(self):
+        from survivor.multi import build_pair
+        board = load("data/survivor_2026.json")
+        build_ratings(board, "data/prior_2026.json", "data/win_totals_2026.json")
+        board.used = {1: "PIT", 2: "SF"}
+        board.used_b = {2: "TB"}
+        a, b = build_pair(board, 2)
+        self.assertNotIn("SF", [p.team for p in a.plan.picks])   # A spent it
+        self.assertNotIn("TB", [p.team for p in b.plan.picks])   # B spent it
+        # Different weeks are different games, so B may still use SF later.
+        self.assertEqual([p.week for p in b.plan.picks][0], 3)
+
+    def test_recorded_entries_still_never_clash_in_a_week(self):
+        from survivor.multi import build_pair
+        board = load("data/survivor_2026.json")
+        build_ratings(board, "data/prior_2026.json", "data/win_totals_2026.json")
+        board.used, board.used_b = {1: "PIT", 2: "SF"}, {2: "TB"}
+        a, b = build_pair(board, 2)
+        bw = {p.week: p.team for p in b.plan.picks}
+        for p in a.plan.picks:
+            if p.week in bw:
+                self.assertNotEqual(p.team, bw[p.week])
+
     def test_diverging_early_beats_diverging_late(self):
         from survivor.multi import simulate_pair
         early = simulate_pair(self.board, *self.build_pair(self.board, 2),

@@ -75,6 +75,15 @@ def build_pair(board: Board, diverge_week: int,
     leaves B with the dregs and a weak second entry is worth very little.
     """
     a = optimize(board, contrarian=contrarian)
+
+    # Once league B has its own recorded picks, it is no longer a variation on
+    # A's plan -- it is its own entry with its own history.  Plan it from that.
+    if board.used_b:
+        b_board = board.for_entry_b()
+        clash = {(p.week, p.team) for p in a.picks}
+        b_own = optimize(b_board, contrarian=contrarian, block_cells=clash)
+        return Entry("A", a), Entry("B", b_own)
+
     shared = [p for p in a.picks if p.week < diverge_week]
 
     # B inherits the shared prefix, then avoids everything A will use later.
