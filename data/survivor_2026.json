@@ -2,8 +2,12 @@
   "season": 2026,
   "entries": 100,
   "used": {
-    "1": "PIT",
-    "2": "SF"
+    "1": [
+      "PIT"
+    ],
+    "2": [
+      "SF"
+    ]
   },
   "weeks": {
     "1": {
@@ -1363,9 +1367,20 @@
   },
   "notes": [
     "Full 2026 schedule from nflverse games.csv. 272 games, all 18 weeks.",
+    "POOL RULE: weeks 3, 6, 9, 12, 13, 14, 15 and 16 require TWO picks, both must win. That is 24 picks from 30 remaining teams - only 6 spare.",
     "League A (Niners entry) alive: wk1 PIT beat ATL, wk2 SF beat MIA.",
     "League B ELIMINATED week 2 - Tampa Bay lost at home to Cleveland. Down to a single entry.",
     "Weeks 1-3 priced from de-vigged two-way moneylines; weeks 4-18 from ridge-fitted ratings over last season's closing lines plus this season's posted markets.",
     "Re-run scripts/weekly.py each Monday: results and newly posted lines arrive together."
+  ],
+  "double_weeks": [
+    3,
+    6,
+    9,
+    12,
+    13,
+    14,
+    15,
+    16
   ]
 }

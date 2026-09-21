@@ -49,6 +49,7 @@ class Week:
     verified: bool = False
     source: str = ""
     popularity: dict[str, float] = field(default_factory=dict)
+    picks_required: int = 1   # some pools demand two winners in a single week
 
     def game_for(self, team: str, include_played: bool = False) -> Game | None:
         for g in self.games:
@@ -68,18 +69,28 @@ class Week:
 class Board:
     season: int
     weeks: list[Week]
-    used: dict[int, str] = field(default_factory=dict)   # league A: week -> team picked
-    used_b: dict[int, str] = field(default_factory=dict)  # league B, once the entries diverge
+    # week -> the team(s) already spent that week.  A list, because a double
+    # week spends two, and a team spent in ANY week can never come back.
+    used: dict[int, list[str]] = field(default_factory=dict)
+    used_b: dict[int, list[str]] = field(default_factory=dict)
     entries: int = 100
     notes: list[str] = field(default_factory=list)
 
+    def __post_init__(self) -> None:
+        # A bare string is iterable, so {1: "PIT"} would quietly become the
+        # letters P, I, T.  Normalise instead of leaving that trap open.
+        self.used = {w: [t] if isinstance(t, str) else list(t)
+                     for w, t in self.used.items()}
+        self.used_b = {w: [t] if isinstance(t, str) else list(t)
+                       for w, t in self.used_b.items()}
+
     @property
     def used_teams(self) -> set[str]:
-        return set(self.used.values())
+        return {t for teams in self.used.values() for t in teams}
 
     @property
     def used_teams_b(self) -> set[str]:
-        return set(self.used_b.values())
+        return {t for teams in self.used_b.values() for t in teams}
 
     def for_entry_b(self) -> "Board":
         """A view of this board from league B's point of view."""
@@ -94,8 +105,25 @@ class Board:
         v = [w.number for w in self.weeks if w.verified]
         return max(v) if v else 0
 
+    def picks_needed(self) -> int:
+        return sum(w.picks_required for w in self.future_weeks())
+
+    def teams_available(self) -> set[str]:
+        return {t for w in self.future_weeks() for t in w.teams_playing()} - self.used_teams
+
     def warnings(self) -> list[str]:
         out = []
+        need, have = self.picks_needed(), len(self.teams_available())
+        if need > have:
+            out.append(f"IMPOSSIBLE: {need} picks required but only {have} teams left")
+        elif need > have - 8:
+            out.append(f"{need} picks required from {have} teams - only {have - need} spare, "
+                       "so almost every team is load-bearing")
+        for w in self.future_weeks():
+            avail = len(w.teams_playing() - self.used_teams)
+            if avail < w.picks_required:
+                out.append(f"week {w.number} needs {w.picks_required} picks but only "
+                           f"{avail} available teams play")
         unverified = [w.number for w in self.future_weeks() if not w.verified]
         if unverified:
             out.append(
@@ -115,8 +143,14 @@ class Board:
         return out
 
 
+def _used(raw: dict) -> dict[int, list[str]]:
+    """Accept either "PIT" or ["PIT", "NYG"] for a week."""
+    return {int(k): ([v] if isinstance(v, str) else list(v)) for k, v in raw.items()}
+
+
 def load(path: str | Path) -> Board:
     raw = json.loads(Path(path).read_text())
+    doubles = set(raw.get("double_weeks", []))
     weeks = []
     for num, wk in sorted(raw["weeks"].items(), key=lambda kv: int(kv[0])):
         n = int(num)
@@ -139,13 +173,14 @@ def load(path: str | Path) -> Board:
                 verified=bool(wk.get("verified", False)),
                 source=wk.get("source", ""),
                 popularity=dict(wk.get("popularity", {})),
+                picks_required=int(wk.get("picks", 2 if n in doubles else 1)),
             )
         )
     return Board(
         season=int(raw.get("season", 2026)),
         weeks=weeks,
-        used={int(k): v for k, v in raw.get("used", {}).items()},
-        used_b={int(k): v for k, v in raw.get("used_b", {}).items()},
+        used=_used(raw.get("used", {})),
+        used_b=_used(raw.get("used_b", {})),
         entries=int(raw.get("entries", 100)),
         notes=list(raw.get("notes", [])),
     )

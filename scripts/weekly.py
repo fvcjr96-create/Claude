@@ -34,28 +34,38 @@ def run(cmd: list[str]) -> int:
 
 
 def record(board_path: Path, week: int, team_a: str | None, team_b: str | None) -> None:
+    """Record picks for a week. Comma-separate a double week: --pick-a KC,NYG"""
     board = json.loads(board_path.read_text())
-    for key, team in (("used", team_a), ("used_b", team_b)):
-        if not team:
+    for key, raw in (("used", team_a), ("used_b", team_b)):
+        if not raw:
             continue
+        teams = [t.strip().upper() for t in raw.split(",") if t.strip()]
+        need = board.get("weeks", {}).get(str(week), {}).get("picks")
+        if need is None:
+            need = 2 if week in board.get("double_weeks", []) else 1
+        if len(teams) != need:
+            print(f"  ! week {week} needs {need} pick(s) for {key}, got {len(teams)}")
         used = board.setdefault(key, {})
         prev = used.get(str(week))
-        if prev and prev != team:
-            print(f"  ! {key} week {week} was {prev}, overwriting with {team}")
-        used[str(week)] = team
+        if prev and prev != teams:
+            print(f"  ! {key} week {week} was {prev}, overwriting with {teams}")
+        used[str(week)] = teams
     board_path.write_text(json.dumps(board, indent=2) + "\n")
-    a = board.get("used", {})
-    b = board.get("used_b", {})
-    print(f"  league A: {', '.join(f'wk{w} {t}' for w, t in sorted(a.items(), key=lambda kv: int(kv[0]))) or '-'}")
-    print(f"  league B: {', '.join(f'wk{w} {t}' for w, t in sorted(b.items(), key=lambda kv: int(kv[0]))) or '-'}")
+    def fmt(d):
+        return ", ".join(f"wk{w} {'+'.join(t) if isinstance(t, list) else t}"
+                         for w, t in sorted(d.items(), key=lambda kv: int(kv[0]))) or "-"
+    print(f"  league A: {fmt(board.get('used', {}))}")
+    if board.get("used_b"):
+        print(f"  league B: {fmt(board['used_b'])}")
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--week", type=int, help="week the picks were for (default: latest recorded + 1)")
-    ap.add_argument("--pick-a", help="team you actually played in league A")
-    ap.add_argument("--pick-b", help="team you actually played in league B")
+    ap.add_argument("--pick-a", help="team(s) played in league A; comma-separate "
+                                     "a double week, e.g. --pick-a KC,NYG")
+    ap.add_argument("--pick-b", help="team(s) played in league B")
     ap.add_argument("--season", type=int, default=2026)
     ap.add_argument("--board", default="data/survivor_2026.json")
     ap.add_argument("--no-fetch", action="store_true", help="skip the data refresh")

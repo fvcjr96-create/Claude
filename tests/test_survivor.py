@@ -77,7 +77,7 @@ def synthetic_board(seed: int = 5, weeks: int = 6, used=None) -> Board:
             for i in range(0, 32, 2)
         ]
         wks.append(Week(w, games, verified=True))
-    return Board(2026, wks, used=used or {})
+    return Board(2026, wks, used={w: [t] for w, t in (used or {}).items()})
 
 
 class TestPlanner(unittest.TestCase):
@@ -229,12 +229,19 @@ class TestSimulation(unittest.TestCase):
         self.assertAlmostEqual(r.overall, self.plan.survival, delta=4 * r.se)
 
     def test_per_week_survival_tracks_the_running_product(self):
+        """Survival ticks once per WEEK -- a double week only after both land."""
         r = simulate_static(self.board, self.plan, sims=60000,
                             model_error=False, seed=1)
         run = 1.0
-        for p in self.plan.picks[:6]:
-            run *= p.prob
-            self.assertAlmostEqual(r.survival_by_week[p.week], run, delta=0.01)
+        for wk_num, picks in sorted(self.plan.by_week().items())[:6]:
+            for p in picks:
+                run *= p.prob
+            self.assertAlmostEqual(r.survival_by_week[wk_num], run, delta=0.015)
+
+    def test_survival_never_exceeds_one(self):
+        r = simulate_static(self.board, self.plan, sims=20000, seed=1)
+        for v in r.survival_by_week.values():
+            self.assertLessEqual(v, 1.0)
 
     def test_survival_only_falls_as_weeks_pass(self):
         r = simulate_static(self.board, self.plan, sims=20000, seed=1)
@@ -262,9 +269,17 @@ class TestSimulation(unittest.TestCase):
             pl = optimize(state)
             if not pl.picks:
                 break
-            walked.append(pl.picks[0].team)
-            state.used[pl.picks[0].week] = pl.picks[0].team
-        self.assertEqual(walked, [p.team for p in self.plan.picks])
+            walked.extend(p.team for p in pl.picks if p.week == pl.picks[0].week)
+            state.used[pl.picks[0].week] = [p.team for p in pl.picks
+                                        if p.week == pl.picks[0].week]
+        # Compare week by week: order within a double week is not meaningful.
+        walked_by_week, i = {}, 0
+        for wk_num, picks in sorted(self.plan.by_week().items()):
+            walked_by_week[wk_num] = set(walked[i:i + len(picks)])
+            i += len(picks)
+        self.assertEqual(walked_by_week,
+                         {w: {p.team for p in ps}
+                          for w, ps in self.plan.by_week().items()})
 
     def test_adaptive_simulation_agrees_with_static(self):
         a = simulate_static(self.board, self.plan, sims=4000, seed=5)
@@ -459,8 +474,8 @@ class TestTwoEntries(unittest.TestCase):
         from survivor.multi import build_pair
         board = load("data/survivor_2026.json")
         build_ratings(board, "data/prior_2026.json", "data/win_totals_2026.json")
-        board.used = {1: "PIT", 2: "SF"}
-        board.used_b = {2: "TB"}
+        board.used = {1: ["PIT"], 2: ["SF"]}
+        board.used_b = {2: ["TB"]}
         a, b = build_pair(board, 2)
         self.assertNotIn("SF", [p.team for p in a.plan.picks])   # A spent it
         self.assertNotIn("TB", [p.team for p in b.plan.picks])   # B spent it
@@ -471,7 +486,7 @@ class TestTwoEntries(unittest.TestCase):
         from survivor.multi import build_pair
         board = load("data/survivor_2026.json")
         build_ratings(board, "data/prior_2026.json", "data/win_totals_2026.json")
-        board.used, board.used_b = {1: "PIT", 2: "SF"}, {2: "TB"}
+        board.used, board.used_b = {1: ["PIT"], 2: ["SF"]}, {2: ["TB"]}
         a, b = build_pair(board, 2)
         bw = {p.week: p.team for p in b.plan.picks}
         for p in a.plan.picks:
@@ -485,6 +500,88 @@ class TestTwoEntries(unittest.TestCase):
         late = simulate_pair(self.board, *self.build_pair(self.board, 10),
                              sims=40000, seed=7)
         self.assertGreater(early.p_at_least_one, late.p_at_least_one)
+
+
+class TestDoublePickWeeks(unittest.TestCase):
+    """Weeks that demand two winners, both of which must come home."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.board = load("data/survivor_2026.json")
+        build_ratings(cls.board, "data/prior_2026.json", "data/win_totals_2026.json")
+        cls.plan = optimize(cls.board)
+
+    def test_the_pool_rule_is_loaded(self):
+        doubles = {w.number for w in self.board.future_weeks() if w.picks_required == 2}
+        self.assertEqual(doubles, {3, 6, 9, 12, 13, 14, 15, 16})
+
+    def test_one_pick_per_required_slot(self):
+        for wk_num, picks in self.plan.by_week().items():
+            wk = next(w for w in self.board.weeks if w.number == wk_num)
+            self.assertEqual(len(picks), wk.picks_required)
+
+    def test_total_picks_match_what_the_season_demands(self):
+        self.assertEqual(len(self.plan.picks), self.board.picks_needed())
+
+    def test_no_team_is_used_twice_across_the_whole_plan(self):
+        teams = [p.team for p in self.plan.picks]
+        self.assertEqual(len(teams), len(set(teams)))
+
+    def test_a_double_week_never_picks_the_same_team_twice(self):
+        for picks in self.plan.by_week().values():
+            self.assertEqual(len({p.team for p in picks}), len(picks))
+
+    def test_survival_is_the_product_of_every_pick(self):
+        prod = 1.0
+        for p in self.plan.picks:
+            prod *= p.prob
+        self.assertAlmostEqual(self.plan.survival, prod, places=12)
+
+    def test_survival_curve_has_one_point_per_week_not_per_pick(self):
+        curve = self.plan.survival_curve()
+        self.assertEqual(len(curve), len(self.plan.by_week()))
+        self.assertEqual([w for w, _ in curve], sorted(self.plan.by_week()))
+
+    def test_doubling_a_week_can_only_hurt(self):
+        import copy as _copy
+        relaxed = _copy.deepcopy(self.board)
+        for w in relaxed.weeks:
+            w.picks_required = 1
+        self.assertGreater(optimize(relaxed).survival, self.plan.survival)
+
+    def test_forcing_a_pair_is_respected(self):
+        plan = optimize(self.board, force={3: ["KC", "NYG"]})
+        self.assertEqual({p.team for p in plan.picks if p.week == 3}, {"KC", "NYG"})
+
+    def test_forcing_one_team_leaves_the_other_slot_free(self):
+        plan = optimize(self.board, force={3: "KC"})
+        wk3 = [p.team for p in plan.picks if p.week == 3]
+        self.assertIn("KC", wk3)
+        self.assertEqual(len(wk3), 2)
+
+    def test_forcing_too_many_teams_is_refused(self):
+        with self.assertRaises(ValueError):
+            optimize(self.board, force={4: ["KC", "NYG"]})   # week 4 takes one
+
+    def test_no_forced_pair_beats_the_free_optimum(self):
+        from survivor.plan import best_combinations
+        for _combo, _wp, surv in best_combinations(self.board, top=6):
+            self.assertLessEqual(surv, self.plan.survival + 1e-12)
+
+    def test_the_best_combination_matches_the_plan(self):
+        from survivor.plan import best_combinations
+        best = best_combinations(self.board, top=1)[0][0]
+        self.assertEqual(set(best), {p.team for p in self.plan.picks if p.week == 3})
+
+    def test_simulation_still_tracks_the_analytic_value(self):
+        from survivor.simulate import simulate_static
+        r = simulate_static(self.board, self.plan, sims=60000,
+                            model_error=False, seed=1)
+        self.assertAlmostEqual(r.overall, self.plan.survival, delta=4 * r.se + 1e-5)
+
+    def test_board_warns_that_slack_is_nearly_gone(self):
+        self.assertTrue(any("spare" in w or "IMPOSSIBLE" in w
+                            for w in self.board.warnings()))
 
 
 class TestRatings(unittest.TestCase):
@@ -515,7 +612,7 @@ class TestRealBoard(unittest.TestCase):
         self.board = load("data/survivor_2026.json")
 
     def test_week_one_pick_is_recorded_and_spent(self):
-        self.assertEqual(self.board.used[1], "PIT")
+        self.assertEqual(self.board.used[1], ["PIT"])
         self.assertIn("PIT", self.board.used_teams)
 
     def test_used_weeks_are_contiguous_from_week_one(self):

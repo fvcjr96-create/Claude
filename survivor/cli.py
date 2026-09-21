@@ -9,8 +9,9 @@ import sys
 from . import cost as cost_mod
 from .data import load
 from .pipeline import build_ratings
-from .plan import (next_week_options, opponent_concentration, optimize,
-                   optimize_capped, team_leverage)
+from .plan import (best_combinations, double_week_cost, next_week_options,
+                   opponent_concentration, optimize, optimize_capped,
+                   team_leverage)
 from .multi import build_pair, simulate_pair, sweep as pair_sweep
 from .simulate import DRIFT_PER_WEEK, simulate_static
 
@@ -23,7 +24,7 @@ def pct(x: float) -> str:
 
 
 def render(board, plan, options, leverage, fitted, synthetic: bool, sim=None,
-           rating_notes=(), costs=None) -> str:
+           rating_notes=(), costs=None, combos=()) -> str:
     out: list[str] = []
     a = out.append
 
@@ -36,7 +37,7 @@ def render(board, plan, options, leverage, fitted, synthetic: bool, sim=None,
         a("")
 
     if board.used:
-        used = ", ".join(f"wk{w} {t}" for w, t in sorted(board.used.items()))
+        used = ", ".join(f"wk{w} {'+'.join(t)}" for w, t in sorted(board.used.items()))
         a(f" Already used    : {used}")
     a(f" Weeks to plan   : {len(board.future_weeks())}"
       f"   |  teams burned: {len(board.used_teams)}")
@@ -44,6 +45,26 @@ def render(board, plan, options, leverage, fitted, synthetic: bool, sim=None,
     for n in rating_notes:
         a(f" Ratings         : {n}" if n is rating_notes[0] else f"                   {n}")
     a("")
+
+    nxt = board.future_weeks()[0] if board.future_weeks() else None
+    if nxt is not None and nxt.picks_required > 1 and combos:
+        best_s = combos[0][2]
+        a(f" WEEK {nxt.number} DECISION  \u2014 {nxt.picks_required} PICKS REQUIRED, BOTH MUST WIN")
+        a(RULE)
+        a(f"  {'COMBINATION':<18}{'BOTH WIN':>10}{'SEASON':>10}{'COST':>8}")
+        for combo, wp, surv in combos:
+            rel = 0.0 if surv >= best_s - 1e-15 else (1 - surv / best_s)
+            cost = "" if rel <= 0 else f"-{rel*100:.0f}%"
+            a(f"  {' + '.join(combo):<18}{wp*100:>9.1f}%{surv*100:>9.4f}%{cost:>8}")
+        a("")
+        safest = max(combos, key=lambda r: r[1])
+        if safest[0] != combos[0][0]:
+            a(f"  >> {' + '.join(safest[0])} is {(safest[1]-combos[0][1])*100:.1f} points"
+              f" more likely to go 2-0 this week, but costs"
+              f" {(1-safest[2]/best_s)*100:.0f}% of the season:")
+            a("     one of those teams is needed later. The top row is still the pick.")
+            a("")
+        options = []
 
     if options:
         wk = board.future_weeks()[0].number
@@ -83,15 +104,26 @@ def render(board, plan, options, leverage, fitted, synthetic: bool, sim=None,
 
     a(" FULL PLAN")
     a(RULE)
-    a(f"  {'WK':<4}{'PICK':<6}{'MATCHUP':<16}{'WIN%':>7}{'RUNNING':>9}   SOURCE")
-    for p, (_w, running) in zip(plan.picks, plan.survival_curve()):
-        src = "market" if p.verified else "model"
-        a(f"  {p.week:<4}{p.team:<6}{p.label.split(' ', 1)[1]:<16}"
-          f"{pct(p.prob):>7}{pct(running):>9}   {src}")
+    a(f"  {'WK':<5}{'PICKS':<40}{'WEEK':>7}{'RUNNING':>9}")
+    grouped = plan.by_week()
+    curve = dict(plan.survival_curve())
+    for wk_num in sorted(grouped):
+        picks = grouped[wk_num]
+        week_prob = 1.0
+        for x in picks:
+            week_prob *= x.prob
+        label = "  +  ".join(f"{x.team} {x.label.split(' ', 1)[1]} {x.prob*100:.0f}%"
+                             for x in picks)
+        mark = "x2" if len(picks) > 1 else ""
+        a(f"  {str(wk_num) + mark:<5}{label:<40}{pct(week_prob):>7}"
+          f"{pct(curve.get(wk_num, 0)):>9}")
     if plan.blocked_weeks:
         a(f"  !! no legal team available in weeks: {plan.blocked_weeks}")
     a(RULE)
-    a(f"  Survive all {len(plan.picks)} remaining weeks: {pct(plan.survival)}")
+    n_weeks = len(plan.by_week())
+    doubles = sum(1 for ps in plan.by_week().values() if len(ps) > 1)
+    a(f"  {len(plan.picks)} picks over {n_weeks} weeks ({doubles} of them doubles)"
+      f"  \u2014  survive it all: {pct(plan.survival)}")
     a("")
 
     conc = [(o, c) for o, c in opponent_concentration(plan) if c > 1]
@@ -148,7 +180,7 @@ def render(board, plan, options, leverage, fitted, synthetic: bool, sim=None,
     if sim is not None:
         a(" SIMULATION  " + f"({sim.sims:,} seasons, correlated rating error)")
         a(RULE)
-        a(f"  Survive all {len(plan.picks)} weeks : {pct(sim.overall)}"
+        a(f"  Survive all {len(plan.picks)} picks : {pct(sim.overall)}"
           f"  +/- {sim.se*100:.3f}")
         a(f"  Weeks survived      : {sim.mean_weeks_survived:.2f} mean,"
           f" median exit week {sim.median_exit}")
@@ -159,6 +191,16 @@ def render(board, plan, options, leverage, fitted, synthetic: bool, sim=None,
         a("  Rating error is drawn per TEAM and carried as a random walk, so a")
         a("  team the model has wrong is wrong in every game it plays, and more")
         a("  so the further past the last posted line.")
+        a("")
+
+    dbl = double_week_cost(board) if any(w.picks_required > 1 for w in board.future_weeks()) else []
+    if dbl:
+        a(" WHAT THE SECOND PICK COSTS")
+        a(RULE)
+        a("  " + "   ".join(f"wk{w} {c*100:.0f}%" for w, c in dbl))
+        a("")
+        a("  Season survival given up because that week demands two winners")
+        a("  instead of one. Higher means the week is harder to cover.")
         a("")
 
     warns = board.warnings()
@@ -286,6 +328,9 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     costs = cost_mod.build(board, contrarian=args.contrarian) if args.costs else None
+    nxt_wk = board.future_weeks()[0] if board.future_weeks() else None
+    combos = (best_combinations(board, contrarian=args.contrarian)
+              if nxt_wk is not None and nxt_wk.picks_required > 1 else [])
 
     sim = None
     if args.simulate:
@@ -328,7 +373,7 @@ def main(argv: list[str] | None = None) -> int:
         }, indent=2))
     else:
         print(render(board, plan, options, leverage, fitted, synthetic, sim,
-                     rating_notes, costs))
+                     rating_notes, costs, combos))
     return 0
 
 

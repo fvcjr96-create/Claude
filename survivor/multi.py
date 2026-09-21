@@ -90,7 +90,7 @@ def build_pair(board: Board, diverge_week: int,
     state = Board(season=board.season, weeks=board.weeks,
                   used=dict(board.used), entries=board.entries, notes=board.notes)
     for p in shared:
-        state.used[p.week] = p.team
+        state.used.setdefault(p.week, []).append(p.team)
     # Block only A's exact (week, team) cells from the divergence point on.
     clash = {(p.week, p.team) for p in a.picks if p.week >= diverge_week}
 

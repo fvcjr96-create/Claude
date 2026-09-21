@@ -138,24 +138,29 @@ def simulate_static(board: Board, plan: Plan, sims: int = 4000,
     """Follow the precomputed plan week by week and see how far it gets."""
     rng = random.Random(seed)
     base = _base_table(board)
-    weeks = [p.week for p in plan.picks]
+    weeks = sorted({p.week for p in plan.picks})
     alive_after = {w: 0 for w in weeks}
     exits: dict[int, int] = {}
     total_weeks = 0
-    games = {p.week: next(w for w in board.weeks if w.number == p.week).game_for(p.team)
-             for p in plan.picks}
+    by_week = {w.number: w for w in board.weeks}
+    games = {(p.week, p.team): by_week[p.week].game_for(p.team) for p in plan.picks}
 
     for _ in range(sims):
         truth = _draw_truth(base, rng, model_error, drift)
-        for i, pick in enumerate(plan.picks):
-            g = games[pick.week]
-            if g is None or not _wins(pick.team, g, truth, pick.week, rng):
-                exits[pick.week] = exits.get(pick.week, 0) + 1
-                total_weeks += i
+        survived_weeks, dead = 0, False
+        for wk_num in weeks:
+            for pick in [p for p in plan.picks if p.week == wk_num]:
+                g = games[(pick.week, pick.team)]
+                if g is None or not _wins(pick.team, g, truth, pick.week, rng):
+                    exits[wk_num] = exits.get(wk_num, 0) + 1
+                    dead = True
+                    break
+            if dead:
                 break
-            alive_after[pick.week] += 1
-        else:
-            total_weeks += len(plan.picks)
+            # A double week only counts once, and only once BOTH picks land.
+            alive_after[wk_num] += 1
+            survived_weeks += 1
+        total_weeks += survived_weeks
 
     return SimResult(
         policy="static",
@@ -192,15 +197,22 @@ def simulate_adaptive(board: Board, sims: int = 1200, model_error: bool = True,
                     if max_vs else optimize(state, contrarian=contrarian))
             if not plan.picks:
                 break
-            pick = plan.picks[0]
-            wk = next(w for w in state.weeks if w.number == pick.week)
-            g = wk.game_for(pick.team)
-            if g is None or not _wins(pick.team, g, truth, pick.week, rng):
-                exits[wk_num] = exits.get(wk_num, 0) + 1
+            this_week = [p for p in plan.picks if p.week == wk_num]
+            if not this_week:
+                break
+            wk = next(w for w in state.weeks if w.number == wk_num)
+            lost = False
+            for pick in this_week:
+                g = wk.game_for(pick.team)
+                if g is None or not _wins(pick.team, g, truth, wk_num, rng):
+                    exits[wk_num] = exits.get(wk_num, 0) + 1
+                    lost = True
+                    break
+            if lost:
                 break
             alive_after[wk_num] += 1
             survived += 1
-            state.used[wk_num] = pick.team
+            state.used[wk_num] = [p.team for p in this_week]
         total_weeks += survived
 
     return SimResult(
