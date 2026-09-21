@@ -344,27 +344,57 @@ class TestWinTotals(unittest.TestCase):
 
 
 class TestPrior(unittest.TestCase):
-    def _holdout_mae(self, prior):
+    # Hold out one week at a time and predict its posted lines.  A single week
+    # is 16 games and noisy enough that its margin swings a lot as lines move,
+    # so every assertion below averages the weeks rather than trusting one.
+    HOLDOUTS = ((2, (1,)), (3, (1, 2)))
+
+    def _holdout_mae(self, prior, hold, train):
         import copy as _copy
         from survivor.model import spread_from_prob
         board = load("data/survivor_2026.json")
         truth = [(g.home, g.away,
                   spread_from_prob(g.home_prob) if g.home_prob is not None else g.home_spread)
-                 for w in board.weeks if w.number == 3 for g in w.games
+                 for w in board.weeks if w.number == hold for g in w.games
                  if g.home_prob is not None or g.home_spread is not None]
-        train = _copy.deepcopy(board)
-        for w in train.weeks:
-            if w.number not in (1, 2):
+        train_board = _copy.deepcopy(board)
+        for w in train_board.weeks:
+            if w.number not in train:
                 for g in w.games:
                     g.home_spread = g.home_prob = None
-        r = fit(train, prior=prior)
+        r = fit(train_board, prior=prior)
         return sum(abs(r.spread(h, a) - s) for h, a, s in truth) / len(truth)
 
-    def test_the_prior_substantially_beats_no_prior(self):
+    def _mean_mae(self, prior):
+        errs = [self._holdout_mae(prior, hold, train) for hold, train in self.HOLDOUTS]
+        return sum(errs) / len(errs)
+
+    def test_the_prior_beats_no_prior(self):
         from survivor.pipeline import load_prior
-        with_prior = self._holdout_mae(load_prior("data/prior_2026.json"))
-        without = self._holdout_mae(None)
-        self.assertLess(with_prior, without * 0.75)
+        with_prior = self._mean_mae(load_prior("data/prior_2026.json"))
+        without = self._mean_mae(None)
+        self.assertLess(with_prior, without * 0.8)
+
+    def test_the_prior_beats_a_home_field_only_baseline(self):
+        from survivor.model import HOME_FIELD, spread_from_prob
+        from survivor.pipeline import load_prior
+        board = load("data/survivor_2026.json")
+        base = []
+        for hold, _train in self.HOLDOUTS:
+            truth = [spread_from_prob(g.home_prob) if g.home_prob is not None else g.home_spread
+                     for w in board.weeks if w.number == hold for g in w.games
+                     if g.home_prob is not None or g.home_spread is not None]
+            base.append(sum(abs(HOME_FIELD - s) for s in truth) / len(truth))
+        self.assertLess(self._mean_mae(load_prior("data/prior_2026.json")),
+                        sum(base) / len(base) * 0.6)
+
+    def test_the_prior_helps_on_every_holdout_not_just_on_average(self):
+        from survivor.pipeline import load_prior
+        prior = load_prior("data/prior_2026.json")
+        for hold, train in self.HOLDOUTS:
+            self.assertLess(self._holdout_mae(prior, hold, train),
+                            self._holdout_mae(None, hold, train),
+                            f"prior did not help on the week {hold} holdout")
 
     def test_prior_covers_all_32_teams(self):
         from survivor.pipeline import load_prior
@@ -484,9 +514,13 @@ class TestRealBoard(unittest.TestCase):
     def setUp(self):
         self.board = load("data/survivor_2026.json")
 
-    def test_loads_with_the_steelers_already_used(self):
-        self.assertEqual(self.board.used, {1: "PIT"})
+    def test_week_one_pick_is_recorded_and_spent(self):
+        self.assertEqual(self.board.used[1], "PIT")
         self.assertIn("PIT", self.board.used_teams)
+
+    def test_used_weeks_are_contiguous_from_week_one(self):
+        weeks = sorted(self.board.used)
+        self.assertEqual(weeks, list(range(1, len(weeks) + 1)))
 
     def test_has_the_whole_272_game_season(self):
         self.assertEqual(len(self.board.weeks), 18)
@@ -506,10 +540,14 @@ class TestRealBoard(unittest.TestCase):
         self.assertEqual(set(c.values()), {17})
 
     def test_market_prices_match_independently_sourced_numbers(self):
+        """Week 2 has been played, so these games are only reachable with
+        include_played -- the closing prices must survive the result landing."""
         wk2 = [w for w in self.board.weeks if w.number == 2][0]
         # Sourced from Week 2 writeups: SF ~85%, BAL ~74%.
-        self.assertAlmostEqual(wk2.game_for("SF").prob_for("SF"), 0.85, delta=0.03)
-        self.assertAlmostEqual(wk2.game_for("BAL").prob_for("BAL"), 0.74, delta=0.03)
+        sf = wk2.game_for("SF", include_played=True)
+        bal = wk2.game_for("BAL", include_played=True)
+        self.assertAlmostEqual(sf.prob_for("SF"), 0.85, delta=0.03)
+        self.assertAlmostEqual(bal.prob_for("BAL"), 0.74, delta=0.03)
 
     def test_finished_games_are_not_pickable(self):
         wk2 = [w for w in self.board.weeks if w.number == 2][0]
