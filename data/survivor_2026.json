@@ -2,7 +2,8 @@
   "season": 2026,
   "entries": 100,
   "used": {
-    "1": "PIT"
+    "1": "PIT",
+    "2": "SF"
   },
   "weeks": {
     "1": {
@@ -152,91 +153,119 @@
         {
           "away": "CAR",
           "home": "ATL",
+          "played": true,
+          "home_won": false,
           "home_prob": 0.417,
           "priced": "moneyline"
         },
         {
           "away": "NO",
           "home": "BAL",
-          "home_prob": 0.7659,
+          "played": true,
+          "home_won": false,
+          "home_prob": 0.7572,
           "priced": "moneyline"
         },
         {
           "away": "MIN",
           "home": "CHI",
+          "played": true,
+          "home_won": false,
           "home_prob": 0.6575,
           "priced": "moneyline"
         },
         {
           "away": "CIN",
           "home": "HOU",
-          "home_prob": 0.5635,
+          "played": true,
+          "home_won": false,
+          "home_prob": 0.5721,
           "priced": "moneyline"
         },
         {
           "away": "PIT",
           "home": "NE",
+          "played": true,
+          "home_won": true,
           "home_prob": 0.6636,
           "priced": "moneyline"
         },
         {
           "away": "GB",
           "home": "NYJ",
+          "played": true,
+          "home_won": false,
           "home_prob": 0.3775,
           "priced": "moneyline"
         },
         {
           "away": "CLE",
           "home": "TB",
-          "home_prob": 0.7867,
+          "played": true,
+          "home_won": false,
+          "home_prob": 0.7768,
           "priced": "moneyline"
         },
         {
           "away": "PHI",
           "home": "TEN",
+          "played": true,
+          "home_won": false,
           "home_prob": 0.2665,
           "priced": "moneyline"
         },
         {
           "away": "JAX",
           "home": "DEN",
-          "home_prob": 0.583,
+          "played": true,
+          "home_won": true,
+          "home_prob": 0.5721,
           "priced": "moneyline"
         },
         {
           "away": "LV",
           "home": "LAC",
-          "home_prob": 0.7258,
+          "played": true,
+          "home_won": false,
+          "home_prob": 0.7335,
           "priced": "moneyline"
         },
         {
           "away": "SEA",
           "home": "ARI",
+          "played": true,
+          "home_won": false,
           "home_prob": 0.3425,
           "priced": "moneyline"
         },
         {
           "away": "WAS",
           "home": "DAL",
+          "played": true,
+          "home_won": true,
           "home_prob": 0.6575,
           "priced": "moneyline"
         },
         {
           "away": "MIA",
           "home": "SF",
+          "played": true,
+          "home_won": true,
           "home_prob": 0.863,
           "priced": "moneyline"
         },
         {
           "away": "IND",
           "home": "KC",
-          "home_prob": 0.7095,
+          "played": true,
+          "home_won": true,
+          "home_prob": 0.6958,
           "priced": "moneyline"
         },
         {
           "away": "NYG",
           "home": "LAR",
-          "home_prob": 0.7258,
+          "home_prob": 0.7221,
           "priced": "moneyline"
         }
       ],
@@ -248,25 +277,25 @@
         {
           "away": "ATL",
           "home": "GB",
-          "home_prob": 0.718,
+          "home_prob": 0.7441,
           "priced": "moneyline"
         },
         {
           "away": "LAC",
           "home": "BUF",
-          "home_prob": 0.666,
+          "home_prob": 0.7335,
           "priced": "moneyline"
         },
         {
           "away": "CAR",
           "home": "CLE",
-          "home_prob": 0.4365,
+          "home_prob": 0.4066,
           "priced": "moneyline"
         },
         {
           "away": "NYJ",
           "home": "DET",
-          "home_prob": 0.7595,
+          "home_prob": 0.7095,
           "priced": "moneyline"
         },
         {
@@ -278,31 +307,31 @@
         {
           "away": "NE",
           "home": "JAX",
-          "home_prob": 0.5514,
+          "home_prob": 0.5721,
           "priced": "moneyline"
         },
         {
           "away": "KC",
           "home": "MIA",
-          "home_prob": 0.2133,
+          "home_prob": 0.1684,
           "priced": "moneyline"
         },
         {
           "away": "TEN",
           "home": "NYG",
-          "home_prob": 0.6854,
+          "home_prob": 0.6958,
           "priced": "moneyline"
         },
         {
           "away": "CIN",
           "home": "PIT",
-          "home_prob": 0.4486,
+          "home_prob": 0.3775,
           "priced": "moneyline"
         },
         {
           "away": "SEA",
           "home": "WAS",
-          "home_prob": 0.4486,
+          "home_prob": 0.2998,
           "priced": "moneyline"
         },
         {
@@ -314,19 +343,19 @@
         {
           "away": "MIN",
           "home": "TB",
-          "home_prob": 0.5325,
+          "home_prob": 0.4365,
           "priced": "moneyline"
         },
         {
           "away": "BAL",
           "home": "DAL",
-          "home_prob": 0.417,
+          "home_prob": 0.4279,
           "priced": "moneyline"
         },
         {
           "away": "LV",
           "home": "NO",
-          "home_prob": 0.5934,
+          "home_prob": 0.6164,
           "priced": "moneyline"
         },
         {
@@ -338,7 +367,7 @@
         {
           "away": "PHI",
           "home": "CHI",
-          "home_prob": 0.5174,
+          "home_prob": 0.3631,
           "priced": "moneyline"
         }
       ],
@@ -1333,10 +1362,10 @@
     }
   },
   "notes": [
-    "Full 2026 schedule from nflverse games.csv (raw.githubusercontent.com). 272 games, all 18 weeks.",
-    "Validated: every team plays exactly 17 games, no team double-booked in a week, week 1 result ATL 13 @ PIT 20 matches the Steelers pick.",
-    "Weeks 1-3 are priced from de-vigged two-way moneylines. Weeks 4-18 have no posted market yet and are priced from ridge-fitted power ratings - the report flags those picks as 'model'.",
-    "Re-run scripts/fetch_grid.py each week: as books post lines, more weeks flip from model to market and the back half of the plan firms up.",
-    "Popularity is not in this dataset. Add a per-week 'popularity' map from your own pool to use --contrarian."
+    "Full 2026 schedule from nflverse games.csv. 272 games, all 18 weeks.",
+    "League A (Niners entry) alive: wk1 PIT beat ATL, wk2 SF beat MIA.",
+    "League B ELIMINATED week 2 - Tampa Bay lost at home to Cleveland. Down to a single entry.",
+    "Weeks 1-3 priced from de-vigged two-way moneylines; weeks 4-18 from ridge-fitted ratings over last season's closing lines plus this season's posted markets.",
+    "Re-run scripts/weekly.py each Monday: results and newly posted lines arrive together."
   ]
 }
