@@ -67,4 +67,32 @@ def build_ratings(board: Board, prior_path: str | Path | None = None,
     filled = fill(board, ratings)
     notes.append(f"{ratings.n_games} games with posted lines; "
                  f"{filled} priced from ratings")
+
+    for note in apply_adjustments(board):
+        notes.append(note)
     return ratings, notes
+
+
+def apply_adjustments(board: Board) -> list[str]:
+    """Overwrite specific game prices with a hand-set number.
+
+    Applied AFTER the fit, so an override never leaks into the ratings and
+    distort every other game that team plays -- it changes exactly the one
+    game it names.  Each returns a note, because a hand-set price should be
+    visible in the report rather than quietly baked into the plan.
+    """
+    out = []
+    for adj in board.adjustments:
+        week, team = int(adj["week"]), adj["team"]
+        wk = next((w for w in board.weeks if w.number == week), None)
+        game = wk.game_for(team, include_played=True) if wk else None
+        if game is None:
+            out.append(f"ADJUSTMENT IGNORED: {team} has no week {week} game")
+            continue
+        want = float(adj["win_prob"])
+        was = game.prob_for(team)
+        game.home_prob = want if team == game.home else 1.0 - want
+        game.home_spread = None
+        reason = adj.get("reason", "manual override")
+        out.append(f"OVERRIDE wk{week} {team} {was*100:.1f}% -> {want*100:.1f}% ({reason})")
+    return out

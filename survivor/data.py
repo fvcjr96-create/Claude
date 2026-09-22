@@ -75,6 +75,10 @@ class Board:
     used_b: dict[int, list[str]] = field(default_factory=dict)
     entries: int = 100
     notes: list[str] = field(default_factory=list)
+    # Manual overrides for news the stored price may not carry yet.  Each is
+    # {week, team, win_prob, reason}.  Kept as data, with a reason attached,
+    # so an override is visible in the report rather than silently baked in.
+    adjustments: list[dict] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         # A bare string is iterable, so {1: "PIT"} would quietly become the
@@ -183,4 +187,5 @@ def load(path: str | Path) -> Board:
         used_b=_used(raw.get("used_b", {})),
         entries=int(raw.get("entries", 100)),
         notes=list(raw.get("notes", [])),
+        adjustments=list(raw.get("adjustments", [])),
     )

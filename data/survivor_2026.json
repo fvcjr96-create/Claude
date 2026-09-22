@@ -269,7 +269,9 @@
         {
           "away": "NYG",
           "home": "LAR",
-          "home_prob": 0.7221,
+          "played": true,
+          "home_won": true,
+          "home_prob": 0.718,
           "priced": "moneyline"
         }
       ],
@@ -281,49 +283,49 @@
         {
           "away": "ATL",
           "home": "GB",
-          "home_prob": 0.7441,
+          "home_prob": 0.7136,
           "priced": "moneyline"
         },
         {
           "away": "LAC",
           "home": "BUF",
-          "home_prob": 0.7335,
+          "home_prob": 0.7409,
           "priced": "moneyline"
         },
         {
           "away": "CAR",
           "home": "CLE",
-          "home_prob": 0.4066,
+          "home_prob": 0.417,
           "priced": "moneyline"
         },
         {
           "away": "NYJ",
           "home": "DET",
-          "home_prob": 0.7095,
+          "home_prob": 0.718,
           "priced": "moneyline"
         },
         {
           "away": "HOU",
           "home": "IND",
-          "home_prob": 0.4486,
+          "home_prob": 0.4365,
           "priced": "moneyline"
         },
         {
           "away": "NE",
           "home": "JAX",
-          "home_prob": 0.5721,
+          "home_prob": 0.5934,
           "priced": "moneyline"
         },
         {
           "away": "KC",
           "home": "MIA",
-          "home_prob": 0.1684,
+          "home_prob": 0.1421,
           "priced": "moneyline"
         },
         {
           "away": "TEN",
           "home": "NYG",
-          "home_prob": 0.6958,
+          "home_prob": 0.6335,
           "priced": "moneyline"
         },
         {
@@ -335,7 +337,7 @@
         {
           "away": "SEA",
           "home": "WAS",
-          "home_prob": 0.2998,
+          "home_prob": 0.282,
           "priced": "moneyline"
         },
         {
@@ -347,19 +349,19 @@
         {
           "away": "MIN",
           "home": "TB",
-          "home_prob": 0.4365,
+          "home_prob": 0.4739,
           "priced": "moneyline"
         },
         {
           "away": "BAL",
           "home": "DAL",
-          "home_prob": 0.4279,
+          "home_prob": 0.417,
           "priced": "moneyline"
         },
         {
           "away": "LV",
           "home": "NO",
-          "home_prob": 0.6164,
+          "home_prob": 0.6092,
           "priced": "moneyline"
         },
         {
@@ -371,7 +373,7 @@
         {
           "away": "PHI",
           "home": "CHI",
-          "home_prob": 0.3631,
+          "home_prob": 0.3908,
           "priced": "moneyline"
         }
       ],
@@ -1382,5 +1384,13 @@
     14,
     15,
     16
+  ],
+  "adjustments": [
+    {
+      "week": 3,
+      "team": "NYG",
+      "win_prob": 0.575,
+      "reason": "Jaxson Dart injured, likely out; market moved 69.6->63.3 and may not be done"
+    }
   ]
 }

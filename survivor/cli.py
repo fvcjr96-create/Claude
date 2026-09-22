@@ -329,7 +329,8 @@ def main(argv: list[str] | None = None) -> int:
 
     costs = cost_mod.build(board, contrarian=args.contrarian) if args.costs else None
     nxt_wk = board.future_weeks()[0] if board.future_weeks() else None
-    combos = (best_combinations(board, contrarian=args.contrarian)
+    combos = (best_combinations(board, contrarian=args.contrarian,
+                                discount=args.discount)
               if nxt_wk is not None and nxt_wk.picks_required > 1 else [])
 
     sim = None

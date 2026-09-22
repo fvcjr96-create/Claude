@@ -98,6 +98,27 @@ def build(rows: list[dict], season: int) -> dict:
     return weeks
 
 
+OWNED = ("season", "weeks", "entries", "used", "notes")
+
+
+def merge(existing: dict, weeks: dict, season: int) -> tuple[dict, list[str]]:
+    """Fold freshly fetched weeks into the board, keeping everything else.
+
+    The fetch owns the schedule and prices and nothing else.  Rebuilding the
+    payload from a list of known keys silently drops any pool rule added later
+    -- which is how double_weeks got wiped on a refresh once.  Copy first,
+    overwrite what we own, and report what was carried through.
+    """
+    payload = dict(existing)
+    payload["season"] = season
+    payload["weeks"] = dict(sorted(weeks.items(), key=lambda kv: int(kv[0])))
+    payload.setdefault("entries", 100)
+    payload.setdefault("used", {})
+    payload.setdefault("notes", [])
+    kept = [k for k in existing if k not in OWNED]
+    return payload, kept
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -123,14 +144,10 @@ def main() -> int:
         print(f"no {args.season} regular season games found - nothing written", file=sys.stderr)
         return 1
 
-    payload = {
-        "season": args.season,
-        "entries": existing.get("entries", 100),
-        "used": existing.get("used", {}),
-        "weeks": dict(sorted(weeks.items(), key=lambda kv: int(kv[0]))),
-        "notes": existing.get("notes", []),
-    }
+    payload, kept = merge(existing, weeks, args.season)
     path.write_text(json.dumps(payload, indent=2) + "\n")
+    if kept:
+        print(f"  preserved: {', '.join(sorted(kept))}")
     print(f"wrote {path}")
     print(f"now run:  python3 -m survivor {path}")
     return 0

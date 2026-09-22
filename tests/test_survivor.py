@@ -494,12 +494,14 @@ class TestTwoEntries(unittest.TestCase):
                 self.assertNotEqual(p.team, bw[p.week])
 
     def test_diverging_early_beats_diverging_late(self):
+        """Compared on weeks survived, not on P(perfect season): with eight
+        double weeks that probability is ~0.1%, where 40k sims is pure noise."""
         from survivor.multi import simulate_pair
         early = simulate_pair(self.board, *self.build_pair(self.board, 2),
-                              sims=40000, seed=7)
+                              sims=20000, seed=7)
         late = simulate_pair(self.board, *self.build_pair(self.board, 10),
-                             sims=40000, seed=7)
-        self.assertGreater(early.p_at_least_one, late.p_at_least_one)
+                             sims=20000, seed=7)
+        self.assertGreater(early.either_alive[5], late.either_alive[5])
 
 
 class TestDoublePickWeeks(unittest.TestCase):
@@ -582,6 +584,122 @@ class TestDoublePickWeeks(unittest.TestCase):
     def test_board_warns_that_slack_is_nearly_gone(self):
         self.assertTrue(any("spare" in w or "IMPOSSIBLE" in w
                             for w in self.board.warnings()))
+
+
+class TestBoardRefreshKeepsConfig(unittest.TestCase):
+    """A refresh once wiped the pool rule. It must not happen again."""
+
+    def setUp(self):
+        import sys
+        from pathlib import Path
+        sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+        import fetch_grid
+        self.merge = fetch_grid.merge
+
+    def test_double_weeks_survive_a_refresh(self):
+        existing = {"season": 2026, "double_weeks": [3, 6], "used": {"1": ["PIT"]},
+                    "weeks": {"1": {"games": []}}}
+        out, kept = self.merge(existing, {"2": {"games": []}}, 2026)
+        self.assertEqual(out["double_weeks"], [3, 6])
+        self.assertIn("double_weeks", kept)
+
+    def test_picks_and_adjustments_survive_a_refresh(self):
+        existing = {"used": {"1": ["PIT"]}, "used_b": {"2": ["TB"]},
+                    "adjustments": [{"week": 3, "team": "NYG", "win_prob": 0.5}],
+                    "entries": 40}
+        out, _kept = self.merge(existing, {"3": {"games": []}}, 2026)
+        self.assertEqual(out["used"], {"1": ["PIT"]})
+        self.assertEqual(out["used_b"], {"2": ["TB"]})
+        self.assertEqual(out["adjustments"][0]["team"], "NYG")
+        self.assertEqual(out["entries"], 40)
+
+    def test_any_future_key_survives_a_refresh(self):
+        out, kept = self.merge({"some_new_pool_rule": 123}, {"1": {"games": []}}, 2026)
+        self.assertEqual(out["some_new_pool_rule"], 123)
+        self.assertIn("some_new_pool_rule", kept)
+
+    def test_the_fetch_still_replaces_the_schedule(self):
+        out, _ = self.merge({"weeks": {"1": {"games": ["stale"]}}},
+                            {"1": {"games": ["fresh"]}}, 2026)
+        self.assertEqual(out["weeks"]["1"]["games"], ["fresh"])
+
+
+class TestAdjustments(unittest.TestCase):
+    """Hand-set prices for news the stored line may not carry yet."""
+
+    def _board(self, adjustments):
+        board = load("data/survivor_2026.json")
+        board.adjustments = adjustments
+        build_ratings(board, "data/prior_2026.json", "data/win_totals_2026.json")
+        return board
+
+    def test_an_override_changes_exactly_the_game_it_names(self):
+        board = self._board([{"week": 3, "team": "NYG", "win_prob": 0.40,
+                              "reason": "test"}])
+        wk3 = next(w for w in board.weeks if w.number == 3)
+        self.assertAlmostEqual(wk3.game_for("NYG").prob_for("NYG"), 0.40, places=6)
+        self.assertAlmostEqual(wk3.game_for("TEN").prob_for("TEN"), 0.60, places=6)
+
+    def test_an_override_does_not_leak_into_other_weeks(self):
+        plain = self._board([])
+        tweaked = self._board([{"week": 3, "team": "NYG", "win_prob": 0.40}])
+        for wk in (15, 17):
+            a = next(w for w in plain.weeks if w.number == wk).game_for("NYG")
+            b = next(w for w in tweaked.weeks if w.number == wk).game_for("NYG")
+            if a and b:
+                self.assertAlmostEqual(a.prob_for("NYG"), b.prob_for("NYG"), places=9)
+
+    def test_overrides_are_reported_not_silent(self):
+        board = load("data/survivor_2026.json")
+        board.adjustments = [{"week": 3, "team": "NYG", "win_prob": 0.4,
+                              "reason": "QB out"}]
+        _r, notes = build_ratings(board, "data/prior_2026.json",
+                                  "data/win_totals_2026.json")
+        self.assertTrue(any("OVERRIDE" in n and "QB out" in n for n in notes))
+
+    def test_an_override_on_a_team_with_no_game_is_reported(self):
+        board = load("data/survivor_2026.json")
+        board.adjustments = [{"week": 3, "team": "ZZZ", "win_prob": 0.4}]
+        _r, notes = build_ratings(board, "data/prior_2026.json",
+                                  "data/win_totals_2026.json")
+        self.assertTrue(any("IGNORED" in n for n in notes))
+
+    def test_derating_a_team_never_helps_a_plan_that_uses_it(self):
+        """An override moves BOTH sides of the game, so the overall optimum can
+        rise -- derate the Giants far enough and Tennessee becomes pickable.
+        The monotonic claim is about plans that actually use the derated team."""
+        plain = optimize(self._board([]), force={3: "NYG"}).survival
+        worse = optimize(self._board([{"week": 3, "team": "NYG", "win_prob": 0.40}]),
+                         force={3: "NYG"}).survival
+        self.assertLess(worse, plain)
+
+    def test_an_override_lifts_the_opponent_by_the_same_amount(self):
+        board = self._board([{"week": 3, "team": "NYG", "win_prob": 0.40}])
+        wk3 = next(w for w in board.weeks if w.number == 3)
+        self.assertAlmostEqual(wk3.game_for("NYG").prob_for("NYG")
+                               + wk3.game_for("TEN").prob_for("TEN"), 1.0, places=9)
+
+
+class TestDiscountObjective(unittest.TestCase):
+    def setUp(self):
+        self.board = load("data/survivor_2026.json")
+        build_ratings(self.board, "data/prior_2026.json", "data/win_totals_2026.json")
+
+    def test_combinations_respect_the_discount(self):
+        """A discounted comparison must score discounted plans, or the cost
+        column comes out negative against a differently-scored optimum."""
+        from survivor.plan import best_combinations
+        for disc in (1.0, 0.97):
+            combos = best_combinations(self.board, top=5, discount=disc)
+            best = combos[0][2]
+            for _c, _wp, surv in combos:
+                self.assertLessEqual(surv, best + 1e-12)
+
+    def test_front_loading_prefers_a_safer_current_week(self):
+        from survivor.plan import best_combinations
+        season = best_combinations(self.board, top=1, discount=1.0)[0]
+        front = best_combinations(self.board, top=1, discount=0.9)[0]
+        self.assertGreaterEqual(front[1], season[1] - 1e-9)
 
 
 class TestRatings(unittest.TestCase):

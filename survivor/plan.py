@@ -271,7 +271,8 @@ def opponent_concentration(plan: Plan) -> list[tuple[str, int]]:
 
 
 def best_combinations(board: Board, contrarian: float = 0.0, top: int = 10,
-                      shortlist: int = 14) -> list[tuple[tuple[str, ...], float, float]]:
+                      shortlist: int = 14,
+                      discount: float = 1.0) -> list[tuple[tuple[str, ...], float, float]]:
     """Exact season value of every candidate combination for the next week.
 
     On a single-pick week this is the per-team table.  On a double week it is
@@ -294,7 +295,8 @@ def best_combinations(board: Board, contrarian: float = 0.0, top: int = 10,
 
     out = []
     for combo in combinations(live, k):
-        plan = optimize(board, contrarian=contrarian, force={wk.number: list(combo)})
+        plan = optimize(board, contrarian=contrarian, discount=discount,
+                        force={wk.number: list(combo)})
         week_prob = 1.0
         for t in combo:
             week_prob *= wk.game_for(t).prob_for(t)
