@@ -283,49 +283,51 @@
         {
           "away": "ATL",
           "home": "GB",
-          "home_prob": 0.7136,
+          "played": true,
+          "home_won": false,
+          "home_prob": 0.669,
           "priced": "moneyline"
         },
         {
           "away": "LAC",
           "home": "BUF",
-          "home_prob": 0.7409,
+          "home_prob": 0.7335,
           "priced": "moneyline"
         },
         {
           "away": "CAR",
           "home": "CLE",
-          "home_prob": 0.417,
+          "home_prob": 0.4365,
           "priced": "moneyline"
         },
         {
           "away": "NYJ",
           "home": "DET",
-          "home_prob": 0.718,
+          "home_prob": 0.7221,
           "priced": "moneyline"
         },
         {
           "away": "HOU",
           "home": "IND",
-          "home_prob": 0.4365,
+          "home_prob": 0.4675,
           "priced": "moneyline"
         },
         {
           "away": "NE",
           "home": "JAX",
-          "home_prob": 0.5934,
+          "home_prob": 0.583,
           "priced": "moneyline"
         },
         {
           "away": "KC",
           "home": "MIA",
-          "home_prob": 0.1421,
+          "home_prob": 0.1881,
           "priced": "moneyline"
         },
         {
           "away": "TEN",
           "home": "NYG",
-          "home_prob": 0.6335,
+          "home_prob": 0.5427,
           "priced": "moneyline"
         },
         {
@@ -337,43 +339,43 @@
         {
           "away": "SEA",
           "home": "WAS",
-          "home_prob": 0.282,
+          "home_prob": 0.2341,
           "priced": "moneyline"
         },
         {
           "away": "ARI",
           "home": "SF",
-          "home_prob": 0.7867,
+          "home_prob": 0.7659,
           "priced": "moneyline"
         },
         {
           "away": "MIN",
           "home": "TB",
-          "home_prob": 0.4739,
+          "home_prob": 0.4892,
           "priced": "moneyline"
         },
         {
           "away": "BAL",
           "home": "DAL",
-          "home_prob": 0.417,
+          "home_prob": 0.3962,
           "priced": "moneyline"
         },
         {
           "away": "LV",
           "home": "NO",
-          "home_prob": 0.6092,
+          "home_prob": 0.6369,
           "priced": "moneyline"
         },
         {
           "away": "LAR",
           "home": "DEN",
-          "home_prob": 0.4486,
+          "home_prob": 0.4573,
           "priced": "moneyline"
         },
         {
           "away": "PHI",
           "home": "CHI",
-          "home_prob": 0.3908,
+          "home_prob": 0.3631,
           "priced": "moneyline"
         }
       ],
@@ -384,71 +386,103 @@
       "games": [
         {
           "away": "PIT",
-          "home": "CLE"
+          "home": "CLE",
+          "home_prob": 0.4279,
+          "priced": "moneyline"
         },
         {
           "away": "IND",
-          "home": "WAS"
+          "home": "WAS",
+          "home_prob": 0.3553,
+          "priced": "moneyline"
         },
         {
           "away": "TEN",
-          "home": "BAL"
+          "home": "BAL",
+          "home_prob": 0.8173,
+          "priced": "moneyline"
         },
         {
           "away": "NE",
-          "home": "BUF"
+          "home": "BUF",
+          "home_prob": 0.6854,
+          "priced": "moneyline"
         },
         {
           "away": "NYJ",
-          "home": "CHI"
+          "home": "CHI",
+          "home_prob": 0.5996,
+          "priced": "moneyline"
         },
         {
           "away": "JAX",
-          "home": "CIN"
+          "home": "CIN",
+          "home_prob": 0.5934,
+          "priced": "moneyline"
         },
         {
           "away": "DAL",
-          "home": "HOU"
+          "home": "HOU",
+          "home_prob": 0.5934,
+          "priced": "moneyline"
         },
         {
           "away": "ARI",
-          "home": "NYG"
+          "home": "NYG",
+          "home_prob": 0.5514,
+          "priced": "moneyline"
         },
         {
           "away": "LAR",
-          "home": "PHI"
+          "home": "PHI",
+          "home_prob": 0.4486,
+          "priced": "moneyline"
         },
         {
           "away": "GB",
-          "home": "TB"
+          "home": "TB",
+          "home_prob": 0.4846,
+          "priced": "moneyline"
         },
         {
           "away": "MIA",
-          "home": "MIN"
+          "home": "MIN",
+          "home_prob": 0.84,
+          "priced": "moneyline"
         },
         {
           "away": "KC",
-          "home": "LV"
+          "home": "LV",
+          "home_prob": 0.3092,
+          "priced": "moneyline"
         },
         {
           "away": "LAC",
-          "home": "SEA"
+          "home": "SEA",
+          "home_prob": 0.7095,
+          "priced": "moneyline"
         },
         {
           "away": "DEN",
-          "home": "SF"
+          "home": "SF",
+          "home_prob": 0.6092,
+          "priced": "moneyline"
         },
         {
           "away": "DET",
-          "home": "CAR"
+          "home": "CAR",
+          "home_prob": 0.417,
+          "priced": "moneyline"
         },
         {
           "away": "ATL",
-          "home": "NO"
+          "home": "NO",
+          "home_prob": 0.6097,
+          "priced": "moneyline"
         }
       ],
       "source": "nflverse games.csv, 2026",
-      "verified": false
+      "verified": true
     },
     "5": {
       "games": [
@@ -1373,7 +1407,8 @@
     "League A (Niners entry) alive: wk1 PIT beat ATL, wk2 SF beat MIA.",
     "League B ELIMINATED week 2 - Tampa Bay lost at home to Cleveland. Down to a single entry.",
     "Weeks 1-3 priced from de-vigged two-way moneylines; weeks 4-18 from ridge-fitted ratings over last season's closing lines plus this season's posted markets.",
-    "Re-run scripts/weekly.py each Monday: results and newly posted lines arrive together."
+    "Re-run scripts/weekly.py each Monday: results and newly posted lines arrive together.",
+    "NYG override removed 2026-09-27: market moved to 54.3%, past the hand-set 57.5%, so the override would now overstate them."
   ],
   "double_weeks": [
     3,
@@ -1385,12 +1420,5 @@
     15,
     16
   ],
-  "adjustments": [
-    {
-      "week": 3,
-      "team": "NYG",
-      "win_prob": 0.575,
-      "reason": "Jaxson Dart injured, likely out; market moved 69.6->63.3 and may not be done"
-    }
-  ]
+  "adjustments": []
 }

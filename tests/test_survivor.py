@@ -12,8 +12,8 @@ from survivor.model import prob_from_spread, spread_from_prob
 from survivor import cost as cost_mod
 from survivor.pipeline import build_ratings
 from survivor.wintotals import expected_wins, solve as solve_totals
-from survivor.plan import (next_week_options, opponent_concentration, optimize,
-                           optimize_capped, team_leverage)
+from survivor.plan import (Plan, next_week_options, opponent_concentration,
+                           optimize, optimize_capped, team_leverage)
 from survivor.ratings import fit, fill
 from survivor.simulate import simulate_adaptive, simulate_static
 
@@ -685,21 +685,50 @@ class TestDiscountObjective(unittest.TestCase):
         self.board = load("data/survivor_2026.json")
         build_ratings(self.board, "data/prior_2026.json", "data/win_totals_2026.json")
 
-    def test_combinations_respect_the_discount(self):
-        """A discounted comparison must score discounted plans, or the cost
-        column comes out negative against a differently-scored optimum."""
+    def test_combinations_are_ranked_by_the_objective_in_use(self):
+        """Ranking discounted plans by undiscounted survival puts the wrong row
+        on top -- the list must be ordered by the score being optimised."""
         from survivor.plan import best_combinations
-        for disc in (1.0, 0.97):
+        wk = self.board.future_weeks()[0].number
+        for disc in (1.0, 0.97, 0.9):
             combos = best_combinations(self.board, top=5, discount=disc)
-            best = combos[0][2]
-            for _c, _wp, surv in combos:
-                self.assertLessEqual(surv, best + 1e-12)
+            scores = [optimize(self.board, discount=disc,
+                               force={wk: list(c)}).score(disc)
+                      for c, _wp, _s in combos]
+            self.assertEqual(scores, sorted(scores, reverse=True),
+                             f"not ordered by score at discount {disc}")
 
     def test_front_loading_prefers_a_safer_current_week(self):
         from survivor.plan import best_combinations
         season = best_combinations(self.board, top=1, discount=1.0)[0]
         front = best_combinations(self.board, top=1, discount=0.9)[0]
         self.assertGreaterEqual(front[1], season[1] - 1e-9)
+
+    def test_combinations_agree_with_the_plan_under_every_discount(self):
+        """best_combinations once ranked discounted plans by UNDISCOUNTED
+        survival, so its top row disagreed with what optimize() actually did."""
+        from survivor.plan import best_combinations
+        for disc in (1.0, 0.97, 0.9):
+            top = sorted(best_combinations(self.board, top=1, discount=disc)[0][0])
+            wk = self.board.future_weeks()[0].number
+            planned = sorted(p.team for p in optimize(self.board, discount=disc).picks
+                             if p.week == wk)
+            self.assertEqual(top, planned, f"disagreement at discount {disc}")
+
+    def test_score_reduces_to_log_survival_when_undiscounted(self):
+        import math
+        plan = optimize(self.board)
+        self.assertAlmostEqual(plan.score(1.0), math.log(plan.survival), places=9)
+
+    def test_both_picks_of_a_double_week_get_the_same_weight(self):
+        """Discounting by slot rather than by week weighted the second pick of
+        a double week differently from the first, which is meaningless."""
+        plan = optimize(self.board, discount=0.9)
+        wk = self.board.future_weeks()[0]
+        if wk.picks_required > 1:
+            swapped = Plan(picks=list(reversed(plan.picks)), survival=plan.survival,
+                           blocked_weeks=[])
+            self.assertAlmostEqual(plan.score(0.9), swapped.score(0.9), places=9)
 
 
 class TestRatings(unittest.TestCase):

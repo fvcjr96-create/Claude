@@ -33,6 +33,22 @@ class Plan:
     survival: float                # P(every pick wins)
     blocked_weeks: list[int]       # weeks with no legal team left
 
+    def score(self, discount: float = 1.0) -> float:
+        """The objective actually being maximised.
+
+        At discount 1.0 this is log(survival).  Below it, earlier weeks weigh
+        more, which is what a pool that pays for lasting longest wants.  Ranking
+        discounted plans by raw survival compares them on a yardstick they were
+        not built for, and picks the wrong one.
+        """
+        total, week_i, last = 0.0, -1, None
+        for p in sorted(self.picks, key=lambda x: x.week):
+            if p.week != last:
+                week_i += 1
+                last = p.week
+            total += math.log(max(MIN_PROB, p.prob)) * (discount ** week_i)
+        return total
+
     def survival_curve(self) -> list[tuple[int, float]]:
         """Running survival after each WEEK, not after each pick.
 
@@ -84,8 +100,13 @@ def _cost_matrix(board: Board, weeks: list[Week], teams: list[str],
     play.  Below 1.0 it front-loads certainty, which is what you want if your
     pool pays for lasting longest rather than for going undefeated.
     """
+    # Discount by WEEK position, not slot position: both picks of a double week
+    # are equally mandatory, so weighting the second one differently from the
+    # first is meaningless and skews which pair gets chosen.
+    week_index = {wk.number: i for i, wk in enumerate(weeks)}
+
     matrix = []
-    for i, wk in enumerate(_slots(weeks)):
+    for wk in _slots(weeks):
         row = []
         for t in teams:
             g = wk.game_for(t)
@@ -93,7 +114,7 @@ def _cost_matrix(board: Board, weeks: list[Week], teams: list[str],
                 row.append(BLOCKED)
                 continue
             p = max(MIN_PROB, min(1.0 - MIN_PROB, g.prob_for(t)))
-            cost = -math.log(p) * (discount ** i)
+            cost = -math.log(p) * (discount ** week_index[wk.number])
             if contrarian:
                 cost += contrarian * wk.popularity.get(t, 0.0)
             row.append(cost)
@@ -300,9 +321,9 @@ def best_combinations(board: Board, contrarian: float = 0.0, top: int = 10,
         week_prob = 1.0
         for t in combo:
             week_prob *= wk.game_for(t).prob_for(t)
-        out.append((combo, week_prob, plan.survival))
-    out.sort(key=lambda r: -r[2])
-    return out[:top]
+        out.append((combo, week_prob, plan.survival, plan.score(discount)))
+    out.sort(key=lambda r: -r[3])
+    return [(c, w, s) for c, w, s, _score in out[:top]]
 
 
 def double_week_cost(board: Board, contrarian: float = 0.0) -> list[tuple[int, float]]:
