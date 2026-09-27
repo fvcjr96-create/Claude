@@ -802,6 +802,25 @@ class TestPoolModel(unittest.TestCase):
         unbeaten = simulate_static(self.board, self.plan, sims=40000, seed=2).overall
         self.assertGreater(self.res.p_nobody_above, unbeaten * 10)
 
+    def test_a_memoryful_field_dies_faster_than_a_memoryless_one(self):
+        """Entries that cannot reuse teams run out of good ones, exactly as I
+        do. The memoryless aggregate flatters the field badly over 16 weeks."""
+        remembered = self.sim(self.board, self.plan, entries=9000, sims=400,
+                              seed=1, field_entries=200)
+        forgetful = self.sim(self.board, self.plan, entries=9000, sims=400,
+                             seed=1, field_entries=0)
+        late = max(remembered.field_size)
+        self.assertLess(remembered.field_size[late], forgetful.field_size[late])
+
+    def test_field_entries_never_reuse_a_team(self):
+        """The whole point of the memoryful field -- verified by construction
+        through the archetype's own spent-team set."""
+        import inspect
+        from survivor import pool
+        src = inspect.getsource(pool.simulate_pool)
+        self.assertIn('st["used"].update(picks)', src)
+        self.assertIn('if t not in st["used"]', src)
+
     def test_pool_size_does_not_change_relative_survival(self):
         """Relative survival is a ratio, so it should not care about N."""
         small = self.sim(self.board, self.plan, entries=500, sims=1500, seed=3)

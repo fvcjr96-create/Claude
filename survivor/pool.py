@@ -16,11 +16,21 @@ Which force dominates is an empirical question about pool size, the schedule,
 and how chalky the field is.  This module answers it by simulation rather than
 by slogan.
 
-THE FIELD MODEL IS AN ASSUMPTION.  Entries are assumed to choose among the
-week's best options with weight proportional to win probability raised to
-`chalk`, and -- the significant simplification -- to have no memory of which
-teams they have already spent.  That overstates how well the field does late,
-which makes this a CONSERVATIVE estimate of the value of outlasting it.
+THE FIELD MODEL IS AN ASSUMPTION.  Two of them are available:
+
+* `field_entries=0` (fast): the field is one aggregate fraction, choosing among
+  the week's best options with weight proportional to win probability raised to
+  `chalk`.  It has NO memory, so its entries may spend Kansas City every week.
+  That flatters the field badly in a pool needing 24 picks from 30 teams.
+* `field_entries=N` (default): N archetype entries are tracked individually,
+  each with its own spent-team list, each scaled to represent an equal slice of
+  the pool.  Entries diverge naturally as they burn different teams, which is
+  what actually creates the spread of exit weeks a survivor pool produces.
+
+Both use each week's real matchups, that week's pick requirement, and the bye
+schedule.  Neither models entries that plan ahead the way the planner does --
+the field is assumed to pick greedily, week by week, which is how most pools
+are actually played.
 """
 
 from __future__ import annotations
@@ -91,15 +101,30 @@ def _week_options(board: Board, week_num: int, used: set[str], k: int,
     return out[:top]
 
 
+def _week_menu(board: Board, week_num: int) -> tuple[list[tuple[str, float]], int]:
+    """Every pickable team this week with its win probability, best first."""
+    wk = next((w for w in board.weeks if w.number == week_num), None)
+    if wk is None:
+        return [], 1
+    teams = sorted(((t, wk.game_for(t).prob_for(t)) for t in wk.teams_playing()),
+                   key=lambda r: -r[1])
+    return teams, max(1, wk.picks_required)
+
+
 def simulate_pool(board: Board, plan: Plan, entries: int = 9000,
                   chalk: float = 6.0, sims: int = 4000,
-                  seed: int = 20260927, drift: float = DRIFT_PER_WEEK) -> PoolResult:
+                  seed: int = 20260927, drift: float = DRIFT_PER_WEEK,
+                  field_entries: int = 120) -> PoolResult:
     """Play the season out with a field of `entries` around you.
 
     `chalk` controls how tightly the field clusters on the best option: 0 spreads
     it evenly over the candidates, large values put nearly everyone on the single
     most likely pick.  Six is a field that mostly takes the obvious pick but not
     unanimously.
+
+    `field_entries` is how many archetype entries to track individually, each
+    carrying its own spent-team list.  Set it to 0 for the old memoryless
+    aggregate, which is faster and markedly kinder to the field.
     """
     rng = random.Random(seed)
     base = _base_table(board)
@@ -123,6 +148,7 @@ def simulate_pool(board: Board, plan: Plan, entries: int = 9000,
         total = sum(wts) or 1.0
         menus[wk_num] = [(c, w / total) for (c, _p), w in zip(opts, wts)]
 
+    week_menus = {w: _week_menu(board, w) for w in weeks}
     my_alive = {w: 0 for w in weeks}
     field_alive = {w: 0.0 for w in weeks}
     outlast = empty = 0
@@ -142,6 +168,10 @@ def simulate_pool(board: Board, plan: Plan, entries: int = 9000,
                 results[key] = rng.random() < truth[key]
             return (team == game.home) == results[key]
 
+        if field_entries:
+            rivals_state = [{"used": set(board.used_teams), "alive": True}
+                            for _ in range(field_entries)]
+            per_entry = entries / field_entries
         remaining = float(entries)
         alive = True
         my_exit = len(weeks)
@@ -149,12 +179,41 @@ def simulate_pool(board: Board, plan: Plan, entries: int = 9000,
         field_at_exit = 0.0
         for i, wk_num in enumerate(weeks):
             prev_remaining = remaining
-            # The field: what fraction of it survives this week?
-            frac = 0.0
-            for combo, weight in menus.get(wk_num, []):
-                if all(won(wk_num, t) for t in combo):
-                    frac += weight
-            remaining *= frac
+            if field_entries:
+                menu, k = week_menus[wk_num]
+                live_count = 0
+                for st in rivals_state:
+                    if not st["alive"]:
+                        continue
+                    # Greedy but not identical: sample this week's picks from
+                    # the best teams this entry has NOT already spent.
+                    avail = [(t, pr) for t, pr in menu if t not in st["used"]][:6]
+                    if len(avail) < k:
+                        st["alive"] = False
+                        continue
+                    picks, pool_ = [], list(avail)
+                    for _ in range(k):
+                        wts = [pr ** chalk for _t, pr in pool_]
+                        tot = sum(wts) or 1.0
+                        r = rng.random() * tot
+                        acc = 0.0
+                        for idx, w in enumerate(wts):
+                            acc += w
+                            if r <= acc:
+                                break
+                        picks.append(pool_.pop(idx)[0])
+                    st["used"].update(picks)
+                    if all(won(wk_num, t) for t in picks):
+                        live_count += 1
+                    else:
+                        st["alive"] = False
+                remaining = live_count * per_entry
+            else:
+                frac = 0.0
+                for combo, weight in menus.get(wk_num, []):
+                    if all(won(wk_num, t) for t in combo):
+                        frac += weight
+                remaining *= frac
             if prev_remaining >= 1.0 > remaining:
                 last_field_week, survivors_before = i, prev_remaining
 
