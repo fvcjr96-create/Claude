@@ -55,6 +55,14 @@ class PoolResult:
         return {w: (self.my_survival[w] / (self.field_size[w] / self.entries)
                     if self.field_size.get(w) else 0.0)
                 for w in self.my_survival}
+    # THE metric. You do not have to survive the season; you have to outlast
+    # everyone else. This counts how many entries are still alive at the moment
+    # you go out -- zero means nobody outlasted you, which is the win condition.
+    # Unlike P(last standing) it is a smooth average rather than a rare event,
+    # so it converges at sim counts this can actually reach.
+    rivals_above: float = 0.0
+    rivals_above_se: float = 0.0
+    p_nobody_above: float = 0.0       # P(no entry outlasts me)
     last_standing: float = 0.0        # P(I am among the final survivors, however it ends
     # NOTE: `equity` and `last_standing` are rare-event estimators.  At any sim
     # count this module can reach in pure Python they are dominated by noise --
@@ -120,6 +128,7 @@ def simulate_pool(board: Board, plan: Plan, entries: int = 9000,
     outlast = empty = 0
     equity_total = last_total = 0.0
     exit_total = 0
+    rivals: list[float] = []
 
     for _ in range(sims):
         truth = _draw_truth(base, rng, True, drift)
@@ -137,6 +146,7 @@ def simulate_pool(board: Board, plan: Plan, entries: int = 9000,
         alive = True
         my_exit = len(weeks)
         last_field_week, survivors_before = len(weeks), float(entries)
+        field_at_exit = 0.0
         for i, wk_num in enumerate(weeks):
             prev_remaining = remaining
             # The field: what fraction of it survives this week?
@@ -152,10 +162,15 @@ def simulate_pool(board: Board, plan: Plan, entries: int = 9000,
                                  for p in plan.picks if p.week == wk_num):
                 alive = False
                 my_exit = i
+                field_at_exit = remaining
             if alive:
                 my_alive[wk_num] += 1
             field_alive[wk_num] += remaining
 
+        # How much of the field is still alive when I go out?  If I last the
+        # whole way, it is whatever is left at the end.
+        above = field_at_exit if not alive else remaining
+        rivals.append(max(0.0, above - (1.0 if alive else 0.0)))
         exit_total += my_exit
         # Most pools never produce an unbeaten entry -- 44% of the time here the
         # board empties -- and the money goes to whoever lasted longest.  So
@@ -183,6 +198,11 @@ def simulate_pool(board: Board, plan: Plan, entries: int = 9000,
         equity=equity_total / sims,
         exit_week=exit_total / sims,
         last_standing=last_total / sims,
+        rivals_above=sum(rivals) / len(rivals),
+        rivals_above_se=(
+            (sum((x - sum(rivals) / len(rivals)) ** 2 for x in rivals)
+             / max(1, len(rivals) - 1)) ** 0.5 / len(rivals) ** 0.5),
+        p_nobody_above=sum(1 for x in rivals if x < 0.5) / len(rivals),
     )
 
 

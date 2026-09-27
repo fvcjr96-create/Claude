@@ -776,6 +776,32 @@ class TestPoolModel(unittest.TestCase):
                          seed=7, chalk=chalk)
             self.assertGreater(r.relative_survival[5], 1.0)
 
+    def test_rivals_above_is_zero_only_when_nobody_outlasts_me(self):
+        self.assertGreaterEqual(self.res.rivals_above, 0.0)
+        self.assertLessEqual(self.res.p_nobody_above, 1.0)
+
+    def test_rivals_above_converges_where_prize_share_does_not(self):
+        """The win condition needs a metric with a usable error bar. Expected
+        prize share swings by 10x across seeds; this must not."""
+        vals = [self.sim(self.board, self.plan, entries=9000, sims=1500,
+                         seed=sd).rivals_above for sd in (1, 2, 3)]
+        spread = (max(vals) - min(vals)) / (sum(vals) / len(vals))
+        self.assertLess(spread, 0.15)
+
+    def test_a_stronger_pair_leaves_fewer_rivals_above_it(self):
+        strong = self.sim(self.board, optimize(self.board, force={3: ["KC", "SEA"]}),
+                          entries=9000, sims=3000, seed=4)
+        weak = self.sim(self.board, optimize(self.board, force={3: ["KC", "NYG"]}),
+                        entries=9000, sims=3000, seed=4)
+        self.assertLess(strong.rivals_above,
+                        weak.rivals_above - 3 * strong.rivals_above_se)
+
+    def test_being_last_standing_is_far_likelier_than_going_unbeaten(self):
+        """The whole point: you do not have to survive, only to outlast."""
+        from survivor.simulate import simulate_static
+        unbeaten = simulate_static(self.board, self.plan, sims=40000, seed=2).overall
+        self.assertGreater(self.res.p_nobody_above, unbeaten * 10)
+
     def test_pool_size_does_not_change_relative_survival(self):
         """Relative survival is a ratio, so it should not care about N."""
         small = self.sim(self.board, self.plan, entries=500, sims=1500, seed=3)
