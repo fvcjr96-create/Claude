@@ -731,6 +731,59 @@ class TestDiscountObjective(unittest.TestCase):
             self.assertAlmostEqual(plan.score(0.9), swapped.score(0.9), places=9)
 
 
+class TestPoolModel(unittest.TestCase):
+    """Modelling the field, not just my own picks."""
+
+    @classmethod
+    def setUpClass(cls):
+        from survivor.pool import simulate_pool
+        cls.board = load("data/survivor_2026.json")
+        build_ratings(cls.board, "data/prior_2026.json", "data/win_totals_2026.json")
+        cls.plan = optimize(cls.board, force={3: ["KC", "SEA"]})
+        cls.sim = staticmethod(simulate_pool)
+        cls.res = simulate_pool(cls.board, cls.plan, entries=9000, sims=1200, seed=1)
+
+    def test_the_field_only_shrinks(self):
+        sizes = [self.res.field_size[w] for w in sorted(self.res.field_size)]
+        self.assertEqual(sizes, sorted(sizes, reverse=True))
+
+    def test_the_field_never_exceeds_the_entries_it_started_with(self):
+        for v in self.res.field_size.values():
+            self.assertLessEqual(v, self.res.entries + 1e-9)
+
+    def test_my_survival_only_falls(self):
+        curve = [self.res.my_survival[w] for w in sorted(self.res.my_survival)]
+        self.assertEqual(curve, sorted(curve, reverse=True))
+
+    def test_relative_survival_is_stable_across_seeds(self):
+        """Unlike the equity estimator, this one has to converge -- it is the
+        metric the strategy call is made on."""
+        vals = [self.sim(self.board, self.plan, entries=9000, sims=1200,
+                         seed=sd).relative_survival[5] for sd in (1, 2, 3)]
+        self.assertLess(max(vals) - min(vals), 0.35)
+
+    def test_a_stronger_pick_outlasts_the_field_and_a_weaker_one_does_not(self):
+        strong = self.sim(self.board, optimize(self.board, force={3: ["KC", "SEA"]}),
+                          entries=9000, sims=2000, seed=5)
+        weak = self.sim(self.board, optimize(self.board, force={3: ["KC", "NYG"]}),
+                        entries=9000, sims=2000, seed=5)
+        self.assertGreater(strong.relative_survival[5], 1.0)
+        self.assertLess(weak.relative_survival[5], 1.0)
+
+    def test_the_conclusion_holds_however_chalky_the_field_is(self):
+        for chalk in (2.0, 12.0):
+            r = self.sim(self.board, self.plan, entries=9000, sims=1500,
+                         seed=7, chalk=chalk)
+            self.assertGreater(r.relative_survival[5], 1.0)
+
+    def test_pool_size_does_not_change_relative_survival(self):
+        """Relative survival is a ratio, so it should not care about N."""
+        small = self.sim(self.board, self.plan, entries=500, sims=1500, seed=3)
+        big = self.sim(self.board, self.plan, entries=50000, sims=1500, seed=3)
+        self.assertAlmostEqual(small.relative_survival[5], big.relative_survival[5],
+                               delta=0.2)
+
+
 class TestRatings(unittest.TestCase):
     def test_recovers_known_ratings_from_spreads(self):
         rng = random.Random(7)
