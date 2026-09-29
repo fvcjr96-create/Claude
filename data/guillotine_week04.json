@@ -1,0 +1,287 @@
+{
+  "week": 4,
+  "my_team": "Chief Had A Little Sex (@fclara1)",
+  "my_budget": 970,
+  "default_budget": 1000,
+  "roster": [
+    {
+      "name": "Jared Goff",
+      "pos": "QB",
+      "team": "DET",
+      "proj": 19.45,
+      "starter": true
+    },
+    {
+      "name": "C. McCaffrey",
+      "pos": "RB",
+      "team": "SF",
+      "proj": 20.63,
+      "starter": true
+    },
+    {
+      "name": "Travis Etienne",
+      "pos": "RB",
+      "team": "NO",
+      "proj": 0.0,
+      "starter": true,
+      "note": "OUT week 3, user expects out again - modelled as zero"
+    },
+    {
+      "name": "Devaughn Vele",
+      "pos": "WR",
+      "team": "NO",
+      "proj": 10.01,
+      "starter": true
+    },
+    {
+      "name": "Christian Watson",
+      "pos": "WR",
+      "team": "GB",
+      "proj": 15.61,
+      "starter": true
+    },
+    {
+      "name": "George Kittle",
+      "pos": "TE",
+      "team": "SF",
+      "proj": 12.21,
+      "starter": true
+    },
+    {
+      "name": "DeVonta Smith",
+      "pos": "WR",
+      "team": "PHI",
+      "proj": 15.95,
+      "starter": true
+    },
+    {
+      "name": "Khalil Shakir",
+      "pos": "WR",
+      "team": "BUF",
+      "proj": 10.05,
+      "starter": true
+    },
+    {
+      "name": "Baker Mayfield",
+      "pos": "QB",
+      "team": "TB",
+      "proj": 15.98
+    },
+    {
+      "name": "Kenny Gainwell",
+      "pos": "RB",
+      "team": "TB",
+      "proj": 7.69
+    },
+    {
+      "name": "Rome Odunze",
+      "pos": "WR",
+      "team": "CHI",
+      "proj": 8.72
+    },
+    {
+      "name": "Josh Jacobs",
+      "pos": "RB",
+      "team": "GB",
+      "proj": 0.0,
+      "note": "NA - not expected back"
+    },
+    {
+      "name": "Jonathon Brooks",
+      "pos": "RB",
+      "team": "CAR",
+      "proj": 0.0,
+      "note": "IR"
+    },
+    {
+      "name": "Chig Okonkwo",
+      "pos": "TE",
+      "team": "WAS",
+      "proj": 0.0,
+      "note": "OUT"
+    }
+  ],
+  "rivals": [
+    {
+      "name": "beepboopbopper",
+      "proj": 118.0,
+      "budget": 495,
+      "estimated": true
+    },
+    {
+      "name": "AdamKohl14",
+      "proj": 116.0,
+      "budget": 650,
+      "estimated": true
+    },
+    {
+      "name": "Meberle97",
+      "proj": 114.0,
+      "budget": 699,
+      "estimated": true
+    },
+    {
+      "name": "BigdogE12",
+      "proj": 113.0,
+      "budget": 708,
+      "estimated": true
+    },
+    {
+      "name": "nobodylovesme",
+      "proj": 111.0,
+      "budget": 785,
+      "estimated": true
+    },
+    {
+      "name": "donbentli",
+      "proj": 110.0,
+      "budget": 832,
+      "estimated": true
+    },
+    {
+      "name": "anitaMaxween",
+      "proj": 108.0,
+      "budget": 895,
+      "estimated": true
+    },
+    {
+      "name": "zmjaffe44",
+      "proj": 107.0,
+      "budget": 900,
+      "estimated": true
+    },
+    {
+      "name": "bodsquad",
+      "proj": 105.0,
+      "budget": 900,
+      "estimated": true
+    },
+    {
+      "name": "taranteen",
+      "proj": 104.0,
+      "budget": 900,
+      "estimated": true
+    },
+    {
+      "name": "NickBurns15",
+      "proj": 102.0,
+      "budget": 900,
+      "estimated": true
+    },
+    {
+      "name": "UdderSuckler",
+      "proj": 100.0,
+      "budget": 900,
+      "estimated": true
+    }
+  ],
+  "waivers": [
+    {
+      "name": "Luther Burden",
+      "pos": "WR",
+      "team": "CHI",
+      "proj": 22.0,
+      "rostered_pct": 93
+    },
+    {
+      "name": "Drake Maye",
+      "pos": "QB",
+      "team": "NE",
+      "proj": 18.6,
+      "rostered_pct": 95
+    },
+    {
+      "name": "Sam Darnold",
+      "pos": "QB",
+      "team": "SEA",
+      "proj": 16.97,
+      "rostered_pct": 47
+    },
+    {
+      "name": "Saquon Barkley",
+      "pos": "RB",
+      "team": "PHI",
+      "proj": 13.47,
+      "rostered_pct": 100
+    },
+    {
+      "name": "Dalton Kincaid",
+      "pos": "TE",
+      "team": "BUF",
+      "proj": 13.23,
+      "rostered_pct": 97
+    },
+    {
+      "name": "Malik Washington",
+      "pos": "WR",
+      "team": "MIA",
+      "proj": 10.14,
+      "rostered_pct": 42
+    },
+    {
+      "name": "KC Concepcion",
+      "pos": "WR",
+      "team": "CLE",
+      "proj": 9.47,
+      "rostered_pct": 68
+    },
+    {
+      "name": "Chris Godwin",
+      "pos": "WR",
+      "team": "TB",
+      "proj": 9.44,
+      "rostered_pct": 83
+    },
+    {
+      "name": "Romeo Doubs",
+      "pos": "WR",
+      "team": "NE",
+      "proj": 9.38,
+      "rostered_pct": 66
+    },
+    {
+      "name": "Terrance Ferguson",
+      "pos": "TE",
+      "team": "LAR",
+      "proj": 7.65,
+      "rostered_pct": 42
+    },
+    {
+      "name": "Tank Bigsby",
+      "pos": "RB",
+      "team": "PHI",
+      "proj": 2.09,
+      "rostered_pct": 41
+    },
+    {
+      "name": "Rico Dowdle",
+      "pos": "RB",
+      "team": "PIT",
+      "proj": 0.0,
+      "rostered_pct": 82
+    },
+    {
+      "name": "Puka Nacua",
+      "pos": "WR",
+      "team": "LAR",
+      "proj": 0.0,
+      "rostered_pct": 100
+    },
+    {
+      "name": "A.J. Brown",
+      "pos": "WR",
+      "team": "NE",
+      "proj": 0.0,
+      "rostered_pct": 96
+    }
+  ],
+  "notes": [
+    "Projections are WEEK 3 numbers from the app, used as a proxy for week 4 quality. Replace with week 4 projections for real bids.",
+    "Rival BUDGETS are real, reconstructed from two weeks of processed waiver claims. Rival PROJECTIONS are estimates - the CHOP tab was not supplied, so chop risk here is indicative.",
+    "Four rivals never appeared in the two waiver batches, so their budgets are assumed near-full at 900.",
+    "Etienne, Jacobs, Brooks and Okonkwo are all modelled at zero - that is why the RB hole is as big as it looks.",
+    "CAVEAT on projections: several screenshot numbers are LIVE in-game projections, not clean week-ahead ones. Burden was at halftime with 17.6 already banked (inflating his 22.00) and Barkley was mid-game (deflating his 13.47). The recommendation uses de-biased values, Barkley 17.5 and Burden 12.5.",
+    "Stress test: if McCaffrey misses a week, chop risk goes 6.6% -> 18.2% without Barkley, and only 6.6% -> 7.7% with him. The RB room is a single point of failure.",
+    "There is no second RB in this waiver pool, so losing Barkley has no fallback - which justifies bidding above the equity-optimal price."
+  ]
+}
