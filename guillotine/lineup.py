@@ -55,26 +55,18 @@ def optimize(roster: list[Player]) -> Lineup:
                 "WR": BASE_SLOTS["WR"] + wr_x,
                 "TE": BASE_SLOTS["TE"] + te_x,
             }
+            # A slot you cannot legally fill scores ZERO -- you may not start a
+            # fourth receiver at running back.  Filling short slots with the
+            # next best body regardless of position is what makes a one-deep
+            # roster look safe when it is the most fragile thing you own.
             picks: list[Player] = []
-            ok = True
             for pos, n in want.items():
-                have = pool.get(pos, [])
-                if len(have) < n:
-                    ok = False
-                    break
-                picks.extend(have[:n])
-            if not ok:
-                continue
+                picks.extend(pool.get(pos, [])[:n])
             pts = sum(p.proj for p in picks)
             if best is None or pts > best.points:
                 best = Lineup(picks, pts)
 
-    if best is None:
-        # Roster cannot fill every slot (injuries, byes, a thin config).
-        # Start the best available and treat empty slots as zero points.
-        picks = sorted(roster, key=lambda x: -x.proj)[: sum(BASE_SLOTS.values()) + N_FLEX]
-        best = Lineup(picks, sum(p.proj for p in picks))
-    return best
+    return best or Lineup([], 0.0)
 
 
 def add_value(roster: list[Player], add: Player) -> tuple[float, Lineup, Player | None]:

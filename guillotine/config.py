@@ -10,6 +10,12 @@ from pathlib import Path
 SLOTS = ("QB", "RB", "RB", "WR", "WR", "TE", "FLEX", "FLEX")
 FLEX_POSITIONS = ("RB", "WR", "TE")
 
+# Weekly chance a player misses the game outright.  A projection is a
+# conditional estimate -- points IF he plays -- so a roster with no cover at a
+# position is far more fragile than its projected total suggests.  These are
+# per-game rates by position, roughly matching how often starters are inactive.
+INJURY_RISK = {"QB": 0.04, "RB": 0.08, "WR": 0.06, "TE": 0.06, "K": 0.02, "DST": 0.0}
+
 # Weekly standard deviation of a player's score, as a linear function of their
 # projection: sd = slope * proj + floor.  Projections are a central estimate;
 # the spread around them is what actually decides who finishes last.
@@ -32,6 +38,15 @@ class Player:
     rostered_pct: float = 0.0
     starter: bool = False
     note: str = ""
+    injury_risk: float | None = None   # per-game chance he does not play
+
+    @property
+    def miss_chance(self) -> float:
+        if self.injury_risk is not None:
+            return self.injury_risk
+        if self.proj <= 0:
+            return 1.0          # already ruled out
+        return INJURY_RISK.get(self.pos, 0.06)
 
     @property
     def sd(self) -> float:
@@ -48,6 +63,7 @@ class Player:
             rostered_pct=float(d.get("rostered_pct", 0.0)),
             starter=bool(d.get("starter", False)),
             note=d.get("note", ""),
+            injury_risk=(float(d["injury_risk"]) if "injury_risk" in d else None),
         )
 
 

@@ -45,6 +45,18 @@ def my_team_state(lg: League, extra: list = ()) -> TeamState:
     return TeamState(lg.my_team, lu.points, math.sqrt(var), is_me=True)
 
 
+def available_lineup(roster: list, rng: random.Random):
+    """Best lineup after this week's absences are drawn.
+
+    A projected total assumes everyone suits up.  Thin rosters do not fail
+    because their starters score badly -- they fail because a starter is
+    inactive and there is nobody behind him.  Drawing availability first is
+    what makes depth worth anything in the model.
+    """
+    healthy = [p for p in roster if rng.random() >= p.miss_chance]
+    return optimize(healthy) if healthy else None
+
+
 def rival_states(lg: League) -> list[TeamState]:
     s = lg.settings
     sd = math.sqrt(s.rival_team_sd ** 2 + s.rival_proj_error_sd ** 2)
@@ -78,7 +90,8 @@ def chop_probability(me: TeamState, rivals: list[TeamState], settings: Settings,
 
 
 def season_equity(me: TeamState, rivals: list[TeamState], lg: League,
-                  sims: int = 4000, seed: int | None = None) -> SurvivalResult:
+                  sims: int = 4000, seed: int | None = None,
+                  roster: list | None = None) -> SurvivalResult:
     """Play the rest of the season out, chopping the low team every week.
 
     Uses a fixed seed so that two scenarios (with an add and without) share the
@@ -100,6 +113,12 @@ def season_equity(me: TeamState, rivals: list[TeamState], lg: League,
 
     for _ in range(sims):
         field = [[p, sd, me_flag] for (p, sd, me_flag) in base]
+        if roster is not None:
+            # Redraw my own lineup each season with availability applied.
+            lu = available_lineup(roster, rng)
+            if lu is not None:
+                var = sum(x.sd ** 2 for x in lu.starters)
+                field[0] = [lu.points, math.sqrt(var) if var else me.sd, True]
         alive = True
         for w in range(weeks):
             common = rng.gauss(0.0, 1.0)

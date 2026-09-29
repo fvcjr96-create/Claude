@@ -53,6 +53,47 @@ class TestLineup(unittest.TestCase):
         self.assertIn("TE2", [p.name for p in optimize(roster).starters])
 
 
+class TestAvailability(unittest.TestCase):
+    """A projection is points IF he plays. Depth only has value once someone
+    can actually be missing."""
+
+    def test_an_unfillable_slot_scores_zero_not_a_fourth_receiver(self):
+        roster = [Player("QB1", "QB", 20), Player("RB1", "RB", 15),
+                  Player("WR1", "WR", 14), Player("WR2", "WR", 13),
+                  Player("WR3", "WR", 12), Player("WR4", "WR", 11),
+                  Player("WR5", "WR", 10), Player("TE1", "TE", 9)]
+        lu = optimize(roster)
+        self.assertEqual(sum(1 for p in lu.starters if p.pos == "RB"), 1)
+        self.assertEqual(len(lu.starters), 7)      # RB2 left empty
+        self.assertNotIn("WR5", [p.name for p in lu.starters])
+
+    def test_a_ruled_out_player_never_plays(self):
+        self.assertEqual(Player("Out", "RB", 0.0).miss_chance, 1.0)
+
+    def test_an_explicit_injury_risk_overrides_the_position_default(self):
+        self.assertAlmostEqual(Player("X", "RB", 10, injury_risk=0.5).miss_chance, 0.5)
+
+    def test_availability_draw_can_cost_real_points(self):
+        import random
+        from guillotine.sim import available_lineup
+        roster = mk_roster()
+        rng = random.Random(3)
+        pts = sorted(available_lineup(roster, rng).points for _ in range(2000))
+        self.assertLess(pts[100], optimize(roster).points)     # 5th pct is worse
+
+    def test_depth_at_a_thin_position_raises_the_floor(self):
+        import random
+        from guillotine.sim import available_lineup
+        thin = [p for p in mk_roster() if p.name != "RB2"]
+        deep = thin + [Player("RB3", "RB", 12.0)]
+        floors = []
+        for roster in (thin, deep):
+            rng = random.Random(11)
+            pts = sorted(available_lineup(roster, rng).points for _ in range(3000))
+            floors.append(pts[150])
+        self.assertGreater(floors[1], floors[0])
+
+
 class TestSurvival(unittest.TestCase):
     def test_chop_risk_falls_when_you_add_points(self):
         lg = mk_league(FIELD)
@@ -118,10 +159,13 @@ class TestPlan(unittest.TestCase):
     def test_best_player_available_is_the_primary_target(self):
         self.assertEqual(self.plan.primary.player.name, "Puka Nacua")
 
-    def test_a_player_who_cannot_start_gets_no_bid(self):
+    def test_a_player_who_cannot_start_is_worth_almost_nothing(self):
+        """Once absences are modelled a backup is not worth EXACTLY zero -- he
+        covers the week the starter is out. It is still pennies, and still far
+        too little to spend real budget on."""
         goff = [c for c in self.plan.candidates if c.player.name == "Jared Goff"][0]
         self.assertEqual(goff.lineup_delta, 0.0)
-        self.assertEqual(goff.recommended_bid, 0.0)
+        self.assertLess(goff.recommended_bid, 15.0)
 
     def test_recommended_bid_never_exceeds_the_ceiling(self):
         for c in self.plan.candidates:

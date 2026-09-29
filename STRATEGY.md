@@ -8,12 +8,20 @@ prices bids off survival probability rather than off projected points.
 
 ## 1. The four things that make this different from normal FAAB
 
-**Bench players score zero.** In a redraft league a stashed breakout is an
-asset. Here, a player who does not crack your eight starters contributes
-literally nothing to the only thing that matters — your weekly total versus the
-league minimum. The model gives a $0 bid to anyone who does not start. That is
-why Jared Goff is a pass in week 2: he projects 16.3 and Baker Mayfield projects
-17.68, so Goff adds exactly nothing.
+**Bench players score almost nothing.** In a redraft league a stashed breakout
+is an asset. Here, a player who does not crack your eight starters contributes
+nothing to the only thing that matters — your weekly total versus the league
+minimum — in every week the man ahead of him plays.
+
+The exception, and it is worth real money exactly once: **an empty slot scores
+zero.** If your starter is out and nobody behind him is eligible, you forfeit
+the position. So a backup is worth roughly (his points) x (the chance the
+starter misses), which is pennies for a QB3 and a great deal for the second
+running back on a one-deep roster. The model now draws availability every
+simulated week, so it prices this instead of assuming everyone suits up.
+
+Practically: still pass on backups at a position you are two deep. Never leave
+a position one deep.
 
 **Supply spikes every single week.** A whole roster hits waivers each time
 somebody gets chopped. This is why the week-2 pool has Puka Nacua in it. There
@@ -112,8 +120,9 @@ week is strictly dominated.
 
 ## 4. Standing rules
 
-1. **Never bid on a player who does not start.** Zero exceptions before the
-   ENDGAME phase.
+1. **Never bid real money on a player who does not start** — unless he is the
+   only cover at a position where you are one deep, in which case a token bid
+   is the cheapest insurance in the game.
 2. **Never bid above MAX**, even for a name you like.
 3. **Do not buy insurance in LAND GRAB.** Your 4.6% chop risk is not worth
    paying down; it is cheaper to be chopped in week 3 with a full budget than to

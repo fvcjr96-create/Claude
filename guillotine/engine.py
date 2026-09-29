@@ -87,9 +87,14 @@ class WeekPlan:
 def _equity(lg: League, extra: list[Player]) -> tuple[SurvivalResult, TeamState]:
     me = my_team_state(lg, extra)
     rivals = rival_states(lg)
+    roster = list(lg.roster) + list(extra)
     # Same seed for every scenario: common random numbers, so the difference
     # between "with the add" and "without" is not drowned in Monte-Carlo noise.
-    res = season_equity(me, rivals, lg, sims=SEASON_SIMS, seed=lg.settings.seed)
+    # Pass the roster so each simulated week draws availability and re-picks
+    # the lineup.  Without it a one-deep position looks as safe as a three-deep
+    # one, because nobody ever misses a game.
+    res = season_equity(me, rivals, lg, sims=SEASON_SIMS, seed=lg.settings.seed,
+                        roster=roster)
     return res, me
 
 
