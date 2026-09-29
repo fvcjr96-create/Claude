@@ -8,90 +8,99 @@
       "name": "Jared Goff",
       "pos": "QB",
       "team": "DET",
-      "proj": 19.66
+      "proj": 17.75,
+      "starter": true
     },
     {
       "name": "C. McCaffrey",
       "pos": "RB",
       "team": "SF",
-      "proj": 17.39,
+      "proj": 18.34,
+      "starter": true,
       "injury_risk": 0.02
+    },
+    {
+      "name": "Kenny Gainwell",
+      "pos": "RB",
+      "team": "TB",
+      "proj": 8.21,
+      "starter": true
+    },
+    {
+      "name": "DeVonta Smith",
+      "pos": "WR",
+      "team": "PHI",
+      "proj": 13.57,
+      "starter": true
+    },
+    {
+      "name": "Christian Watson",
+      "pos": "WR",
+      "team": "GB",
+      "proj": 15.61,
+      "starter": true
+    },
+    {
+      "name": "George Kittle",
+      "pos": "TE",
+      "team": "SF",
+      "proj": 11.44,
+      "starter": true
+    },
+    {
+      "name": "Devaughn Vele",
+      "pos": "WR",
+      "team": "NO",
+      "proj": 10.18,
+      "starter": true
+    },
+    {
+      "name": "Rome Odunze",
+      "pos": "WR",
+      "team": "CHI",
+      "proj": 9.96,
+      "starter": true
+    },
+    {
+      "name": "Khalil Shakir",
+      "pos": "WR",
+      "team": "BUF",
+      "proj": 8.57
+    },
+    {
+      "name": "Baker Mayfield",
+      "pos": "QB",
+      "team": "TB",
+      "proj": 0.0,
+      "note": "OUT"
     },
     {
       "name": "Travis Etienne",
       "pos": "RB",
       "team": "NO",
       "proj": 0.0,
-      "note": "no 2026 games / out"
-    },
-    {
-      "name": "Devaughn Vele",
-      "pos": "WR",
-      "team": "NO",
-      "proj": 11.45
-    },
-    {
-      "name": "Christian Watson",
-      "pos": "WR",
-      "team": "GB",
-      "proj": 20.81
-    },
-    {
-      "name": "George Kittle",
-      "pos": "TE",
-      "team": "SF",
-      "proj": 14.21
-    },
-    {
-      "name": "DeVonta Smith",
-      "pos": "WR",
-      "team": "PHI",
-      "proj": 15.58
-    },
-    {
-      "name": "Khalil Shakir",
-      "pos": "WR",
-      "team": "BUF",
-      "proj": 5.22
-    },
-    {
-      "name": "Baker Mayfield",
-      "pos": "QB",
-      "team": "TB",
-      "proj": 10.52
-    },
-    {
-      "name": "Kenny Gainwell",
-      "pos": "RB",
-      "team": "TB",
-      "proj": 3.09
-    },
-    {
-      "name": "Rome Odunze",
-      "pos": "WR",
-      "team": "CHI",
-      "proj": 6.52
+      "note": "OUT"
     },
     {
       "name": "Josh Jacobs",
       "pos": "RB",
       "team": "GB",
       "proj": 0.0,
-      "note": "no 2026 games / out"
+      "note": "NA - no 2026 games"
     },
     {
       "name": "Jonathon Brooks",
       "pos": "RB",
       "team": "CAR",
       "proj": 0.0,
-      "note": "no 2026 games / out"
+      "note": "IR"
     },
     {
       "name": "Chig Okonkwo",
       "pos": "TE",
       "team": "WAS",
       "proj": 0.0,
-      "note": "no 2026 games / out"
+      "note": "OUT"
     }
   ],
   "rivals": [
@@ -158,110 +167,95 @@
   ],
   "waivers": [
     {
-      "name": "Saquon Barkley",
-      "pos": "RB",
-      "team": "PHI",
-      "proj": 7.64,
-      "rostered_pct": 80
+      "name": "Dalton Kincaid",
+      "pos": "TE",
+      "team": "BUF",
+      "proj": 12.73,
+      "rostered_pct": 97
     },
     {
       "name": "Luther Burden",
       "pos": "WR",
       "team": "CHI",
-      "proj": 11.31,
-      "rostered_pct": 80
-    },
-    {
-      "name": "Dalton Kincaid",
-      "pos": "TE",
-      "team": "BUF",
-      "proj": 13.29,
-      "rostered_pct": 80
-    },
-    {
-      "name": "Sam Darnold",
-      "pos": "QB",
-      "team": "SEA",
-      "proj": 12.67,
-      "rostered_pct": 80
+      "proj": 11.75,
+      "rostered_pct": 93
     },
     {
       "name": "Puka Nacua",
       "pos": "WR",
       "team": "LAR",
-      "proj": 11.15,
-      "rostered_pct": 80
+      "proj": 11.67,
+      "rostered_pct": 100
     },
     {
       "name": "Malik Washington",
       "pos": "WR",
       "team": "MIA",
-      "proj": 7.83,
-      "rostered_pct": 80
+      "proj": 10.01,
+      "rostered_pct": 42
+    },
+    {
+      "name": "Saquon Barkley",
+      "pos": "RB",
+      "team": "PHI",
+      "proj": 9.92,
+      "rostered_pct": 100
     },
     {
       "name": "Chris Godwin",
       "pos": "WR",
       "team": "TB",
-      "proj": 6.77,
-      "rostered_pct": 80
-    },
-    {
-      "name": "Drake Maye",
-      "pos": "QB",
-      "team": "NE",
-      "proj": 6.48,
-      "rostered_pct": 80
+      "proj": 9.49,
+      "rostered_pct": 83
     },
     {
       "name": "Romeo Doubs",
       "pos": "WR",
       "team": "NE",
-      "proj": 6.14,
-      "rostered_pct": 80
+      "proj": 9.17,
+      "rostered_pct": 66
     },
     {
       "name": "Terrance Ferguson",
       "pos": "TE",
       "team": "LAR",
-      "proj": 5.78,
-      "rostered_pct": 80
+      "proj": 8.99,
+      "rostered_pct": 42
     },
     {
       "name": "KC Concepcion",
       "pos": "WR",
       "team": "CLE",
-      "proj": 5.67,
-      "rostered_pct": 80
+      "proj": 8.93,
+      "rostered_pct": 68
     },
     {
       "name": "Tank Bigsby",
       "pos": "RB",
       "team": "PHI",
-      "proj": 5.44,
-      "rostered_pct": 80
-    },
-    {
-      "name": "Rico Dowdle",
-      "pos": "RB",
-      "team": "PIT",
-      "proj": 4.72,
-      "rostered_pct": 80
+      "proj": 8.82,
+      "rostered_pct": 41
     },
     {
       "name": "A.J. Brown",
       "pos": "WR",
       "team": "NE",
-      "proj": 5.04,
-      "rostered_pct": 80
+      "proj": 8.62,
+      "rostered_pct": 96
+    },
+    {
+      "name": "Rico Dowdle",
+      "pos": "RB",
+      "team": "PIT",
+      "proj": 8.46,
+      "rostered_pct": 82
     }
   ],
   "notes": [
-    "Projections are REAL 2026 full-PPR points per game from nflverse weekly stats, not app screenshots. Scoring confirmed full PPR (DeVonta Smith 5 rec 61 yd = 11.10 exactly).",
-    "Player PPG scaled x0.900 so my baseline lineup equals the 108.71 AVG FPTS the app reports, keeping my scale consistent with rivals' averages.",
-    "PHI and CHI week 3 were still in progress when the data was pulled, so Barkley, Burden and DeVonta Smith use the app's projected final as their third game.",
-    "Softball_Basketball (@beepboopbopper, 73.97 avg, $495) is the team being chopped - they owned Puka Nacua, who is on the chopped roster. Excluded from rivals; 13 teams remain.",
-    "McCaffrey's injury risk set to 2% - user confirms he is healthy and playing.",
-    "SEVEN rivals hold the full $1000. I am 8th in budget at $959, not the biggest stack."
+    "MY ROSTER uses the app's REAL week 4 projections from the lineup screenshot. Baseline starting lineup is 105.06.",
+    "WAIVER projections are fitted: app_projection = 6.11 + 0.449 x (2026 PPR per game), regressed from the 8 skill players where both numbers are visible, R^2 = 0.78.",
+    "That fit is what shows the pool is flat - the app shrinks everything toward about 11, so no available player projects above 12.7.",
+    "Caveat: elite volume beats the fit (McCaffrey is +3.6 over it), so Barkley could out-project 9.9 on role alone. Send the PLAYERS > Available tab for his real number.",
+    "Softball_Basketball (@beepboopbopper) is the chopped roster. 13 teams remain. Seven rivals hold the full $1000; I am 8th in budget at $959."
   ]
 }
