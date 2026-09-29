@@ -1,7 +1,7 @@
 {
   "week": 4,
   "my_team": "Chief Had A Little Sex (@fclara1)",
-  "my_budget": 970,
+  "my_budget": 959,
   "default_budget": 1000,
   "roster": [
     {
@@ -103,75 +103,65 @@
   ],
   "rivals": [
     {
-      "name": "beepboopbopper",
-      "proj": 118.0,
-      "budget": 495,
+      "name": "TheSoose (@TheSoose)",
+      "proj": 126.99,
+      "budget": 1000
+    },
+    {
+      "name": "Jaffe's Nose (@NickBurns15)",
+      "proj": 123.94,
+      "budget": 1000
+    },
+    {
+      "name": "Team taranteen",
+      "proj": 122.22,
+      "budget": 1000
+    },
+    {
+      "name": "Kevin James' Knockers",
+      "proj": 118.68,
+      "budget": 1000
+    },
+    {
+      "name": "Arlington McDonalds",
+      "proj": 117.17,
+      "budget": 895
+    },
+    {
+      "name": "Team AdamKohl14",
+      "proj": 113.93,
+      "budget": 650
+    },
+    {
+      "name": "Team nobodylovesme",
+      "proj": 107.09,
+      "budget": 784
+    },
+    {
+      "name": "Scott is a lil bih ah",
+      "proj": 104.14,
+      "budget": 699
+    },
+    {
+      "name": "Low T Eberle (@DrBeefMilkie)",
+      "proj": 102.99,
+      "budget": 1000
+    },
+    {
+      "name": "Team BigdogE12",
+      "proj": 97.03,
+      "budget": 708
+    },
+    {
+      "name": "UNKNOWN rank 12",
+      "proj": 94.0,
+      "budget": 800,
       "estimated": true
     },
     {
-      "name": "AdamKohl14",
-      "proj": 116.0,
-      "budget": 650,
-      "estimated": true
-    },
-    {
-      "name": "Meberle97",
-      "proj": 114.0,
-      "budget": 699,
-      "estimated": true
-    },
-    {
-      "name": "BigdogE12",
-      "proj": 113.0,
-      "budget": 708,
-      "estimated": true
-    },
-    {
-      "name": "nobodylovesme",
-      "proj": 111.0,
-      "budget": 785,
-      "estimated": true
-    },
-    {
-      "name": "donbentli",
-      "proj": 110.0,
-      "budget": 832,
-      "estimated": true
-    },
-    {
-      "name": "anitaMaxween",
-      "proj": 108.0,
-      "budget": 895,
-      "estimated": true
-    },
-    {
-      "name": "zmjaffe44",
-      "proj": 107.0,
-      "budget": 900,
-      "estimated": true
-    },
-    {
-      "name": "bodsquad",
-      "proj": 105.0,
-      "budget": 900,
-      "estimated": true
-    },
-    {
-      "name": "taranteen",
-      "proj": 104.0,
-      "budget": 900,
-      "estimated": true
-    },
-    {
-      "name": "NickBurns15",
-      "proj": 102.0,
-      "budget": 900,
-      "estimated": true
-    },
-    {
-      "name": "UdderSuckler",
-      "proj": 100.0,
-      "budget": 900,
+      "name": "UNKNOWN rank 13",
+      "proj": 90.0,
+      "budget": 800,
       "estimated": true
     }
   ],
@@ -276,12 +266,10 @@
     }
   ],
   "notes": [
-    "Projections are WEEK 3 numbers from the app, used as a proxy for week 4 quality. Replace with week 4 projections for real bids.",
-    "Rival BUDGETS are real, reconstructed from two weeks of processed waiver claims. Rival PROJECTIONS are estimates - the CHOP tab was not supplied, so chop risk here is indicative.",
-    "Four rivals never appeared in the two waiver batches, so their budgets are assumed near-full at 900.",
-    "Etienne, Jacobs, Brooks and Okonkwo are all modelled at zero - that is why the RB hole is as big as it looks.",
-    "CAVEAT on projections: several screenshot numbers are LIVE in-game projections, not clean week-ahead ones. Burden was at halftime with 17.6 already banked (inflating his 22.00) and Barkley was mid-game (deflating his 13.47). The recommendation uses de-biased values, Barkley 17.5 and Burden 12.5.",
-    "Stress test: if McCaffrey misses a week, chop risk goes 6.6% -> 18.2% without Barkley, and only 6.6% -> 7.7% with him. The RB room is a single point of failure.",
-    "There is no second RB in this waiver pool, so losing Barkley has no fallback - which justifies bidding above the equity-optimal price."
+    "Budgets and standings are REAL, from the LEAGUE tab. My budget is $959 (not the 970 first quoted).",
+    "Rival 'proj' is their season average points from the LEAGUE tab, used as a proxy for next week's score. Mine is 108.71 average against a 111.6 week-4 projection, so the two scales line up closely.",
+    "Ranks 12 and 13 were scrolled off (waiver priorities 4 and 6 are the missing ones); their scores must be below 97.03 and their budgets are guesses.",
+    "Player projections are WEEK 3 app numbers. Barkley and Burden were mid-game when captured, so the model uses de-biased values: Barkley 17.5, Burden 12.5.",
+    "FIVE rivals still hold the full $1000, so I am NOT the biggest stack - I am sixth."
   ]
 }
