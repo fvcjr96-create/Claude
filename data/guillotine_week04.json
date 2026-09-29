@@ -105,63 +105,63 @@
   ],
   "rivals": [
     {
-      "name": "TheSoose",
-      "proj": 126.99,
+      "name": "Scott is a lil bih ah",
+      "proj": 118.57,
+      "budget": 699
+    },
+    {
+      "name": "Arlington McDonalds",
+      "proj": 117.34,
+      "budget": 895
+    },
+    {
+      "name": "Team nobodylovesme",
+      "proj": 116.66,
+      "budget": 784
+    },
+    {
+      "name": "Team AdamKohl14",
+      "proj": 115.17,
+      "budget": 650
+    },
+    {
+      "name": "Kevin James' Knockers",
+      "proj": 112.96,
+      "budget": 1000
+    },
+    {
+      "name": "Team TheSoose",
+      "proj": 109.58,
+      "budget": 1000
+    },
+    {
+      "name": "Team taranteen",
+      "proj": 106.91,
+      "budget": 1000
+    },
+    {
+      "name": "Low T Eberle",
+      "proj": 104.64,
       "budget": 1000
     },
     {
       "name": "Jaffe's Nose",
-      "proj": 123.94,
+      "proj": 101.34,
       "budget": 1000
     },
     {
-      "name": "taranteen",
-      "proj": 122.22,
+      "name": "Jive Turkeys",
+      "proj": 100.43,
       "budget": 1000
     },
     {
-      "name": "Kevin James' Knockers",
-      "proj": 118.68,
-      "budget": 1000
-    },
-    {
-      "name": "Arlington McDonalds",
-      "proj": 117.17,
-      "budget": 895
-    },
-    {
-      "name": "AdamKohl14",
-      "proj": 113.93,
-      "budget": 650
-    },
-    {
-      "name": "nobodylovesme",
-      "proj": 107.09,
-      "budget": 784
-    },
-    {
-      "name": "Scott is a lil bih ah",
-      "proj": 104.14,
-      "budget": 699
-    },
-    {
-      "name": "Low T Eberle",
-      "proj": 102.99,
-      "budget": 1000
-    },
-    {
-      "name": "BigdogE12",
-      "proj": 97.03,
+      "name": "Team BigdogE12",
+      "proj": 100.17,
       "budget": 708
     },
     {
-      "name": "Jive Turkeys (@bodsquad)",
-      "proj": 89.55,
-      "budget": 1000
-    },
-    {
-      "name": "Nick burns had sex (@zmjaffe44)",
-      "proj": 87.12,
+      "name": "Nick burns had sex",
+      "proj": 98.56,
       "budget": 1000
     }
   ],
@@ -170,92 +170,45 @@
       "name": "Dalton Kincaid",
       "pos": "TE",
       "team": "BUF",
-      "proj": 12.73,
-      "rostered_pct": 97
+      "proj": 12.91,
+      "rostered_pct": 97,
+      "source": "Sleeper league-scored week 4"
     },
     {
       "name": "Luther Burden",
       "pos": "WR",
       "team": "CHI",
-      "proj": 11.75,
-      "rostered_pct": 93
-    },
-    {
-      "name": "Puka Nacua",
-      "pos": "WR",
-      "team": "LAR",
-      "proj": 11.67,
-      "rostered_pct": 100
-    },
-    {
-      "name": "Malik Washington",
-      "pos": "WR",
-      "team": "MIA",
-      "proj": 10.01,
-      "rostered_pct": 42
+      "proj": 11.26,
+      "rostered_pct": 93,
+      "source": "Sleeper league-scored week 4"
     },
     {
       "name": "Saquon Barkley",
       "pos": "RB",
       "team": "PHI",
-      "proj": 9.92,
-      "rostered_pct": 100
+      "proj": 14.52,
+      "rostered_pct": 100,
+      "source": "Sleeper league-scored week 4"
     },
     {
-      "name": "Chris Godwin",
-      "pos": "WR",
-      "team": "TB",
-      "proj": 9.49,
-      "rostered_pct": 83
-    },
-    {
-      "name": "Romeo Doubs",
-      "pos": "WR",
-      "team": "NE",
-      "proj": 9.17,
-      "rostered_pct": 66
-    },
-    {
-      "name": "Terrance Ferguson",
-      "pos": "TE",
-      "team": "LAR",
-      "proj": 8.99,
-      "rostered_pct": 42
-    },
-    {
-      "name": "KC Concepcion",
-      "pos": "WR",
-      "team": "CLE",
-      "proj": 8.93,
-      "rostered_pct": 68
-    },
-    {
-      "name": "Tank Bigsby",
+      "name": "Mike Washington",
       "pos": "RB",
-      "team": "PHI",
-      "proj": 8.82,
-      "rostered_pct": 41
+      "team": "LV",
+      "proj": 4.0,
+      "source": "Sleeper league-scored week 4"
     },
     {
-      "name": "A.J. Brown",
-      "pos": "WR",
-      "team": "NE",
-      "proj": 8.62,
-      "rostered_pct": 96
-    },
-    {
-      "name": "Rico Dowdle",
+      "name": "Tyrone Tracy",
       "pos": "RB",
-      "team": "PIT",
-      "proj": 8.46,
-      "rostered_pct": 82
+      "team": "NYG",
+      "proj": 0.78,
+      "source": "Sleeper league-scored week 4"
     }
   ],
   "notes": [
-    "MY ROSTER uses the app's REAL week 4 projections from the lineup screenshot. Baseline starting lineup is 105.06.",
-    "WAIVER projections are fitted: app_projection = 6.11 + 0.449 x (2026 PPR per game), regressed from the 8 skill players where both numbers are visible, R^2 = 0.78.",
-    "That fit is what shows the pool is flat - the app shrinks everything toward about 11, so no available player projects above 12.7.",
-    "Caveat: elite volume beats the fit (McCaffrey is +3.6 over it), so Barkley could out-project 9.9 on role alone. Send the PLAYERS > Available tab for his real number.",
-    "Softball_Basketball (@beepboopbopper) is the chopped roster. 13 teams remain. Seven rivals hold the full $1000; I am 8th in budget at $959."
+    "Rival projections: week 4 CHOP tab (forward-looking). My 105.07 there matches my lineup.",
+    "Waiver projections: Sleeper league-scored week 4 via the connected API.",
+    "FAAB: $959 from the API. Seven rivals at $1000.",
+    "Chopped roster (Barkley/Kincaid/Burden) is not in the pool until Monday night's PHI@CHI ends."
   ]
 }
