@@ -215,12 +215,25 @@
    "pos": "WR",
    "proj": 6.0,
    "source": "Sleeper league-scored week 6"
+  },
+  {
+   "name": "Chase Brown",
+   "pos": "RB",
+   "proj": 0.0,
+   "note": "CIN bye week 6; 16.5 projected week 8 - season-long RB2 target"
+  },
+  {
+   "name": "AJ Barner",
+   "pos": "TE",
+   "proj": 8.7,
+   "note": "week 8 projection; SEA bye week 11"
   }
  ],
  "notes": [
   "All projections: Sleeper league-scored week 6 via the connected API, pulled 2026-10-13.",
   "Rival proj = best legal lineup excluding players listed Out; questionable players kept.",
   "Pool = Arlington McDonalds roster (chopped week 5). Chase Brown on bye, Montgomery Out, Tyson IR.",
-  "FAAB from the API standings."
+  "FAAB from the API standings.",
+  "Bids placed week 6: Walker $305, Chase Brown $110, Hunter Henry $8, Carnell Tate $12 (claims in that order)."
  ]
 }
