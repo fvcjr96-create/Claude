@@ -1,44 +1,435 @@
 {
  "_note": "Every processed FAAB bid in The Guillotine (Sleeper API transactions, WAIVER type). Winner first. Pulled 2026-10-13.",
  "runs": [
-  {"date": "2026-09-16", "pool": "Tgordon1738 (chopped wk1)", "auctions": {
-   "Puka Nacua":   {"pos":"WR","bids":{"Softball_Basketball":501,"Kevin James' Knockers":410,"Nick burns had sex":280,"Arlington McDonalds":255,"taranteen":250,"Suite Shooters":231,"Chief Had A Little Sex":186,"nobodylovesme":126,"TheSoose":100}},
-   "Tetairoa McMillan": {"pos":"WR","bids":{"Suite Shooters":137,"nobodylovesme":86,"Arlington McDonalds":84,"Nick burns had sex":80,"taranteen":50,"Softball_Basketball":11}},
-   "Rashee Rice":  {"pos":"WR","bids":{"Arlington McDonalds":85,"Suite Shooters":113,"nobodylovesme":85,"taranteen":50,"Nick burns had sex":35,"Softball_Basketball":21},"note":"Suite's 113 failed on roster/drop"},
-   "Tucker Kraft": {"pos":"TE","bids":{"BigdogE12":50,"Suite Shooters":27,"Arlington McDonalds":12}},
-   "Romeo Doubs":  {"pos":"WR","bids":{"Suite Shooters":31}},
-   "Josh Jacobs":  {"pos":"RB","bids":{"Chief Had A Little Sex":28,"BigdogE12":10}},
-   "Blake Corum":  {"pos":"RB","bids":{"Arlington McDonalds":18,"taranteen":10}},
-   "Jared Goff":   {"pos":"QB","bids":{"Chief Had A Little Sex":6,"Arlington McDonalds":3,"Softball_Basketball":0}}}},
-  {"date": "2026-09-23", "pool": "Suite Shooters (chopped wk2)", "auctions": {
-   "Justin Jefferson": {"pos":"WR","bids":{"AdamKohl14":350,"Nick burns had sex":260,"Scott is a lil bih ah":251,"Jive Turkeys":211,"Kevin James' Knockers":185,"Chief Had A Little Sex":178,"BigdogE12":175,"Low T Eberle":101,"Softball_Basketball":101,"Arlington McDonalds":89}},
-   "D'Andre Swift":    {"pos":"RB","bids":{"Scott is a lil bih ah":301,"BigdogE12":216,"Kevin James' Knockers":125,"nobodylovesme":102,"Nick burns had sex":69,"Jaffe's Nose":58,"Low T Eberle":56,"Arlington McDonalds":53,"Softball_Basketball":51,"Chief Had A Little Sex":43}},
-   "Brock Bowers":     {"pos":"TE","bids":{"nobodylovesme":215,"Jive Turkeys":171,"Arlington McDonalds":71,"Nick burns had sex":55,"Chief Had A Little Sex":47}},
-   "Tetairoa McMillan":{"pos":"WR","bids":{"BigdogE12":126,"Jive Turkeys":87,"Nick burns had sex":85,"nobodylovesme":71,"Low T Eberle":69,"Arlington McDonalds":56,"Chief Had A Little Sex":53,"AdamKohl14":50,"Softball_Basketball":29}},
-   "Jadarian Price":   {"pos":"RB","bids":{"BigdogE12":116,"Softball_Basketball":5}},
-   "Kenny Gainwell":   {"pos":"RB","bids":{"Chief Had A Little Sex":7}}}},
-  {"date": "2026-09-30", "pool": "Softball_Basketball (chopped wk3)", "auctions": {
-   "Saquon Barkley":   {"pos":"RB","bids":{"BigdogE12":357,"Jive Turkeys":311,"Kevin James' Knockers":260,"Nick burns had sex":148,"Chief Had A Little Sex":108,"nobodylovesme":84,"Arlington McDonalds":26},"note":"listed Out at the time"},
-   "Puka Nacua":       {"pos":"WR","bids":{"Chief Had A Little Sex":283,"Nick burns had sex":280,"Jive Turkeys":261,"Kevin James' Knockers":225,"nobodylovesme":182,"Scott is a lil bih ah":31,"Arlington McDonalds":1}},
-   "Luther Burden":    {"pos":"WR","bids":{"Jive Turkeys":144,"Chief Had A Little Sex":38,"Arlington McDonalds":25,"TheSoose":25}},
-   "Ollie Gordon":     {"pos":"RB","bids":{"Kevin James' Knockers":85,"Jive Turkeys":41}},
-   "Dalton Kincaid":   {"pos":"TE","bids":{"Jaffe's Nose":37,"Chief Had A Little Sex":29,"nobodylovesme":26,"Arlington McDonalds":20}},
-   "Malik Washington": {"pos":"WR","bids":{"Nick burns had sex":38,"Jaffe's Nose":36}},
-   "A.J. Brown":       {"pos":"WR","bids":{"Jive Turkeys":41,"Scott is a lil bih ah":1,"Arlington McDonalds":0}},
-   "KC Concepcion":    {"pos":"WR","bids":{"Jive Turkeys":41,"Arlington McDonalds":3}},
-   "Sam Darnold":      {"pos":"QB","bids":{"Chief Had A Little Sex":17}},
-   "Drake Maye":       {"pos":"QB","bids":{"Jive Turkeys":13,"Arlington McDonalds":0}},
-   "Kenyon Sadiq":     {"pos":"TE","bids":{"Chief Had A Little Sex":8}}}},
-  {"date": "2026-10-07", "pool": "Low T Eberle (chopped wk4)", "auctions": {
-   "Drake London":     {"pos":"WR","bids":{"Jaffe's Nose":509,"Nick burns had sex":390,"Kevin James' Knockers":318,"Arlington McDonalds":309,"Jive Turkeys":216,"nobodylovesme":211,"taranteen":200,"Chief Had A Little Sex":145,"TheSoose":145}},
-   "Ashton Jeanty":    {"pos":"RB","bids":{"taranteen":400,"Nick burns had sex":350,"BigdogE12":348,"Kevin James' Knockers":319,"Jive Turkeys":251,"Arlington McDonalds":219,"Chief Had A Little Sex":178,"TheSoose":165}},
-   "Bucky Irving":     {"pos":"RB","bids":{"Nick burns had sex":150,"taranteen":201,"Kevin James' Knockers":128,"Chief Had A Little Sex":115,"Jive Turkeys":114,"nobodylovesme":102,"Jaffe's Nose":35,"Arlington McDonalds":11},"note":"taranteen's 201 failed after it won Jeanty"},
-   "Matthew Golden":   {"pos":"WR","bids":{"Nick burns had sex":124,"nobodylovesme":91,"taranteen":90,"Arlington McDonalds":61,"Jive Turkeys":36}},
-   "Tyler Warren":     {"pos":"TE","bids":{"Jive Turkeys":56,"taranteen":45,"Arlington McDonalds":44}},
-   "Will Shipley":     {"pos":"RB","bids":{"nobodylovesme":48,"Jive Turkeys":2}},
-   "Keon Coleman":     {"pos":"WR","bids":{"taranteen":30}},
-   "Caleb Williams":   {"pos":"QB","bids":{"Nick burns had sex":28}},
-   "Rico Dowdle":      {"pos":"RB","bids":{"Jive Turkeys":13}},
-   "Hunter Henry":     {"pos":"TE","bids":{"Jive Turkeys":6,"taranteen":0}}}}
+  {
+   "date": "2026-09-16",
+   "pool": "Tgordon1738 (chopped wk1)",
+   "auctions": {
+    "Puka Nacua": {
+     "pos": "WR",
+     "bids": {
+      "Softball_Basketball": 501,
+      "Kevin James' Knockers": 410,
+      "Nick burns had sex": 280,
+      "Arlington McDonalds": 255,
+      "taranteen": 250,
+      "Suite Shooters": 231,
+      "Chief Had A Little Sex": 186,
+      "nobodylovesme": 126,
+      "TheSoose": 100
+     }
+    },
+    "Tetairoa McMillan": {
+     "pos": "WR",
+     "bids": {
+      "Suite Shooters": 137,
+      "nobodylovesme": 86,
+      "Arlington McDonalds": 84,
+      "Nick burns had sex": 80,
+      "taranteen": 50,
+      "Softball_Basketball": 11
+     }
+    },
+    "Rashee Rice": {
+     "pos": "WR",
+     "bids": {
+      "Arlington McDonalds": 85,
+      "Suite Shooters": 113,
+      "nobodylovesme": 85,
+      "taranteen": 50,
+      "Nick burns had sex": 35,
+      "Softball_Basketball": 21
+     },
+     "note": "Suite's 113 failed on roster/drop"
+    },
+    "Tucker Kraft": {
+     "pos": "TE",
+     "bids": {
+      "BigdogE12": 50,
+      "Suite Shooters": 27,
+      "Arlington McDonalds": 12
+     }
+    },
+    "Romeo Doubs": {
+     "pos": "WR",
+     "bids": {
+      "Suite Shooters": 31
+     }
+    },
+    "Josh Jacobs": {
+     "pos": "RB",
+     "bids": {
+      "Chief Had A Little Sex": 28,
+      "BigdogE12": 10
+     }
+    },
+    "Blake Corum": {
+     "pos": "RB",
+     "bids": {
+      "Arlington McDonalds": 18,
+      "taranteen": 10
+     }
+    },
+    "Jared Goff": {
+     "pos": "QB",
+     "bids": {
+      "Chief Had A Little Sex": 6,
+      "Arlington McDonalds": 3,
+      "Softball_Basketball": 0
+     }
+    }
+   }
+  },
+  {
+   "date": "2026-09-23",
+   "pool": "Suite Shooters (chopped wk2)",
+   "auctions": {
+    "Justin Jefferson": {
+     "pos": "WR",
+     "bids": {
+      "AdamKohl14": 350,
+      "Nick burns had sex": 260,
+      "Scott is a lil bih ah": 251,
+      "Jive Turkeys": 211,
+      "Kevin James' Knockers": 185,
+      "Chief Had A Little Sex": 178,
+      "BigdogE12": 175,
+      "Low T Eberle": 101,
+      "Softball_Basketball": 101,
+      "Arlington McDonalds": 89
+     }
+    },
+    "D'Andre Swift": {
+     "pos": "RB",
+     "bids": {
+      "Scott is a lil bih ah": 301,
+      "BigdogE12": 216,
+      "Kevin James' Knockers": 125,
+      "nobodylovesme": 102,
+      "Nick burns had sex": 69,
+      "Jaffe's Nose": 58,
+      "Low T Eberle": 56,
+      "Arlington McDonalds": 53,
+      "Softball_Basketball": 51,
+      "Chief Had A Little Sex": 43
+     }
+    },
+    "Brock Bowers": {
+     "pos": "TE",
+     "bids": {
+      "nobodylovesme": 215,
+      "Jive Turkeys": 171,
+      "Arlington McDonalds": 71,
+      "Nick burns had sex": 55,
+      "Chief Had A Little Sex": 47
+     }
+    },
+    "Tetairoa McMillan": {
+     "pos": "WR",
+     "bids": {
+      "BigdogE12": 126,
+      "Jive Turkeys": 87,
+      "Nick burns had sex": 85,
+      "nobodylovesme": 71,
+      "Low T Eberle": 69,
+      "Arlington McDonalds": 56,
+      "Chief Had A Little Sex": 53,
+      "AdamKohl14": 50,
+      "Softball_Basketball": 29
+     }
+    },
+    "Jadarian Price": {
+     "pos": "RB",
+     "bids": {
+      "BigdogE12": 116,
+      "Softball_Basketball": 5
+     }
+    },
+    "Kenny Gainwell": {
+     "pos": "RB",
+     "bids": {
+      "Chief Had A Little Sex": 7
+     }
+    }
+   }
+  },
+  {
+   "date": "2026-09-30",
+   "pool": "Softball_Basketball (chopped wk3)",
+   "auctions": {
+    "Saquon Barkley": {
+     "pos": "RB",
+     "bids": {
+      "BigdogE12": 357,
+      "Jive Turkeys": 311,
+      "Kevin James' Knockers": 260,
+      "Nick burns had sex": 148,
+      "Chief Had A Little Sex": 108,
+      "nobodylovesme": 84,
+      "Arlington McDonalds": 26
+     },
+     "note": "listed Out at the time"
+    },
+    "Puka Nacua": {
+     "pos": "WR",
+     "bids": {
+      "Chief Had A Little Sex": 283,
+      "Nick burns had sex": 280,
+      "Jive Turkeys": 261,
+      "Kevin James' Knockers": 225,
+      "nobodylovesme": 182,
+      "Scott is a lil bih ah": 31,
+      "Arlington McDonalds": 1
+     }
+    },
+    "Luther Burden": {
+     "pos": "WR",
+     "bids": {
+      "Jive Turkeys": 144,
+      "Chief Had A Little Sex": 38,
+      "Arlington McDonalds": 25,
+      "TheSoose": 25
+     }
+    },
+    "Ollie Gordon": {
+     "pos": "RB",
+     "bids": {
+      "Kevin James' Knockers": 85,
+      "Jive Turkeys": 41
+     }
+    },
+    "Dalton Kincaid": {
+     "pos": "TE",
+     "bids": {
+      "Jaffe's Nose": 37,
+      "Chief Had A Little Sex": 29,
+      "nobodylovesme": 26,
+      "Arlington McDonalds": 20
+     }
+    },
+    "Malik Washington": {
+     "pos": "WR",
+     "bids": {
+      "Nick burns had sex": 38,
+      "Jaffe's Nose": 36
+     }
+    },
+    "A.J. Brown": {
+     "pos": "WR",
+     "bids": {
+      "Jive Turkeys": 41,
+      "Scott is a lil bih ah": 1,
+      "Arlington McDonalds": 0
+     }
+    },
+    "KC Concepcion": {
+     "pos": "WR",
+     "bids": {
+      "Jive Turkeys": 41,
+      "Arlington McDonalds": 3
+     }
+    },
+    "Sam Darnold": {
+     "pos": "QB",
+     "bids": {
+      "Chief Had A Little Sex": 17
+     }
+    },
+    "Drake Maye": {
+     "pos": "QB",
+     "bids": {
+      "Jive Turkeys": 13,
+      "Arlington McDonalds": 0
+     }
+    },
+    "Kenyon Sadiq": {
+     "pos": "TE",
+     "bids": {
+      "Chief Had A Little Sex": 8
+     }
+    }
+   }
+  },
+  {
+   "date": "2026-10-07",
+   "pool": "Low T Eberle (chopped wk4)",
+   "auctions": {
+    "Drake London": {
+     "pos": "WR",
+     "bids": {
+      "Jaffe's Nose": 509,
+      "Nick burns had sex": 390,
+      "Kevin James' Knockers": 318,
+      "Arlington McDonalds": 309,
+      "Jive Turkeys": 216,
+      "nobodylovesme": 211,
+      "taranteen": 200,
+      "Chief Had A Little Sex": 145,
+      "TheSoose": 145
+     }
+    },
+    "Ashton Jeanty": {
+     "pos": "RB",
+     "bids": {
+      "taranteen": 400,
+      "Nick burns had sex": 350,
+      "BigdogE12": 348,
+      "Kevin James' Knockers": 319,
+      "Jive Turkeys": 251,
+      "Arlington McDonalds": 219,
+      "Chief Had A Little Sex": 178,
+      "TheSoose": 165
+     }
+    },
+    "Bucky Irving": {
+     "pos": "RB",
+     "bids": {
+      "Nick burns had sex": 150,
+      "taranteen": 201,
+      "Kevin James' Knockers": 128,
+      "Chief Had A Little Sex": 115,
+      "Jive Turkeys": 114,
+      "nobodylovesme": 102,
+      "Jaffe's Nose": 35,
+      "Arlington McDonalds": 11
+     },
+     "note": "taranteen's 201 failed after it won Jeanty"
+    },
+    "Matthew Golden": {
+     "pos": "WR",
+     "bids": {
+      "Nick burns had sex": 124,
+      "nobodylovesme": 91,
+      "taranteen": 90,
+      "Arlington McDonalds": 61,
+      "Jive Turkeys": 36
+     }
+    },
+    "Tyler Warren": {
+     "pos": "TE",
+     "bids": {
+      "Jive Turkeys": 56,
+      "taranteen": 45,
+      "Arlington McDonalds": 44
+     }
+    },
+    "Will Shipley": {
+     "pos": "RB",
+     "bids": {
+      "nobodylovesme": 48,
+      "Jive Turkeys": 2
+     }
+    },
+    "Keon Coleman": {
+     "pos": "WR",
+     "bids": {
+      "taranteen": 30
+     }
+    },
+    "Caleb Williams": {
+     "pos": "QB",
+     "bids": {
+      "Nick burns had sex": 28
+     }
+    },
+    "Rico Dowdle": {
+     "pos": "RB",
+     "bids": {
+      "Jive Turkeys": 13
+     }
+    },
+    "Hunter Henry": {
+     "pos": "TE",
+     "bids": {
+      "Jive Turkeys": 6,
+      "taranteen": 0
+     }
+    }
+   }
+  },
+  {
+   "date": "2026-10-14",
+   "pool": "Arlington McDonalds (chopped wk5)",
+   "auctions": {
+    "Kenneth Walker": {
+     "pos": "RB",
+     "bids": {
+      "Kevin James' Knockers": 737,
+      "TheSoose": 560,
+      "Nick burns had sex": 500,
+      "Jive Turkeys": 453,
+      "Chief Had A Little Sex": 437,
+      "taranteen": 400,
+      "nobodylovesme": 386,
+      "Scott is a lil bih ah": 67
+     }
+    },
+    "Rashee Rice": {
+     "pos": "WR",
+     "bids": {
+      "BigdogE12": 195,
+      "nobodylovesme": 142,
+      "Nick burns had sex": 125,
+      "Kevin James' Knockers": 98,
+      "Jive Turkeys": 21
+     }
+    },
+    "Chase Brown": {
+     "pos": "RB",
+     "bids": {
+      "Jive Turkeys": 171,
+      "nobodylovesme": 106,
+      "Chief Had A Little Sex": 23
+     }
+    },
+    "Jaylen Waddle": {
+     "pos": "WR",
+     "bids": {
+      "Nick burns had sex": 88,
+      "Jive Turkeys": 9
+     }
+    },
+    "Tony Pollard": {
+     "pos": "RB",
+     "bids": {
+      "Nick burns had sex": 43,
+      "Chief Had A Little Sex": 9
+     }
+    },
+    "Jordan Love": {
+     "pos": "QB",
+     "bids": {
+      "Kevin James' Knockers": 34,
+      "Nick burns had sex": 29,
+      "Chief Had A Little Sex": 17,
+      "taranteen": 10
+     }
+    },
+    "Hunter Henry": {
+     "pos": "TE",
+     "bids": {
+      "Chief Had A Little Sex": 3
+     }
+    },
+    "Kendrick Bourne": {
+     "pos": "WR",
+     "bids": {
+      "nobodylovesme": 5
+     }
+    },
+    "Carnell Tate": {
+     "pos": "WR",
+     "bids": {
+      "Jive Turkeys": 3
+     }
+    },
+    "Blake Corum": {
+     "pos": "RB",
+     "bids": {
+      "Jive Turkeys": 1
+     }
+    }
+   }
+  }
  ]
 }
