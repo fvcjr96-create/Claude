@@ -310,3 +310,36 @@ class TestConfig(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestAnchoredMarket(unittest.TestCase):
+    """Raw-dollar going-rate market (Settings.market_anchor)."""
+
+    def _lg(self, budgets, **kw):
+        from guillotine.config import League, Rival, Settings
+        st = Settings(market_anchor=450, contenders_per_player=1.0,
+                      market_dispersion=0.35, **kw)
+        return League(week=6, my_team="me", my_budget=650, default_budget=1000,
+                      roster=[], rivals=[Rival(f"r{i}", 110, b) for i, b in enumerate(budgets)],
+                      waivers=[], settings=st)
+
+    def test_price_does_not_scale_with_rich_budgets(self):
+        star = Player("Star", "RB", 21.7, rostered_pct=99)
+        mid = market_for(star, self._lg([700] * 8)).price_for(0.5, 5000)
+        rich = market_for(star, self._lg([1400] * 8)).price_for(0.5, 5000)
+        self.assertAlmostEqual(mid, rich, delta=0.02 * mid)
+
+    def test_poor_rivals_are_capped_by_their_budget(self):
+        star = Player("Star", "RB", 21.7, rostered_pct=99)
+        poor = market_for(star, self._lg([150] * 8))
+        self.assertEqual(poor.p_win(151), 1.0)
+
+    def test_qb_and_te_are_discounted(self):
+        lg = self._lg([700] * 8)
+        rb = market_for(Player("RB", "RB", 21.4, rostered_pct=90), lg).price_for(0.5, 5000)
+        qb = market_for(Player("QB", "QB", 21.4 + 4.5, rostered_pct=90), lg).price_for(0.5, 5000)
+        self.assertLess(qb, 0.25 * rb)
+
+    def test_share_model_is_still_the_default(self):
+        from guillotine.config import Settings
+        self.assertIsNone(Settings().market_anchor)

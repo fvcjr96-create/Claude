@@ -115,6 +115,17 @@ class Settings:
     market_dispersion: float = 0.55      # lognormal sigma of rival bids
     contenders_per_player: float = 0.55  # share of rivals who bid at all on a top target
     market_half_point: float = 12.0      # points over replacement that earn half the max bid
+    # Raw-dollar "going rate" market.  When market_anchor is set, rivals bid a
+    # dollar amount set by what premium players have recently cost, not a
+    # share of their own budget: median bid = anchor * (x / anchor_demand) **
+    # anchor_elasticity, where x is the player's demand score, scaled by
+    # position and capped at market_anchor_cap of the rival's budget (a team
+    # below the going rate goes nearly all-in).  None keeps the share model.
+    market_anchor: float | None = None
+    market_anchor_demand: float = 0.60
+    market_anchor_elasticity: float = 2.3
+    market_anchor_cap: float = 0.95
+    market_position_weight: dict = field(default_factory=lambda: {"QB": 0.10, "TE": 0.50})
     replacement_level: dict = field(default_factory=lambda: {
         "QB": 13.0, "RB": 8.5, "WR": 8.5, "TE": 6.5, "K": 7.0, "DST": 6.0})
 

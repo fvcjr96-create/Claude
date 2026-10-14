@@ -36,6 +36,8 @@ class BidMarket:
     median_share: float        # median bid as a share of a rival's budget
     participation: float       # P(a given rival bids at all)
     sigma: float
+    median_dollars: float | None = None   # raw going rate; overrides median_share
+    cap_share: float = 0.95                # most of its budget a rival will commit
 
     def p_win(self, bid: float) -> float:
         """P(my bid is the highest).  Ties are scored as losses (conservative)."""
@@ -44,7 +46,10 @@ class BidMarket:
         p = 1.0
         for b in self.budgets:
             cap = max(1.0, b)
-            median = max(1.0, self.median_share * cap)
+            if self.median_dollars is None:
+                median = max(1.0, self.median_share * cap)
+            else:
+                median = max(1.0, min(self.median_dollars, self.cap_share * cap))
             if bid >= cap:
                 p_rival_beats = 0.0   # they cannot bid more than they have
             else:
@@ -73,6 +78,19 @@ def market_for(p: Player, lg: League) -> BidMarket:
     # Scarcity kicker: a player almost everyone rosters elsewhere is a player
     # every guillotine survivor recognises the moment they hit the pool.
     hype = 0.85 + 0.30 * (p.rostered_pct / 100.0)
+    if s.market_anchor is not None:
+        x = d * hype
+        weight = s.market_position_weight.get(p.pos, 1.0)
+        dollars = (s.market_anchor * weight
+                   * (x / s.market_anchor_demand) ** s.market_anchor_elasticity)
+        return BidMarket(
+            budgets=[r.budget for r in lg.rivals],
+            median_share=0.0,
+            participation=min(0.95, s.contenders_per_player * (0.40 + 0.60 * d)),
+            sigma=s.market_dispersion,
+            median_dollars=dollars,
+            cap_share=s.market_anchor_cap,
+        )
     return BidMarket(
         budgets=[r.budget for r in lg.rivals],
         median_share=min(0.95, s.market_aggression * d * hype),
