@@ -1,0 +1,165 @@
+{
+ "week": 7,
+ "my_team": "Chief Had A Little Sex (@fclara1)",
+ "my_budget": 648,
+ "default_budget": 1000,
+ "roster": [
+  {
+   "name": "Jared Goff",
+   "pos": "QB",
+   "proj": 16.2
+  },
+  {
+   "name": "Christian McCaffrey",
+   "pos": "RB",
+   "proj": 20.7
+  },
+  {
+   "name": "Josh Jacobs",
+   "pos": "RB",
+   "proj": 15.1
+  },
+  {
+   "name": "Kenny Gainwell",
+   "pos": "RB",
+   "proj": 8.3
+  },
+  {
+   "name": "Dameon Pierce",
+   "pos": "RB",
+   "proj": 3.2
+  },
+  {
+   "name": "Puka Nacua",
+   "pos": "WR",
+   "proj": 20.0
+  },
+  {
+   "name": "Christian Watson",
+   "pos": "WR",
+   "proj": 16.0
+  },
+  {
+   "name": "DeVonta Smith",
+   "pos": "WR",
+   "proj": 13.7
+  },
+  {
+   "name": "Rome Odunze",
+   "pos": "WR",
+   "proj": 9.8
+  },
+  {
+   "name": "Devaughn Vele",
+   "pos": "WR",
+   "proj": 10.5
+  },
+  {
+   "name": "George Kittle",
+   "pos": "TE",
+   "proj": 14.9
+  },
+  {
+   "name": "Hunter Henry",
+   "pos": "TE",
+   "proj": 10.1
+  },
+  {
+   "name": "Sam Darnold",
+   "pos": "QB",
+   "proj": 14.0
+  },
+  {
+   "name": "Travis Etienne",
+   "pos": "RB",
+   "proj": 0.0
+  }
+ ],
+ "rivals": [
+  {
+   "name": "AdamKohl14",
+   "proj": 132.0,
+   "budget": 650
+  },
+  {
+   "name": "taranteen",
+   "proj": 129.3,
+   "budget": 570
+  },
+  {
+   "name": "Scott is a lil bih ah",
+   "proj": 124.4,
+   "budget": 699
+  },
+  {
+   "name": "Jaffe's Nose",
+   "proj": 121.4,
+   "budget": 454
+  },
+  {
+   "name": "nobodylovesme",
+   "proj": 118.6,
+   "budget": 731
+  },
+  {
+   "name": "Kevin James' Knockers",
+   "proj": 126.3,
+   "budget": 141
+  },
+  {
+   "name": "BigdogE12",
+   "proj": 121.7,
+   "budget": 156
+  },
+  {
+   "name": "Jive Turkeys",
+   "proj": 122.5,
+   "budget": 508
+  },
+  {
+   "name": "Nick burns had sex",
+   "proj": 109.7,
+   "budget": 529
+  }
+ ],
+ "waivers": [
+  {
+   "name": "Derrick Henry",
+   "pos": "RB",
+   "proj": 17.35,
+   "rostered_pct": 99
+  },
+  {
+   "name": "Trey McBride",
+   "pos": "TE",
+   "proj": 19.02,
+   "rostered_pct": 100
+  },
+  {
+   "name": "Davante Adams",
+   "pos": "WR",
+   "proj": 15.74,
+   "rostered_pct": 98
+  },
+  {
+   "name": "Quinshon Judkins",
+   "pos": "RB",
+   "proj": 10.43,
+   "rostered_pct": 95
+  },
+  {
+   "name": "Brock Purdy",
+   "pos": "QB",
+   "proj": 22.0,
+   "rostered_pct": 95
+  }
+ ],
+ "settings": {
+  "market_anchor": 453,
+  "contenders_per_player": 1.0,
+  "market_dispersion": 0.35
+ },
+ "notes": [
+  "Full-strength weekly rates (week-8 Sleeper projections; Jacobs back wk8). KJK/Bigdog/Jive/Nick rival totals include their week-6 adds (Walker, Rice, Brown, Waddle/Pollard)."
+ ]
+}
