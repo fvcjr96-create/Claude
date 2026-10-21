@@ -430,6 +430,64 @@
      }
     }
    }
+  },
+  {
+   "date": "2026-10-21",
+   "pool": "TheSoose (chopped wk6)",
+   "auctions": {
+    "Derrick Henry": {
+     "pos": "RB",
+     "bids": {
+      "Chief Had A Little Sex": 382,
+      "nobodylovesme": 270,
+      "Jive Turkeys": 253,
+      "taranteen": 199,
+      "Nick burns had sex": 181,
+      "Jaffe's Nose": 115,
+      "Kevin James' Knockers": 50
+     }
+    },
+    "Trey McBride": {
+     "pos": "TE",
+     "bids": {
+      "taranteen": 370,
+      "nobodylovesme": 181,
+      "Nick burns had sex": 181,
+      "Jive Turkeys": 176,
+      "Chief Had A Little Sex": 104,
+      "Kevin James' Knockers": 50
+     }
+    },
+    "Brock Purdy": {
+     "pos": "QB",
+     "bids": {
+      "nobodylovesme": 103,
+      "taranteen": 100,
+      "Chief Had A Little Sex": 23
+     }
+    },
+    "Bryce Young": {
+     "pos": "QB",
+     "bids": {
+      "taranteen": 10,
+      "Chief Had A Little Sex": 8,
+      "nobodylovesme": 6
+     }
+    },
+    "Quinshon Judkins": {
+     "pos": "RB",
+     "bids": {
+      "taranteen": 30,
+      "Jive Turkeys": 21
+     }
+    },
+    "Denzel Boston": {
+     "pos": "WR",
+     "bids": {
+      "Nick burns had sex": 32
+     }
+    }
+   }
   }
  ]
 }
