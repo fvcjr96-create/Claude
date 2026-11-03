@@ -1,0 +1,214 @@
+{
+  "week": 4,
+  "my_team": "Chief Had A Little Sex (@fclara1)",
+  "my_budget": 959,
+  "default_budget": 1000,
+  "roster": [
+    {
+      "name": "Jared Goff",
+      "pos": "QB",
+      "team": "DET",
+      "proj": 17.75,
+      "starter": true
+    },
+    {
+      "name": "C. McCaffrey",
+      "pos": "RB",
+      "team": "SF",
+      "proj": 18.34,
+      "starter": true,
+      "injury_risk": 0.02
+    },
+    {
+      "name": "Kenny Gainwell",
+      "pos": "RB",
+      "team": "TB",
+      "proj": 8.21,
+      "starter": true
+    },
+    {
+      "name": "DeVonta Smith",
+      "pos": "WR",
+      "team": "PHI",
+      "proj": 13.57,
+      "starter": true
+    },
+    {
+      "name": "Christian Watson",
+      "pos": "WR",
+      "team": "GB",
+      "proj": 15.61,
+      "starter": true
+    },
+    {
+      "name": "George Kittle",
+      "pos": "TE",
+      "team": "SF",
+      "proj": 11.44,
+      "starter": true
+    },
+    {
+      "name": "Devaughn Vele",
+      "pos": "WR",
+      "team": "NO",
+      "proj": 10.18,
+      "starter": true
+    },
+    {
+      "name": "Rome Odunze",
+      "pos": "WR",
+      "team": "CHI",
+      "proj": 9.96,
+      "starter": true
+    },
+    {
+      "name": "Khalil Shakir",
+      "pos": "WR",
+      "team": "BUF",
+      "proj": 8.57
+    },
+    {
+      "name": "Baker Mayfield",
+      "pos": "QB",
+      "team": "TB",
+      "proj": 0.0,
+      "note": "OUT"
+    },
+    {
+      "name": "Travis Etienne",
+      "pos": "RB",
+      "team": "NO",
+      "proj": 0.0,
+      "note": "OUT"
+    },
+    {
+      "name": "Josh Jacobs",
+      "pos": "RB",
+      "team": "GB",
+      "proj": 0.0,
+      "note": "NA - no 2026 games"
+    },
+    {
+      "name": "Jonathon Brooks",
+      "pos": "RB",
+      "team": "CAR",
+      "proj": 0.0,
+      "note": "IR"
+    },
+    {
+      "name": "Chig Okonkwo",
+      "pos": "TE",
+      "team": "WAS",
+      "proj": 0.0,
+      "note": "OUT"
+    }
+  ],
+  "rivals": [
+    {
+      "name": "Scott is a lil bih ah",
+      "proj": 118.57,
+      "budget": 699
+    },
+    {
+      "name": "Arlington McDonalds",
+      "proj": 117.34,
+      "budget": 895
+    },
+    {
+      "name": "Team nobodylovesme",
+      "proj": 116.66,
+      "budget": 784
+    },
+    {
+      "name": "Team AdamKohl14",
+      "proj": 115.17,
+      "budget": 650
+    },
+    {
+      "name": "Kevin James' Knockers",
+      "proj": 112.96,
+      "budget": 1000
+    },
+    {
+      "name": "Team TheSoose",
+      "proj": 109.58,
+      "budget": 1000
+    },
+    {
+      "name": "Team taranteen",
+      "proj": 106.91,
+      "budget": 1000
+    },
+    {
+      "name": "Low T Eberle",
+      "proj": 104.64,
+      "budget": 1000
+    },
+    {
+      "name": "Jaffe's Nose",
+      "proj": 101.34,
+      "budget": 1000
+    },
+    {
+      "name": "Jive Turkeys",
+      "proj": 100.43,
+      "budget": 1000
+    },
+    {
+      "name": "Team BigdogE12",
+      "proj": 100.17,
+      "budget": 708
+    },
+    {
+      "name": "Nick burns had sex",
+      "proj": 98.56,
+      "budget": 1000
+    }
+  ],
+  "waivers": [
+    {
+      "name": "Dalton Kincaid",
+      "pos": "TE",
+      "team": "BUF",
+      "proj": 12.91,
+      "rostered_pct": 97,
+      "source": "Sleeper league-scored week 4"
+    },
+    {
+      "name": "Luther Burden",
+      "pos": "WR",
+      "team": "CHI",
+      "proj": 11.26,
+      "rostered_pct": 93,
+      "source": "Sleeper league-scored week 4"
+    },
+    {
+      "name": "Saquon Barkley",
+      "pos": "RB",
+      "team": "PHI",
+      "proj": 14.52,
+      "rostered_pct": 100,
+      "source": "Sleeper league-scored week 4"
+    },
+    {
+      "name": "Mike Washington",
+      "pos": "RB",
+      "team": "LV",
+      "proj": 4.0,
+      "source": "Sleeper league-scored week 4"
+    },
+    {
+      "name": "Tyrone Tracy",
+      "pos": "RB",
+      "team": "NYG",
+      "proj": 0.78,
+      "source": "Sleeper league-scored week 4"
+    }
+  ],
+  "notes": [
+    "Rival projections: week 4 CHOP tab (forward-looking). My 105.07 there matches my lineup.",
+    "Waiver projections: Sleeper league-scored week 4 via the connected API.",
+    "FAAB: $959 from the API. Seven rivals at $1000.",
+    "Chopped roster (Barkley/Kincaid/Burden) is not in the pool until Monday night's PHI@CHI ends."
+  ]
+}

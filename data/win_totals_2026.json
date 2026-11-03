@@ -1,0 +1,15 @@
+{
+  "season": 2026,
+  "note": "Market season win totals. PARTIAL - only the teams below were verifiable from search. Paste your book's live numbers for all 32 and the planner will use them automatically; live totals move on injury news, which game lines three weeks out cannot tell you about December.",
+  "source": "2026 win total writeups (Yahoo, FOX, SharpFootball), retrieved 2026-09-19",
+  "min_teams_to_use": 28,
+  "totals": {
+    "BAL": 11.5,
+    "LAR": 11.5,
+    "SEA": 10.5,
+    "LV": 5.5,
+    "NYJ": 5.5,
+    "ARI": 4.5,
+    "MIA": 4.5
+  }
+}

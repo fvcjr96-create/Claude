@@ -1,0 +1,12 @@
+{
+ "_note": "Empirical going-rate baseline from 5 waiver runs (weeks 1-6). Projections = Sleeper league-scored weekly points at the time of the auction. 'next_run' assumes 8 teams still hold $500+ (TheSoose 1000, nobodylovesme 731, Scott 699, AdamKohl14 650, us 648, taranteen 570, Nick 529, Jive 508). Re-derive with scripts/price_curve.py after every run.",
+ "tiers": [
+  {"tier": "Elite RB/WR, 19+ pts", "history": {"Puka (wk1)": 501, "Puka (wk3)": 283, "Walker (wk6)": 737}, "runner_up": [410, 280, 560], "next_run_win": [550, 750]},
+  {"tier": "Strong RB/WR, 16-19 pts", "history": {"Jefferson": 350, "London": 509, "Chase Brown (bye, 'cold')": 171}, "runner_up": [260, 390, 106], "next_run_win": [350, 500], "note": "big names at the top of the range, out-of-favour names at $150-250"},
+  {"tier": "Starter RB/WR, 14-16 pts", "history": {"McMillan": 137, "McMillan again": 126, "Swift": 301, "Barkley (Out)": 357, "Irving": 150, "Rice": 195}, "runner_up": [86, 87, 216, 311, 128, 142], "next_run_win": [150, 225]},
+  {"tier": "Flex RB/WR, 12-14 pts", "history": {"Rice (wk1)": 85, "Burden": 144, "Golden": 124, "Jeanty (name)": 400, "Tate": 3}, "runner_up": [85, 38, 91, 350, 0], "next_run_win": [90, 150], "note": "widest tier: pedigree swings it from $3 to $400"},
+  {"tier": "Depth RB/WR, under 12 pts", "history": {"Price (IR)": 116, "Waddle": 88, "Ollie Gordon": 85, "Shipley": 48, "Pollard": 43, "M. Washington": 38, "Doubs": 31, "Gainwell": 7}, "next_run_win": [10, 60]},
+  {"tier": "TE", "history": {"Bowers": 215, "Warren": 56, "Kraft": 50, "Kincaid": 37, "Sadiq": 8, "Henry": 6, "Henry again": 3}, "next_run_win": [5, 60], "note": "only an elite TE (Bowers-level) clears $100"},
+  {"tier": "QB", "history": {"Love": 34, "Caleb Williams": 28, "Darnold": 17, "Maye": 13, "Goff": 6}, "next_run_win": [15, 45], "note": "never above $34; one desperate team sets the price"}
+ ]
+}

@@ -1,0 +1,191 @@
+{
+ "week": 7,
+ "my_team": "Chief Had A Little Sex (@fclara1)",
+ "my_budget": 648,
+ "default_budget": 1000,
+ "roster": [
+  {
+   "name": "Jared Goff",
+   "pos": "QB",
+   "proj": 16.2
+  },
+  {
+   "name": "Christian McCaffrey",
+   "pos": "RB",
+   "proj": 20.7
+  },
+  {
+   "name": "Josh Jacobs",
+   "pos": "RB",
+   "proj": 15.1
+  },
+  {
+   "name": "Kenny Gainwell",
+   "pos": "RB",
+   "proj": 8.3
+  },
+  {
+   "name": "Dameon Pierce",
+   "pos": "RB",
+   "proj": 3.2
+  },
+  {
+   "name": "Puka Nacua",
+   "pos": "WR",
+   "proj": 20.0
+  },
+  {
+   "name": "Christian Watson",
+   "pos": "WR",
+   "proj": 16.0
+  },
+  {
+   "name": "DeVonta Smith",
+   "pos": "WR",
+   "proj": 13.7
+  },
+  {
+   "name": "Rome Odunze",
+   "pos": "WR",
+   "proj": 9.8
+  },
+  {
+   "name": "Devaughn Vele",
+   "pos": "WR",
+   "proj": 10.5
+  },
+  {
+   "name": "George Kittle",
+   "pos": "TE",
+   "proj": 14.9
+  },
+  {
+   "name": "Hunter Henry",
+   "pos": "TE",
+   "proj": 10.1
+  },
+  {
+   "name": "Sam Darnold",
+   "pos": "QB",
+   "proj": 14.0
+  },
+  {
+   "name": "Travis Etienne",
+   "pos": "RB",
+   "proj": 0.0
+  }
+ ],
+ "rivals": [
+  {
+   "name": "AdamKohl14",
+   "proj": 132.0,
+   "budget": 650
+  },
+  {
+   "name": "taranteen",
+   "proj": 129.3,
+   "budget": 570
+  },
+  {
+   "name": "Scott is a lil bih ah",
+   "proj": 124.4,
+   "budget": 699
+  },
+  {
+   "name": "Jaffe's Nose",
+   "proj": 121.4,
+   "budget": 454
+  },
+  {
+   "name": "nobodylovesme",
+   "proj": 118.6,
+   "budget": 731
+  },
+  {
+   "name": "Kevin James' Knockers",
+   "proj": 126.3,
+   "budget": 141
+  },
+  {
+   "name": "BigdogE12",
+   "proj": 121.7,
+   "budget": 156
+  },
+  {
+   "name": "Jive Turkeys",
+   "proj": 122.5,
+   "budget": 508
+  },
+  {
+   "name": "Nick burns had sex",
+   "proj": 109.7,
+   "budget": 529
+  }
+ ],
+ "waivers": [
+  {
+   "name": "Trey McBride",
+   "pos": "TE",
+   "proj": 16.24,
+   "rostered_pct": 100
+  },
+  {
+   "name": "Derrick Henry",
+   "pos": "RB",
+   "proj": 16.87,
+   "rostered_pct": 99
+  },
+  {
+   "name": "Bryce Young",
+   "pos": "QB",
+   "proj": 18.6,
+   "rostered_pct": 60
+  },
+  {
+   "name": "Brock Purdy",
+   "pos": "QB",
+   "proj": 17.96,
+   "rostered_pct": 95
+  },
+  {
+   "name": "Quinshon Judkins",
+   "pos": "RB",
+   "proj": 8.63,
+   "rostered_pct": 95
+  },
+  {
+   "name": "Brenton Strange",
+   "pos": "TE",
+   "proj": 8.9,
+   "rostered_pct": 60
+  },
+  {
+   "name": "Xavier Worthy",
+   "pos": "WR",
+   "proj": 10.21,
+   "rostered_pct": 80
+  },
+  {
+   "name": "Denzel Boston",
+   "pos": "WR",
+   "proj": 8.65,
+   "rostered_pct": 50
+  },
+  {
+   "name": "TreVeyon Henderson",
+   "pos": "RB",
+   "proj": 6.75,
+   "rostered_pct": 80
+  }
+ ],
+ "settings": {
+  "market_anchor": 453,
+  "contenders_per_player": 1.0,
+  "market_dispersion": 0.35
+ },
+ "notes": [
+  "Full-strength weekly rates (week-8 Sleeper projections; Jacobs back wk8). KJK/Bigdog/Jive/Nick rival totals include their week-6 adds (Walker, Rice, Brown, Waddle/Pollard).",
+  "2026-10-20: TheSoose chopped (73.72). Pool projections = Sleeper wk7-11 average incl. byes. Davante Adams has no projection wk7-11 (injured) - excluded.",
+  "Final claims plan: Derrick Henry $375 drop Pierce; Trey McBride $275 drop Pierce (shared-drop fallback); Bryce Young $20 drop Darnold. Multi-week sim (wk7-11): no adds 51% alive after wk11, +McBride 64%, +Henry 65%, both 72%."
+ ]
+}

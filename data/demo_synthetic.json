@@ -1,0 +1,1412 @@
+{
+  "season": 2026,
+  "synthetic": true,
+  "entries": 100,
+  "used": {
+    "1": "PIT"
+  },
+  "weeks": {
+    "1": {
+      "verified": true,
+      "source": "SYNTHETIC",
+      "games": [
+        {
+          "away": "PHI",
+          "home": "MIA",
+          "home_spread": 6.5
+        },
+        {
+          "away": "CHI",
+          "home": "LAR",
+          "home_spread": 5.9
+        },
+        {
+          "away": "BUF",
+          "home": "DET",
+          "home_spread": 1.5
+        },
+        {
+          "away": "SF",
+          "home": "SEA",
+          "home_spread": -16.7
+        },
+        {
+          "away": "CLE",
+          "home": "LAC",
+          "home_spread": 13.7
+        },
+        {
+          "away": "DAL",
+          "home": "NYG",
+          "home_spread": 4.4
+        },
+        {
+          "away": "ATL",
+          "home": "CIN",
+          "home_spread": -8.3
+        },
+        {
+          "away": "KC",
+          "home": "NYJ",
+          "home_spread": 6.8
+        },
+        {
+          "away": "BAL",
+          "home": "HOU",
+          "home_spread": 12.7
+        },
+        {
+          "away": "TB",
+          "home": "IND",
+          "home_spread": -5.3
+        },
+        {
+          "away": "GB",
+          "home": "NE",
+          "home_spread": 3.5
+        },
+        {
+          "away": "TEN",
+          "home": "ARI",
+          "home_spread": 10.3
+        },
+        {
+          "away": "PIT",
+          "home": "WAS",
+          "home_spread": 0.3
+        },
+        {
+          "away": "MIN",
+          "home": "NO",
+          "home_spread": 6.1
+        },
+        {
+          "away": "JAX",
+          "home": "CAR",
+          "home_spread": 4.4
+        },
+        {
+          "away": "LV",
+          "home": "DEN",
+          "home_spread": 4.6
+        }
+      ]
+    },
+    "2": {
+      "verified": true,
+      "source": "SYNTHETIC",
+      "games": [
+        {
+          "away": "MIN",
+          "home": "ARI",
+          "home_spread": 9.8
+        },
+        {
+          "away": "LAR",
+          "home": "SEA",
+          "home_spread": -25.4
+        },
+        {
+          "away": "BAL",
+          "home": "DEN",
+          "home_spread": 5.9
+        },
+        {
+          "away": "CIN",
+          "home": "CHI",
+          "home_spread": 9.8
+        },
+        {
+          "away": "DAL",
+          "home": "LV",
+          "home_spread": -9.2
+        },
+        {
+          "away": "WAS",
+          "home": "HOU",
+          "home_spread": -4.1
+        },
+        {
+          "away": "GB",
+          "home": "PHI",
+          "home_spread": 9.5
+        },
+        {
+          "away": "NYG",
+          "home": "DET",
+          "home_spread": -3.4
+        },
+        {
+          "away": "TEN",
+          "home": "CLE",
+          "home_spread": 1.4
+        },
+        {
+          "away": "KC",
+          "home": "TB",
+          "home_spread": -6.0
+        },
+        {
+          "away": "MIA",
+          "home": "IND",
+          "home_spread": -8.7
+        },
+        {
+          "away": "BUF",
+          "home": "SF",
+          "home_spread": 0.4
+        },
+        {
+          "away": "LAC",
+          "home": "NE",
+          "home_spread": -13.6
+        },
+        {
+          "away": "ATL",
+          "home": "NO",
+          "home_spread": -1.6
+        },
+        {
+          "away": "CAR",
+          "home": "PIT",
+          "home_spread": 6.1
+        },
+        {
+          "away": "JAX",
+          "home": "NYJ",
+          "home_spread": 13.9
+        }
+      ]
+    },
+    "3": {
+      "verified": true,
+      "source": "SYNTHETIC",
+      "games": [
+        {
+          "away": "IND",
+          "home": "DET",
+          "home_spread": 8.0
+        },
+        {
+          "away": "BAL",
+          "home": "TB",
+          "home_spread": 12.5
+        },
+        {
+          "away": "TEN",
+          "home": "NYG",
+          "home_spread": 9.6
+        },
+        {
+          "away": "CHI",
+          "home": "BUF",
+          "home_spread": -1.4
+        },
+        {
+          "away": "SEA",
+          "home": "PHI",
+          "home_spread": 20.9
+        },
+        {
+          "away": "LV",
+          "home": "NE",
+          "home_spread": 3.8
+        },
+        {
+          "away": "WAS",
+          "home": "CLE",
+          "home_spread": -8.3
+        },
+        {
+          "away": "NO",
+          "home": "LAR",
+          "home_spread": 7.3
+        },
+        {
+          "away": "SF",
+          "home": "NYJ",
+          "home_spread": 16.5
+        },
+        {
+          "away": "GB",
+          "home": "CIN",
+          "home_spread": 5.5
+        },
+        {
+          "away": "LAC",
+          "home": "KC",
+          "home_spread": 1.6
+        },
+        {
+          "away": "MIA",
+          "home": "JAX",
+          "home_spread": -0.9
+        },
+        {
+          "away": "CAR",
+          "home": "MIN",
+          "home_spread": -4.6
+        },
+        {
+          "away": "ARI",
+          "home": "ATL",
+          "home_spread": 1.5
+        },
+        {
+          "away": "PIT",
+          "home": "DAL",
+          "home_spread": -4.2
+        },
+        {
+          "away": "HOU",
+          "home": "DEN",
+          "home_spread": -5.0
+        }
+      ]
+    },
+    "4": {
+      "verified": true,
+      "source": "SYNTHETIC",
+      "games": [
+        {
+          "away": "LV",
+          "home": "CHI",
+          "home_spread": 13.7
+        },
+        {
+          "away": "LAC",
+          "home": "HOU",
+          "home_spread": -5.9
+        },
+        {
+          "away": "NYJ",
+          "home": "NE",
+          "home_spread": -18.4
+        },
+        {
+          "away": "TB",
+          "home": "MIA",
+          "home_spread": 5.1
+        },
+        {
+          "away": "NO",
+          "home": "DET",
+          "home_spread": -0.4
+        },
+        {
+          "away": "ATL",
+          "home": "TEN",
+          "home_spread": -6.4
+        },
+        {
+          "away": "DEN",
+          "home": "PHI",
+          "home_spread": 7.0
+        },
+        {
+          "away": "LAR",
+          "home": "CLE",
+          "home_spread": -8.9
+        },
+        {
+          "away": "ARI",
+          "home": "WAS",
+          "home_spread": 3.0
+        },
+        {
+          "away": "CAR",
+          "home": "JAX",
+          "home_spread": -0.8
+        },
+        {
+          "away": "CIN",
+          "home": "IND",
+          "home_spread": 0.1
+        },
+        {
+          "away": "GB",
+          "home": "BUF",
+          "home_spread": 10.3
+        },
+        {
+          "away": "DAL",
+          "home": "SF",
+          "home_spread": -1.8
+        },
+        {
+          "away": "BAL",
+          "home": "MIN",
+          "home_spread": 9.4
+        },
+        {
+          "away": "NYG",
+          "home": "KC",
+          "home_spread": 5.3
+        },
+        {
+          "away": "SEA",
+          "home": "PIT",
+          "home_spread": 29.9
+        }
+      ]
+    },
+    "5": {
+      "verified": false,
+      "source": "SYNTHETIC",
+      "games": [
+        {
+          "away": "IND",
+          "home": "BUF",
+          "home_spread": 8.3
+        },
+        {
+          "away": "MIA",
+          "home": "SF",
+          "home_spread": -3.5
+        },
+        {
+          "away": "BAL",
+          "home": "GB",
+          "home_spread": 3.3
+        },
+        {
+          "away": "CIN",
+          "home": "TB",
+          "home_spread": 7.3
+        },
+        {
+          "away": "WAS",
+          "home": "ATL",
+          "home_spread": 0.3
+        },
+        {
+          "away": "NYG",
+          "home": "LAC",
+          "home_spread": 5.5
+        },
+        {
+          "away": "PHI",
+          "home": "PIT",
+          "home_spread": 10.9
+        },
+        {
+          "away": "LAR",
+          "home": "CLE",
+          "home_spread": -8.9
+        },
+        {
+          "away": "NO",
+          "home": "CAR",
+          "home_spread": 3.9
+        },
+        {
+          "away": "NYJ",
+          "home": "KC",
+          "home_spread": -3.2
+        },
+        {
+          "away": "LV",
+          "home": "SEA",
+          "home_spread": -9.3
+        },
+        {
+          "away": "DET",
+          "home": "NE",
+          "home_spread": -4.7
+        },
+        {
+          "away": "DEN",
+          "home": "ARI",
+          "home_spread": 13.3
+        }
+      ]
+    },
+    "6": {
+      "verified": false,
+      "source": "SYNTHETIC",
+      "games": [
+        {
+          "away": "DAL",
+          "home": "CAR",
+          "home_spread": 3.5
+        },
+        {
+          "away": "MIA",
+          "home": "TB",
+          "home_spread": -1.5
+        },
+        {
+          "away": "TEN",
+          "home": "LAR",
+          "home_spread": 12.1
+        },
+        {
+          "away": "SEA",
+          "home": "CLE",
+          "home_spread": 18.3
+        },
+        {
+          "away": "LV",
+          "home": "NYJ",
+          "home_spread": 24.0
+        },
+        {
+          "away": "DEN",
+          "home": "JAX",
+          "home_spread": 9.1
+        },
+        {
+          "away": "KC",
+          "home": "DET",
+          "home_spread": -6.9
+        },
+        {
+          "away": "NO",
+          "home": "LAC",
+          "home_spread": 8.5
+        },
+        {
+          "away": "PHI",
+          "home": "ARI",
+          "home_spread": 8.2
+        },
+        {
+          "away": "GB",
+          "home": "MIN",
+          "home_spread": 7.8
+        },
+        {
+          "away": "ATL",
+          "home": "PIT",
+          "home_spread": 4.8
+        },
+        {
+          "away": "SF",
+          "home": "BAL",
+          "home_spread": -6.9
+        },
+        {
+          "away": "CIN",
+          "home": "HOU",
+          "home_spread": 7.5
+        }
+      ]
+    },
+    "7": {
+      "verified": false,
+      "source": "SYNTHETIC",
+      "games": [
+        {
+          "away": "NYJ",
+          "home": "LV",
+          "home_spread": -20.4
+        },
+        {
+          "away": "DAL",
+          "home": "BUF",
+          "home_spread": -0.5
+        },
+        {
+          "away": "ARI",
+          "home": "PIT",
+          "home_spread": 4.5
+        },
+        {
+          "away": "GB",
+          "home": "DET",
+          "home_spread": 10.0
+        },
+        {
+          "away": "SEA",
+          "home": "WAS",
+          "home_spread": 28.4
+        },
+        {
+          "away": "TEN",
+          "home": "JAX",
+          "home_spread": 6.1
+        },
+        {
+          "away": "NYG",
+          "home": "PHI",
+          "home_spread": -3.9
+        },
+        {
+          "away": "MIN",
+          "home": "CHI",
+          "home_spread": 7.4
+        },
+        {
+          "away": "ATL",
+          "home": "CIN",
+          "home_spread": -8.3
+        },
+        {
+          "away": "LAR",
+          "home": "HOU",
+          "home_spread": -4.6
+        },
+        {
+          "away": "NO",
+          "home": "BAL",
+          "home_spread": -10.1
+        },
+        {
+          "away": "CLE",
+          "home": "NE",
+          "home_spread": -1.7
+        },
+        {
+          "away": "TB",
+          "home": "MIA",
+          "home_spread": 5.1
+        }
+      ]
+    },
+    "8": {
+      "verified": false,
+      "source": "SYNTHETIC",
+      "games": [
+        {
+          "away": "PHI",
+          "home": "ARI",
+          "home_spread": 8.2
+        },
+        {
+          "away": "MIN",
+          "home": "BUF",
+          "home_spread": 4.3
+        },
+        {
+          "away": "SF",
+          "home": "CAR",
+          "home_spread": 7.1
+        },
+        {
+          "away": "ATL",
+          "home": "NYG",
+          "home_spread": 1.4
+        },
+        {
+          "away": "NE",
+          "home": "CLE",
+          "home_spread": 5.3
+        },
+        {
+          "away": "NYJ",
+          "home": "DET",
+          "home_spread": -11.9
+        },
+        {
+          "away": "TEN",
+          "home": "NO",
+          "home_spread": 6.6
+        },
+        {
+          "away": "KC",
+          "home": "IND",
+          "home_spread": -13.1
+        },
+        {
+          "away": "DAL",
+          "home": "JAX",
+          "home_spread": 0.8
+        },
+        {
+          "away": "GB",
+          "home": "WAS",
+          "home_spread": 17.1
+        },
+        {
+          "away": "DEN",
+          "home": "CHI",
+          "home_spread": 10.9
+        },
+        {
+          "away": "BAL",
+          "home": "HOU",
+          "home_spread": 12.7
+        },
+        {
+          "away": "PIT",
+          "home": "SEA",
+          "home_spread": -26.3
+        }
+      ]
+    },
+    "9": {
+      "verified": false,
+      "source": "SYNTHETIC",
+      "games": [
+        {
+          "away": "HOU",
+          "home": "ARI",
+          "home_spread": 6.5
+        },
+        {
+          "away": "TB",
+          "home": "NYJ",
+          "home_spread": 14.5
+        },
+        {
+          "away": "WAS",
+          "home": "CAR",
+          "home_spread": -1.0
+        },
+        {
+          "away": "KC",
+          "home": "BAL",
+          "home_spread": -16.7
+        },
+        {
+          "away": "MIN",
+          "home": "DET",
+          "home_spread": 3.9
+        },
+        {
+          "away": "NO",
+          "home": "DEN",
+          "home_spread": -6.0
+        },
+        {
+          "away": "DAL",
+          "home": "NYG",
+          "home_spread": 4.4
+        },
+        {
+          "away": "BUF",
+          "home": "MIA",
+          "home_spread": 5.8
+        },
+        {
+          "away": "PIT",
+          "home": "CIN",
+          "home_spread": -11.3
+        },
+        {
+          "away": "NE",
+          "home": "LV",
+          "home_spread": -0.2
+        },
+        {
+          "away": "TEN",
+          "home": "LAR",
+          "home_spread": 12.1
+        },
+        {
+          "away": "SEA",
+          "home": "CHI",
+          "home_spread": 24.8
+        },
+        {
+          "away": "ATL",
+          "home": "GB",
+          "home_spread": -12.0
+        }
+      ]
+    },
+    "10": {
+      "verified": false,
+      "source": "SYNTHETIC",
+      "games": [
+        {
+          "away": "TEN",
+          "home": "NO",
+          "home_spread": 6.6
+        },
+        {
+          "away": "CAR",
+          "home": "HOU",
+          "home_spread": -1.3
+        },
+        {
+          "away": "BUF",
+          "home": "KC",
+          "home_spread": 10.2
+        },
+        {
+          "away": "JAX",
+          "home": "ATL",
+          "home_spread": 5.7
+        },
+        {
+          "away": "LAR",
+          "home": "SEA",
+          "home_spread": -25.4
+        },
+        {
+          "away": "IND",
+          "home": "MIN",
+          "home_spread": 5.8
+        },
+        {
+          "away": "PHI",
+          "home": "ARI",
+          "home_spread": 8.2
+        },
+        {
+          "away": "SF",
+          "home": "NE",
+          "home_spread": -3.6
+        },
+        {
+          "away": "TB",
+          "home": "CHI",
+          "home_spread": 4.3
+        },
+        {
+          "away": "BAL",
+          "home": "DEN",
+          "home_spread": 5.9
+        },
+        {
+          "away": "LV",
+          "home": "PIT",
+          "home_spread": 18.9
+        },
+        {
+          "away": "DET",
+          "home": "DAL",
+          "home_spread": 4.4
+        },
+        {
+          "away": "CIN",
+          "home": "LAC",
+          "home_spread": 15.2
+        }
+      ]
+    },
+    "11": {
+      "verified": false,
+      "source": "SYNTHETIC",
+      "games": [
+        {
+          "away": "PHI",
+          "home": "LV",
+          "home_spread": -6.2
+        },
+        {
+          "away": "CAR",
+          "home": "CHI",
+          "home_spread": 1.0
+        },
+        {
+          "away": "PIT",
+          "home": "NYJ",
+          "home_spread": 6.9
+        },
+        {
+          "away": "KC",
+          "home": "NYG",
+          "home_spread": -1.7
+        },
+        {
+          "away": "MIN",
+          "home": "ARI",
+          "home_spread": 9.8
+        },
+        {
+          "away": "TEN",
+          "home": "DEN",
+          "home_spread": -1.2
+        },
+        {
+          "away": "LAC",
+          "home": "DAL",
+          "home_spread": -4.5
+        },
+        {
+          "away": "BUF",
+          "home": "GB",
+          "home_spread": -6.7
+        },
+        {
+          "away": "IND",
+          "home": "NE",
+          "home_spread": 1.5
+        },
+        {
+          "away": "SEA",
+          "home": "JAX",
+          "home_spread": 22.9
+        },
+        {
+          "away": "MIA",
+          "home": "CIN",
+          "home_spread": -7.0
+        },
+        {
+          "away": "HOU",
+          "home": "DET",
+          "home_spread": 0.6
+        },
+        {
+          "away": "BAL",
+          "home": "TB",
+          "home_spread": 12.5
+        }
+      ]
+    },
+    "12": {
+      "verified": false,
+      "source": "SYNTHETIC",
+      "games": [
+        {
+          "away": "JAX",
+          "home": "HOU",
+          "home_spread": 1.4
+        },
+        {
+          "away": "DET",
+          "home": "NO",
+          "home_spread": 4.0
+        },
+        {
+          "away": "TEN",
+          "home": "LV",
+          "home_spread": -4.0
+        },
+        {
+          "away": "BAL",
+          "home": "PHI",
+          "home_spread": 11.1
+        },
+        {
+          "away": "IND",
+          "home": "TB",
+          "home_spread": 8.9
+        },
+        {
+          "away": "DEN",
+          "home": "ARI",
+          "home_spread": 13.3
+        },
+        {
+          "away": "LAC",
+          "home": "GB",
+          "home_spread": -15.3
+        },
+        {
+          "away": "SF",
+          "home": "CAR",
+          "home_spread": 7.1
+        },
+        {
+          "away": "PIT",
+          "home": "SEA",
+          "home_spread": -26.3
+        },
+        {
+          "away": "CHI",
+          "home": "MIA",
+          "home_spread": 2.6
+        },
+        {
+          "away": "NYG",
+          "home": "BUF",
+          "home_spread": -3.1
+        },
+        {
+          "away": "LAR",
+          "home": "ATL",
+          "home_spread": -0.3
+        },
+        {
+          "away": "NE",
+          "home": "CIN",
+          "home_spread": 3.8
+        }
+      ]
+    },
+    "13": {
+      "verified": false,
+      "source": "SYNTHETIC",
+      "games": [
+        {
+          "away": "DEN",
+          "home": "MIN",
+          "home_spread": 5.3
+        },
+        {
+          "away": "NE",
+          "home": "GB",
+          "home_spread": 0.1
+        },
+        {
+          "away": "JAX",
+          "home": "NO",
+          "home_spread": 2.4
+        },
+        {
+          "away": "NYJ",
+          "home": "LV",
+          "home_spread": -20.4
+        },
+        {
+          "away": "CHI",
+          "home": "MIA",
+          "home_spread": 2.6
+        },
+        {
+          "away": "SEA",
+          "home": "BAL",
+          "home_spread": 11.6
+        },
+        {
+          "away": "NYG",
+          "home": "DET",
+          "home_spread": -3.4
+        },
+        {
+          "away": "KC",
+          "home": "IND",
+          "home_spread": -13.1
+        },
+        {
+          "away": "TB",
+          "home": "LAR",
+          "home_spread": 8.5
+        },
+        {
+          "away": "ARI",
+          "home": "TEN",
+          "home_spread": -6.7
+        },
+        {
+          "away": "CAR",
+          "home": "CLE",
+          "home_spread": -5.5
+        },
+        {
+          "away": "DAL",
+          "home": "WAS",
+          "home_spread": 6.3
+        },
+        {
+          "away": "PHI",
+          "home": "SF",
+          "home_spread": 1.2
+        }
+      ]
+    },
+    "14": {
+      "verified": false,
+      "source": "SYNTHETIC",
+      "games": [
+        {
+          "away": "BUF",
+          "home": "ATL",
+          "home_spread": 7.0
+        },
+        {
+          "away": "DEN",
+          "home": "SF",
+          "home_spread": 6.4
+        },
+        {
+          "away": "IND",
+          "home": "KC",
+          "home_spread": 16.7
+        },
+        {
+          "away": "NYJ",
+          "home": "MIN",
+          "home_spread": -14.0
+        },
+        {
+          "away": "WAS",
+          "home": "MIA",
+          "home_spread": -1.0
+        },
+        {
+          "away": "PIT",
+          "home": "TEN",
+          "home_spread": -9.4
+        },
+        {
+          "away": "DET",
+          "home": "CIN",
+          "home_spread": -2.7
+        },
+        {
+          "away": "LAR",
+          "home": "DAL",
+          "home_spread": -3.3
+        },
+        {
+          "away": "GB",
+          "home": "CLE",
+          "home_spread": 7.0
+        },
+        {
+          "away": "HOU",
+          "home": "NO",
+          "home_spread": 2.8
+        },
+        {
+          "away": "CAR",
+          "home": "NYG",
+          "home_spread": 2.7
+        },
+        {
+          "away": "LAC",
+          "home": "SEA",
+          "home_spread": -26.6
+        },
+        {
+          "away": "JAX",
+          "home": "NE",
+          "home_spread": -6.3
+        }
+      ]
+    },
+    "15": {
+      "verified": false,
+      "source": "SYNTHETIC",
+      "games": [
+        {
+          "away": "HOU",
+          "home": "CLE",
+          "home_spread": -2.4
+        },
+        {
+          "away": "NYJ",
+          "home": "NE",
+          "home_spread": -18.4
+        },
+        {
+          "away": "DET",
+          "home": "SEA",
+          "home_spread": -17.7
+        },
+        {
+          "away": "CIN",
+          "home": "MIA",
+          "home_spread": 10.6
+        },
+        {
+          "away": "SF",
+          "home": "TB",
+          "home_spread": 3.8
+        },
+        {
+          "away": "KC",
+          "home": "NYG",
+          "home_spread": -1.7
+        },
+        {
+          "away": "ARI",
+          "home": "LV",
+          "home_spread": -12.6
+        },
+        {
+          "away": "BUF",
+          "home": "JAX",
+          "home_spread": 3.1
+        },
+        {
+          "away": "DAL",
+          "home": "CAR",
+          "home_spread": 3.5
+        },
+        {
+          "away": "GB",
+          "home": "LAR",
+          "home_spread": 17.6
+        },
+        {
+          "away": "BAL",
+          "home": "DEN",
+          "home_spread": 5.9
+        },
+        {
+          "away": "MIN",
+          "home": "CHI",
+          "home_spread": 7.4
+        },
+        {
+          "away": "PHI",
+          "home": "ATL",
+          "home_spread": 7.8
+        },
+        {
+          "away": "WAS",
+          "home": "IND",
+          "home_spread": -11.4
+        },
+        {
+          "away": "TEN",
+          "home": "LAC",
+          "home_spread": 13.4
+        },
+        {
+          "away": "NO",
+          "home": "PIT",
+          "home_spread": 8.2
+        }
+      ]
+    },
+    "16": {
+      "verified": false,
+      "source": "SYNTHETIC",
+      "games": [
+        {
+          "away": "MIA",
+          "home": "PHI",
+          "home_spread": -2.9
+        },
+        {
+          "away": "LAC",
+          "home": "SF",
+          "home_spread": -8.2
+        },
+        {
+          "away": "TEN",
+          "home": "TB",
+          "home_spread": 5.4
+        },
+        {
+          "away": "IND",
+          "home": "JAX",
+          "home_spread": 9.6
+        },
+        {
+          "away": "ARI",
+          "home": "CLE",
+          "home_spread": -7.1
+        },
+        {
+          "away": "KC",
+          "home": "SEA",
+          "home_spread": -26.4
+        },
+        {
+          "away": "MIN",
+          "home": "BUF",
+          "home_spread": 4.3
+        },
+        {
+          "away": "GB",
+          "home": "BAL",
+          "home_spread": 0.3
+        },
+        {
+          "away": "NO",
+          "home": "PIT",
+          "home_spread": 8.2
+        },
+        {
+          "away": "WAS",
+          "home": "NYJ",
+          "home_spread": 8.4
+        },
+        {
+          "away": "NE",
+          "home": "CIN",
+          "home_spread": 3.8
+        },
+        {
+          "away": "ATL",
+          "home": "LV",
+          "home_spread": -12.2
+        },
+        {
+          "away": "DAL",
+          "home": "DEN",
+          "home_spread": -6.4
+        },
+        {
+          "away": "DET",
+          "home": "LAR",
+          "home_spread": 9.4
+        },
+        {
+          "away": "NYG",
+          "home": "HOU",
+          "home_spread": -2.2
+        },
+        {
+          "away": "CHI",
+          "home": "CAR",
+          "home_spread": 2.6
+        }
+      ]
+    },
+    "17": {
+      "verified": false,
+      "source": "SYNTHETIC",
+      "games": [
+        {
+          "away": "SEA",
+          "home": "DAL",
+          "home_spread": 23.9
+        },
+        {
+          "away": "HOU",
+          "home": "LV",
+          "home_spread": -7.8
+        },
+        {
+          "away": "JAX",
+          "home": "NYJ",
+          "home_spread": 13.9
+        },
+        {
+          "away": "PIT",
+          "home": "MIA",
+          "home_spread": -2.5
+        },
+        {
+          "away": "DET",
+          "home": "LAR",
+          "home_spread": 9.4
+        },
+        {
+          "away": "KC",
+          "home": "IND",
+          "home_spread": -13.1
+        },
+        {
+          "away": "ATL",
+          "home": "TEN",
+          "home_spread": -6.4
+        },
+        {
+          "away": "CLE",
+          "home": "NYG",
+          "home_spread": 10.0
+        },
+        {
+          "away": "CIN",
+          "home": "CAR",
+          "home_spread": 10.6
+        },
+        {
+          "away": "PHI",
+          "home": "WAS",
+          "home_spread": 9.3
+        },
+        {
+          "away": "GB",
+          "home": "BAL",
+          "home_spread": 0.3
+        },
+        {
+          "away": "MIN",
+          "home": "TB",
+          "home_spread": 4.9
+        },
+        {
+          "away": "NE",
+          "home": "NO",
+          "home_spread": 10.5
+        },
+        {
+          "away": "BUF",
+          "home": "LAC",
+          "home_spread": 10.4
+        },
+        {
+          "away": "ARI",
+          "home": "SF",
+          "home_spread": -5.1
+        },
+        {
+          "away": "DEN",
+          "home": "CHI",
+          "home_spread": 10.9
+        }
+      ]
+    },
+    "18": {
+      "verified": false,
+      "source": "SYNTHETIC",
+      "games": [
+        {
+          "away": "ARI",
+          "home": "DET",
+          "home_spread": -4.1
+        },
+        {
+          "away": "CAR",
+          "home": "HOU",
+          "home_spread": -1.3
+        },
+        {
+          "away": "NYJ",
+          "home": "ATL",
+          "home_spread": -6.3
+        },
+        {
+          "away": "NYG",
+          "home": "BUF",
+          "home_spread": -3.1
+        },
+        {
+          "away": "IND",
+          "home": "TEN",
+          "home_spread": 5.3
+        },
+        {
+          "away": "TB",
+          "home": "NO",
+          "home_spread": 3.0
+        },
+        {
+          "away": "CHI",
+          "home": "CIN",
+          "home_spread": -6.2
+        },
+        {
+          "away": "SF",
+          "home": "MIA",
+          "home_spread": 7.1
+        },
+        {
+          "away": "DEN",
+          "home": "DAL",
+          "home_spread": 10.0
+        },
+        {
+          "away": "MIN",
+          "home": "KC",
+          "home_spread": 12.7
+        },
+        {
+          "away": "BAL",
+          "home": "PHI",
+          "home_spread": 11.1
+        },
+        {
+          "away": "LV",
+          "home": "SEA",
+          "home_spread": -9.3
+        },
+        {
+          "away": "NE",
+          "home": "JAX",
+          "home_spread": 9.9
+        },
+        {
+          "away": "PIT",
+          "home": "GB",
+          "home_spread": -15.0
+        },
+        {
+          "away": "LAC",
+          "home": "WAS",
+          "home_spread": -0.1
+        },
+        {
+          "away": "CLE",
+          "home": "LAR",
+          "home_spread": 12.5
+        }
+      ]
+    }
+  },
+  "notes": [
+    "SYNTHETIC BOARD. Randomly generated schedule and ratings.",
+    "Demonstrates the planner's mechanics only. Never pick from it."
+  ]
+}
